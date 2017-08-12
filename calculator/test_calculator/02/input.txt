@@ -1,0 +1,13 @@
+19 2 add
+pop
+2
+pop
+19
+pop
+1 8 mult
+3
+pop
+pop
+3 6 9
+pop
+sub

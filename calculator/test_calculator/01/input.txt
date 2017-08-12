@@ -1,0 +1,26 @@
+2 3 add
+0 6 mult
+12 4 sub
+3 7 sub
+2 4 div
+4 2 div
+9 sqrt
+3 sqrt
+1.1 2 add
+5.0 2 sub
+3.4 2 mult
+4.8 2 div
+9.0 sqrt
+3.0 sqrt
+1 2.0 add
+5 2.0 sub
+3 2.0 mult
+4 2.0 div
+100.0 sqrt
+50.0 sqrt
+1.1 2.0 add
+5.0 2.0 sub
+3.4 2.0 mult
+4.8 2.0 div
+100 sqrt
+50 sqrt
