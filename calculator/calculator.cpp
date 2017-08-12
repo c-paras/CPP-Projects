@@ -12,7 +12,8 @@
 #include <cmath>
 
 void process_file(std::string file);
-bool process_token(std::string s, std::stack<std::pair<double, bool>>& tokens, std::queue<int>& num_repeats);
+bool process_token(std::string s,
+std::stack<std::pair<double, bool>>& tokens, std::queue<int>& num_repeats);
 void show_num(auto n);
 auto compute(std::string op, auto n1, auto n2);
 double binary_op(std::string op, auto n1, auto n2);
@@ -46,9 +47,12 @@ void process_file(std::string file) {
 	std::string s;
 	std::stack<std::pair<double, bool>> tokens; //stack of tokens
 
-	//note: without nested repeats, the queue is redundant
-	std::queue<int> num_repeats; //num times to repeat each repeat..endreapeat block
-	std::vector<std::string> tokens_to_repeat; //vector of all tokens in the repeat..endrepeat block
+	//num times to repeat each repeat..endrepeat block
+	//without nested repeats, the queue is redundant
+	std::queue<int> num_repeats;
+
+	//vector of all tokens in the repeat..endrepeat block
+	std::vector<std::string> tokens_to_repeat;
 	bool wait_for_endrepeat = false;
 
 	//read the file while there is input
@@ -65,10 +69,10 @@ void process_file(std::string file) {
 			}
 			tokens_to_repeat.clear();
 		} else if (wait_for_endrepeat == true && s.compare("endrepeat") != 0) {
-			//collect all tokens within repeat..endrepeat block for later processing
+			//collect all tokens in repeat..endrepeat block for later processing
 			tokens_to_repeat.push_back(s);
 		} else {
-			//otherwise, process tokens outside of repeat..endrepeat block straight away
+			//otherwise, process tokens out of repeat..endrepeat block right away
 			wait_for_endrepeat = process_token(s, tokens, num_repeats);
 		}
 	}
@@ -76,34 +80,11 @@ void process_file(std::string file) {
 	in.close();
 }
 
-//TODO: debug-only
-/*
-void print_stack(std::stack<std::string>& tokens) {
-	std::stack<std::string> tmp;
-	std::cout << "stack: ";
-	while (tokens.empty() == false) {
-		tmp.push(tokens.top());
-		std::cout << tmp.top() << " ";
-		tokens.pop();
-	}
-	std::cout << "\n";
-	while (tmp.empty() == false) {
-		tokens.push(tmp.top());
-		tmp.pop();
-	}
-}
-*/
-
 //act on a specific token and print its result (if any)
 //return true if the token is a repeat command; false otherwise
-bool process_token(std::string s, std::stack<std::pair<double, bool>>& tokens, std::queue<int>& num_repeats) {
-	//print_stack(tokens); //TODO: debug-only
+bool process_token(std::string s,
+std::stack<std::pair<double, bool>>& tokens, std::queue<int>& num_repeats) {
 	if (isdigit(s[0])) {
-		//invalid inputs:
-		//stack is empty before popping
-		//i.e. for pop, add, sub, div, sqrt, mult, reverse, repeat
-		//double instead of an int or negative:
-		//for reverse and repeat (and negative for sqrt)
 		if (s.find('.') == std::string::npos) {
 			//integer, set flag to false
 			tokens.push(std::make_pair(std::stoi(s), false));
@@ -198,7 +179,7 @@ std::string op_to_str(std::string op) {
 	return result;
 }
 
-//return the sqrt of a number
+//return the sqrt of a number, preserving its type
 auto get_sqrt(auto n) {
 	if (n.second == true) {
 		return std::make_pair(sqrt(n.first), true);
