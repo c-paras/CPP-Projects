@@ -12,14 +12,13 @@
 #include <cmath>
 
 void process_file(std::string file);
-bool process_token(std::string s, std::stack<std::string>& tokens, std::queue<int>& num_repeats);
-std::string compute(std::string op, std::string s1, std::string s2);
-double binary_op(std::string op, double n1, double n2);
-int binary_op(std::string op, int n1, int n2);
-std::string expr_to_str(std::string n1, std::string s, std::string n2, std::string res);
-std::string round_number(std::string number);
-std::string get_sqrt(std::string s);
-void reverse(std::stack<std::string>& tokens, int n);
+bool process_token(std::string s, std::stack<std::pair<double, bool>>& tokens, std::queue<int>& num_repeats);
+void show_num(auto n);
+auto compute(std::string op, auto n1, auto n2);
+double binary_op(std::string op, auto n1, auto n2);
+std::string op_to_str(std::string op);
+auto get_sqrt(auto n);
+void reverse(std::stack<std::pair<double, bool>>& tokens, int n);
 
 int main(int argc, char *argv[]) {
 	//setup the print out format for the precision required
@@ -45,7 +44,7 @@ void process_file(std::string file) {
 		exit(1);
 	}
 	std::string s;
-	std::stack<std::string> tokens; //stack of tokens
+	std::stack<std::pair<double, bool>> tokens; //stack of tokens
 
 	//note: without nested repeats, the queue is redundant
 	std::queue<int> num_repeats; //num times to repeat each repeat..endreapeat block
@@ -78,6 +77,7 @@ void process_file(std::string file) {
 }
 
 //TODO: debug-only
+/*
 void print_stack(std::stack<std::string>& tokens) {
 	std::stack<std::string> tmp;
 	std::cout << "stack: ";
@@ -92,10 +92,11 @@ void print_stack(std::stack<std::string>& tokens) {
 		tmp.pop();
 	}
 }
+*/
 
 //act on a specific token and print its result (if any)
 //return true if the token is a repeat command; false otherwise
-bool process_token(std::string s, std::stack<std::string>& tokens, std::queue<int>& num_repeats) {
+bool process_token(std::string s, std::stack<std::pair<double, bool>>& tokens, std::queue<int>& num_repeats) {
 	//print_stack(tokens); //TODO: debug-only
 	if (isdigit(s[0])) {
 		//invalid inputs:
@@ -103,34 +104,41 @@ bool process_token(std::string s, std::stack<std::string>& tokens, std::queue<in
 		//i.e. for pop, add, sub, div, sqrt, mult, reverse, repeat
 		//double instead of an int or negative:
 		//for reverse and repeat (and negative for sqrt)
-		tokens.push(s);
+		if (s.find('.') == std::string::npos) {
+			//integer, set flag to false
+			tokens.push(std::make_pair(std::stoi(s), false));
+		} else {
+			//double, set flag to true
+			tokens.push(std::make_pair(std::stod(s), true));
+		}
 	} else {
 		if (s.compare("add") == 0 || s.compare("sub") == 0 ||
 			s.compare("mult") == 0 || s.compare("div") == 0) {
 			//binary operation
-			std::string n1 = tokens.top();
+			auto n1 = tokens.top();
 			tokens.pop();
-			std::string n2 = tokens.top();
+			auto n2 = tokens.top();
 			tokens.pop();
-			std::string res = compute(s, n1, n2);
+			auto res = compute(s, n1, n2);
 			tokens.push(res);
-			std::string expr = expr_to_str(n1, s, n2, res);
-			std::cout << expr << "\n";
+			show_num(n1); std::cout << op_to_str(s); show_num(n2);
+			std::cout << " = "; show_num(res); std::cout << "\n";
 		} else if (s.compare("sqrt") == 0) {
 			//square root
-			std::string n = tokens.top();
+			auto n = tokens.top();
 			tokens.pop();
-			std::string res = get_sqrt(n);
+			auto res = get_sqrt(n);
 			tokens.push(res);
-			std::cout << "sqrt " << round_number(n) << " = " << round_number(res) << "\n";
+			std::cout << "sqrt "; show_num(n); std::cout << " = ";
+			show_num(res); std::cout << "\n";
 		} else if (s.compare("pop") == 0) {
 			tokens.pop();
 		} else if (s.compare("reverse") == 0) {
-			std::string n = tokens.top();
+			int n = tokens.top().first;
 			tokens.pop();
-			reverse(tokens, std::stoi(n));
+			reverse(tokens, n);
 		} else if (s.compare("repeat") == 0) {
-			num_repeats.push(std::stoi(tokens.top()));
+			num_repeats.push(int(tokens.top().first));
 			tokens.pop();
 			return true;
 		} else {
@@ -141,24 +149,31 @@ bool process_token(std::string s, std::stack<std::string>& tokens, std::queue<in
 	return false;
 }
 
-//prepare numbers for a binary operation
-//convert to doubles if at least one double; otherwise, convert to ints
-std::string compute(std::string op, std::string s1, std::string s2) {
-	if (s1.find('.') != std::string::npos ||
-		s2.find('.') != std::string::npos) {
-		double n1 = std::stod(s1);
-		double n2 = std::stod(s2);
-		return std::to_string(binary_op(op, n1, n2));
+//display number as an int or double, depending on flag
+void show_num(auto n) {
+	if (n.second == true) {
+		double casted = n.first;
+		std::cout << casted;
 	} else {
-		int n1 = std::stoi(s1);
-		int n2 = std::stoi(s2);
-		return std::to_string(binary_op(op, n1, n2));
+		int casted = n.first;
+		std::cout << casted;
 	}
 }
 
-//perform binary operation on doubles
-//ideally, a template would be used to avoid repeated code
-double binary_op(std::string op, double n1, double n2) {
+//prepare numbers for a binary operation
+//convert to doubles if at least one double; otherwise, convert to ints
+auto compute(std::string op, auto n1, auto n2) {
+	if (n1.second == true || n2.second == true) {
+		return std::make_pair(binary_op(op, n1.first, n2.first), true);
+	} else {
+		int m1 = n1.first;
+		int m2 = n2.first;
+		return std::make_pair(binary_op(op, m1, m2), false);
+	}
+}
+
+//perform binary operation on ints/doubles
+double binary_op(std::string op, auto n1, auto n2) {
 	double result;
 	switch (op[0]) {
 		case 'a': result = n1 + n2; break;
@@ -170,57 +185,31 @@ double binary_op(std::string op, double n1, double n2) {
 	return result;
 }
 
-//perform binary operation on ints
-//ideally, a template would be used to avoid repeated code
-int binary_op(std::string op, int n1, int n2) {
-	int result;
+//convert name of binary operator to a symbol
+std::string op_to_str(std::string op) {
+	std::string result;
 	switch (op[0]) {
-		case 'a': result = n1 + n2; break;
-		case 's': result = n1 - n2; break;
-		case 'm': result = n1 * n2; break;
-		case 'd': result = n1 / n2; break;
-		default: result = 0;
+		case 'a': result = " + "; break;
+		case 's': result = " - "; break;
+		case 'm': result = " * "; break;
+		case 'd': result = " / "; break;
+		default: result = "";
 	}
 	return result;
 }
 
-//convert expression to printable string
-std::string expr_to_str(std::string n1, std::string s, std::string n2, std::string res) {
-	std::string expr = round_number(n1);
-	switch (s[0]) {
-		case 'a': expr += " + "; break;
-		case 's': expr += " - "; break;
-		case 'm': expr += " * "; break;
-		case 'd': expr += " / "; break;
-	}
-	return expr + round_number(n2) + " = " + round_number(res);
-}
-
-//round a number to 3 decimals and convert back to a string for display
-std::string round_number(std::string number) {
-	if (number.find('.') != std::string::npos) {
-		//double, so round to 3 decimals
-		double num = std::stod(number);
-		std::ostringstream s;
-		s << std::fixed << std::setprecision(3) << num;
-		return s.str();
+//return the sqrt of a number
+auto get_sqrt(auto n) {
+	if (n.second == true) {
+		return std::make_pair(sqrt(n.first), true);
 	} else {
-		return number; //integer
-	}
-}
-
-//return the sqrt of a number as a string
-std::string get_sqrt(std::string s) {
-	if (s.find('.') != std::string::npos) {
-		return std::to_string(sqrt(std::stoi(s)));
-	} else {
-		return std::to_string(int(sqrt(std::stod(s))));
+		return std::make_pair(double(sqrt(int(n.first))), false);
 	}
 }
 
 //reverse the top n tokens on the stack
-void reverse(std::stack<std::string>& tokens, int n) {
-	std::queue<std::string> top_n;
+void reverse(std::stack<std::pair<double, bool>>& tokens, int n) {
+	std::queue<std::pair<double, bool>> top_n;
 	for (int i = 0; i < n; ++i) {
 		top_n.push(tokens.top());
 		tokens.pop();
