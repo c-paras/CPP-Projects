@@ -43,10 +43,20 @@ int main() {
 	{
 		evec::EuclideanVector a{1};
 		evec::EuclideanVector b{1, 2};
-		evec::EuclideanVector c{1, 2, 3};
-		evec::EuclideanVector d{1, 2, 3, 4};
-		evec::EuclideanVector e{1, 2, 3, 4, 5};
-		evec::EuclideanVector f{1, 2, 3, 4, 5, 6};
+		evec::EuclideanVector c{2, 6.4, -77.9};
+		evec::EuclideanVector d{1, 2, 3.2, 4};
+		evec::EuclideanVector e{3.3, 2, -5.3, 76, 5};
+		evec::EuclideanVector f{9, 2.2, 3, 7.4, 33, 15};
+	}
+
+	//copy and move constructors
+	{
+		evec::EuclideanVector a{3.2, -7.8, 5.5};
+		evec::EuclideanVector b{1, 4, 9.9, 4, -62.8, 3};
+		evec::EuclideanVector copy_a(a);
+		evec::EuclideanVector copy_b(b);
+		evec::EuclideanVector move_a(a);
+		evec::EuclideanVector move_b(b);
 	}
 
 /*

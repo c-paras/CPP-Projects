@@ -23,6 +23,8 @@ public:
 	EuclideanVector(std::list<Scalar>::iterator begin, std::list<Scalar>::iterator end);
 	EuclideanVector(std::vector<Scalar>::iterator begin, std::vector<Scalar>::iterator end);
 	EuclideanVector(std::initializer_list<Scalar> lst);
+	EuclideanVector(const EuclideanVector& e);
+	EuclideanVector(EuclideanVector&& e);
 
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 

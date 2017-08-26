@@ -53,6 +53,19 @@ EuclideanVector::EuclideanVector(std::initializer_list<Scalar> lst) :
 	}
 }
 
+//copy constructor
+EuclideanVector::EuclideanVector(const EuclideanVector& e) {
+	_dimension = e._dimension;
+	_vector = new Scalar[_dimension]{*e._vector};
+}
+
+//move constructor
+EuclideanVector::EuclideanVector(EuclideanVector&& e) :
+	_vector{std::move(_vector)}, _dimension{std::move(_dimension)} {
+	e._vector = nullptr;
+	e._dimension = 0;
+}
+
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	//TODO
 	return os;
