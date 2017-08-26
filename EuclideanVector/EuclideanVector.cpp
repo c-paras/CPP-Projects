@@ -4,6 +4,7 @@
  */
 
 #include <iostream>
+#include <iterator>
 #include "EuclideanVector.h"
 
 namespace evec {
@@ -22,11 +23,8 @@ EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 	_vector = new Scalar[_dimension]{mag};
 }
 
-//construct a vector from a std::list or std::vector iterator
-//TODO
-//template <class Iter>
-//EuclideanVector::EuclideanVector(Iter begin, Iter end) :
-EuclideanVector::EuclideanVector(std::_List_iterator<Scalar> begin, std::_List_iterator<Scalar> end) :
+//construct a vector from a std::list iterator
+EuclideanVector::EuclideanVector(std::list<Scalar>::iterator begin, std::list<Scalar>::iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
 	int i = 0;
@@ -35,6 +33,7 @@ EuclideanVector::EuclideanVector(std::_List_iterator<Scalar> begin, std::_List_i
 	}
 }
 
+//construct a vector from a std::vector iterator
 EuclideanVector::EuclideanVector(std::vector<Scalar>::iterator begin, std::vector<Scalar>::iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];

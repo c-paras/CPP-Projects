@@ -5,6 +5,7 @@
 
 #include <list>
 #include <vector>
+#include <iterator>
 
 #ifndef EUCLIDEAN_VECTOR_H
 #define EUCLIDEAN_VECTOR_H
@@ -19,9 +20,7 @@ public:
 	EuclideanVector();
 	EuclideanVector(size_t n_dim);
 	EuclideanVector(size_t n_dim, Scalar mag);
-	//template<class Iter>
-	//EuclideanVector(Iter begin, Iter end);
-	EuclideanVector(std::_List_iterator<Scalar> begin, std::_List_iterator<Scalar> end);
+	EuclideanVector(std::list<Scalar>::iterator begin, std::list<Scalar>::iterator end);
 	EuclideanVector(std::vector<Scalar>::iterator begin, std::vector<Scalar>::iterator end);
 	EuclideanVector(std::initializer_list<Scalar> lst);
 
