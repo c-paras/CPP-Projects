@@ -66,6 +66,11 @@ EuclideanVector::EuclideanVector(EuclideanVector&& e) :
 	e._dimension = 0;
 }
 
+//destructor
+EuclideanVector::~EuclideanVector() {
+	delete [] _vector;
+}
+
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	//TODO
 	return os;

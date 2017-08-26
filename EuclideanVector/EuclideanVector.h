@@ -26,6 +26,9 @@ public:
 	EuclideanVector(const EuclideanVector& e);
 	EuclideanVector(EuclideanVector&& e);
 
+	//destructor
+	~EuclideanVector();
+
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 
 private:
