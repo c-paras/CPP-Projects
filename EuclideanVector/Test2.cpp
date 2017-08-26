@@ -11,19 +11,43 @@
 int main() {
 
 	//default constructor - no magnitude
-	evec::EuclideanVector a(1);
-	unsigned int i{3};
-	evec::EuclideanVector b(i);
+	{
+		evec::EuclideanVector e1(1);
+		unsigned int i{3};
+		evec::EuclideanVector e2(i);
+	}
 
 	//default constructor - no # dimensions & no magnitude
-	evec::EuclideanVector c;
-	evec::EuclideanVector d{};
+	{
+		evec::EuclideanVector a;
+		evec::EuclideanVector b{};
+	}
 
 	//constructor with # dimensions & magnitude
-	evec::EuclideanVector e(2, 4.0);
-	unsigned int x{3};
-	double y{3.24};
-	evec::EuclideanVector f(x, y);
+	{
+		evec::EuclideanVector a(2, 4.0);
+		unsigned int x{3};
+		double y{3.24};
+		evec::EuclideanVector b(x, y);
+	}
+
+	//constructor using iterator
+	//TODO
+	/*
+	{
+		std::list<int> l{1, 3, 5, 7};
+		evec::EuclideanVector a{l.begin(), l.end()};
+		std::vector<int> v{2, 4, 6};
+		evec::EuclideanVector b{v.begin(), v.end()};
+	}
+	*/
+
+	//constructor using initializer list
+	{
+		evec::EuclideanVector a{1};
+		evec::EuclideanVector b{1, 2, 3};
+		evec::EuclideanVector c{1, 2, 3, 4, 5, 6};
+	}
 
 /*
 	std::list<double> l {1,2,3};

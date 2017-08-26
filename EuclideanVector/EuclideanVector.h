@@ -14,14 +14,17 @@ class EuclideanVector {
 public:
 	//constructors
 	EuclideanVector();
-	EuclideanVector(unsigned int n_dim);
-	EuclideanVector(unsigned int n_dim, Scalar mag);
+	EuclideanVector(size_t n_dim);
+	EuclideanVector(size_t n_dim, Scalar mag);
+	template<class T>
+	EuclideanVector(T begin, T end);
+	EuclideanVector(std::initializer_list<Scalar> lst);
 
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 
 private:
 	Scalar* _vector;
-	unsigned int _dimension;
+	size_t _dimension;
 };
 
 }
