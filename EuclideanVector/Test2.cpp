@@ -33,14 +33,14 @@ int main() {
 
 	//constructor using iterator
 	//TODO
-	/*
+//	/*
 	{
 		std::list<int> l{1, 3, 5, 7};
 		evec::EuclideanVector a{l.begin(), l.end()};
-		std::vector<int> v{2, 4, 6};
-		evec::EuclideanVector b{v.begin(), v.end()};
+		//std::vector<int> v{2, 4, 6};
+		//evec::EuclideanVector b{v.begin(), v.end()};
 	}
-	*/
+//	*/
 
 	//constructor using initializer list
 	{

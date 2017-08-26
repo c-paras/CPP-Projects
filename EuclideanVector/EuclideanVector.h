@@ -3,6 +3,8 @@
  * Interface for the EuclideanVector class library.
  */
 
+#include <list>
+
 #ifndef EUCLIDEAN_VECTOR_H
 #define EUCLIDEAN_VECTOR_H
 
@@ -16,8 +18,9 @@ public:
 	EuclideanVector();
 	EuclideanVector(size_t n_dim);
 	EuclideanVector(size_t n_dim, Scalar mag);
-	template<class T>
-	EuclideanVector(T begin, T end);
+	//template<class T>
+//	EuclideanVector(T begin, T end);
+	EuclideanVector(std::_List_iterator<int> begin, std::_List_iterator<int> end);
 	EuclideanVector(std::initializer_list<Scalar> lst);
 
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
