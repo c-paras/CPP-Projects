@@ -35,10 +35,10 @@ int main() {
 	//TODO
 //	/*
 	{
-		std::list<int> l{1, 3, 5, 7};
+		std::list<double> l{1, 3, 5, 7.5};
 		evec::EuclideanVector a{l.begin(), l.end()};
-		//std::vector<int> v{2, 4, 6};
-		//evec::EuclideanVector b{v.begin(), v.end()};
+		std::vector<double> v{2, 4.2, 6};
+		evec::EuclideanVector b2{v.begin(), v.end()};
 	}
 //	*/
 

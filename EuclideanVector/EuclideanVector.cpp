@@ -24,9 +24,18 @@ EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 
 //construct a vector from a std::list or std::vector iterator
 //TODO
-//template <class T>
-//EuclideanVector::EuclideanVector(T begin, T end) :
-EuclideanVector::EuclideanVector(std::_List_iterator<int> begin, std::_List_iterator<int> end) :
+//template <class Iter>
+//EuclideanVector::EuclideanVector(Iter begin, Iter end) :
+EuclideanVector::EuclideanVector(std::_List_iterator<Scalar> begin, std::_List_iterator<Scalar> end) :
+	_dimension{static_cast<size_t>(std::distance(begin, end))} {
+	_vector = new Scalar[_dimension];
+	int i = 0;
+	while (begin != end) {
+		_vector[i++] = *begin++;
+	}
+}
+
+EuclideanVector::EuclideanVector(std::vector<Scalar>::iterator begin, std::vector<Scalar>::iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
 	int i = 0;
