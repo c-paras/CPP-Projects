@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 Costa Paraskevopoulos.
- * Test case for EuclideanVector class library.
+ * Test case 1 for EuclideanVector class library.
  */
 
 #include <iostream>
