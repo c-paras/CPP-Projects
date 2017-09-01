@@ -115,12 +115,18 @@ int main() {
 			std::cout << e.what() << std::endl;
 		}
 
-		std::cout << a.getEuclideanNorm() << std::endl;
-		std::cout << b.getEuclideanNorm() << std::endl;
-		std::cout << c.getEuclideanNorm() << std::endl;
-		std::cout << d.getEuclideanNorm() << std::endl;
+		std::cout << "norm " << a << " = " << a.getEuclideanNorm() << "\n";
+		std::cout << "norm " << b << " = " << b.getEuclideanNorm() << "\n";
+		std::cout << "norm " << c << " = " << c.getEuclideanNorm() << "\n";
+		std::cout << "norm " << d << " = " << d.getEuclideanNorm() << "\n";
 		evec::EuclideanVector e{1, 2, 3};
-		std::cout << e.getEuclideanNorm() << std::endl;
+		std::cout << "norm " << e << " = " << e.getEuclideanNorm() << "\n";
+
+		std::cout << "norm " << a.createUnitVector() << " = " << a.createUnitVector().getEuclideanNorm() << "\n";
+		std::cout << "norm " << b.createUnitVector() << " = " << b.createUnitVector().getEuclideanNorm() << "\n";
+		std::cout << "norm " << c.createUnitVector() << " = " << c.createUnitVector().getEuclideanNorm() << "\n";
+		std::cout << "norm " << d.createUnitVector() << " = " << d.createUnitVector().getEuclideanNorm() << "\n";
+		std::cout << "norm " << e.createUnitVector() << " = " << e.createUnitVector().getEuclideanNorm() << "\n";
 	}
 
 /*

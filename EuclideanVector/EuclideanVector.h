@@ -37,6 +37,7 @@ public:
 	size_t getNumDimensions();
 	Scalar get(size_t pos);
 	Scalar getEuclideanNorm();
+	EuclideanVector createUnitVector();
 
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 

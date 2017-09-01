@@ -92,6 +92,8 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 //move assignment operator
 EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
 	if (this != &e) {
+		//TODO
+		/*
 		delete [] _vector;
 		_dimension = e._dimension;
 		//_vector = std::move(e._vector);
@@ -101,6 +103,7 @@ EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
 		//delete [] e._vector;
 		e._vector = nullptr;
 		e._dimension = 0;
+		*/
 	}
 	return *this;
 }
@@ -125,6 +128,17 @@ Scalar EuclideanVector::getEuclideanNorm() {
 		norm += pow(_vector[i], 2);
 	}
 	return sqrt(norm);
+}
+
+//return the unit vector for the Euclidean vector
+EuclideanVector EuclideanVector::createUnitVector() {
+	Scalar norm = getEuclideanNorm();
+	std::vector<Scalar> magnitudes;
+	for (size_t i = 0; i < _dimension; ++i) {
+		magnitudes.push_back(_vector[i]/norm);
+	}
+	EuclideanVector unit{magnitudes.begin(), magnitudes.end()};
+	return unit;
 }
 
 //print vector in the form [v1 v2 v3 ...]
