@@ -9,7 +9,7 @@
 
 namespace evec {
 
-//construct a vector with 1 dimensions & default magnitude = 0.0
+//construct a vector with 1 dimension & default magnitude = 0.0
 EuclideanVector::EuclideanVector() :
 	EuclideanVector{1, 0.0} { }
 
@@ -20,7 +20,8 @@ EuclideanVector::EuclideanVector(size_t n_dim) :
 //construct a vector with given # dimensions & given magnitude
 EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 	_dimension = n_dim;
-	_vector = new Scalar[_dimension]{mag};
+	_vector = new Scalar[_dimension];
+	for (size_t i = 0; i < _dimension; ++i) _vector[i] = mag;
 }
 
 //construct a vector from a std::list iterator
@@ -56,7 +57,8 @@ EuclideanVector::EuclideanVector(std::initializer_list<Scalar> lst) :
 //copy constructor
 EuclideanVector::EuclideanVector(const EuclideanVector& e) {
 	_dimension = e._dimension;
-	_vector = new Scalar[_dimension]{*e._vector};
+	_vector = new Scalar[_dimension];
+	for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
 }
 
 //move constructor
@@ -72,7 +74,12 @@ EuclideanVector::~EuclideanVector() {
 }
 
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
-	//TODO
+	std::cout << "[";
+	for (size_t i = 0; i < v._dimension; ++i) {
+		if (i > 0) std::cout << " ";
+		std::cout << v._vector[i];
+	}
+	std::cout << "]";
 	return os;
 }
 

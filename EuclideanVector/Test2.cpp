@@ -14,13 +14,17 @@ int main() {
 	{
 		evec::EuclideanVector a;
 		evec::EuclideanVector b{};
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
 	}
 
 	//default constructor - no magnitude
 	{
-		evec::EuclideanVector e1(1);
+		evec::EuclideanVector a(1);
 		unsigned int i{3};
-		evec::EuclideanVector e2(i);
+		evec::EuclideanVector b(i);
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
 	}
 
 	//constructor with # dimensions & magnitude
@@ -29,6 +33,8 @@ int main() {
 		unsigned int x{3};
 		double y{3.24};
 		evec::EuclideanVector b(x, y);
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
 	}
 
 	//constructor using iterator
@@ -36,7 +42,9 @@ int main() {
 		std::list<double> l{1, 3, 5, 7.5};
 		evec::EuclideanVector a{l.begin(), l.end()};
 		std::vector<double> v{2, 4.2, 6};
-		evec::EuclideanVector b2{v.begin(), v.end()};
+		evec::EuclideanVector b{v.begin(), v.end()};
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
 	}
 
 	//constructor using initializer list
@@ -47,16 +55,28 @@ int main() {
 		evec::EuclideanVector d{1, 2, 3.2, 4};
 		evec::EuclideanVector e{3.3, 2, -5.3, 76, 5};
 		evec::EuclideanVector f{9, 2.2, 3, 7.4, 33, 15};
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
+		std::cout << c << std::endl;
+		std::cout << d << std::endl;
+		std::cout << e << std::endl;
+		std::cout << f << std::endl;
 	}
 
 	//copy and move constructors
 	{
 		evec::EuclideanVector a{3.2, -7.8, 5.5};
 		evec::EuclideanVector b{1, 4, 9.9, 4, -62.8, 3};
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
 		evec::EuclideanVector copy_a(a);
 		evec::EuclideanVector copy_b(b);
+		std::cout << copy_a << std::endl;
+		std::cout << copy_b << std::endl;
 		evec::EuclideanVector move_a(a);
 		evec::EuclideanVector move_b(b);
+		std::cout << move_a << std::endl;
+		std::cout << move_b << std::endl;
 	}
 
 /*
