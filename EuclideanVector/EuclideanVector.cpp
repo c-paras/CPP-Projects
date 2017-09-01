@@ -141,6 +141,20 @@ EuclideanVector EuclideanVector::createUnitVector() {
 	return unit;
 }
 
+//get the magnitude in the given dimension
+Scalar& EuclideanVector::operator[](int i) {
+	int dim = static_cast<int>(_dimension);
+	if (i < 0 || i >= dim) throw std::invalid_argument("Bad index");
+	return _vector[i];
+}
+
+//set the magnitude in the given dimension
+Scalar EuclideanVector::operator[](int i) const {
+	int dim = static_cast<int>(_dimension);
+	if (i < 0 || i >= dim) throw std::invalid_argument("Bad index");
+	return _vector[i];
+}
+
 //print vector in the form [v1 v2 v3 ...]
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	std::cout << "[";

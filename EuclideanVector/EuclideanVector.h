@@ -39,6 +39,10 @@ public:
 	Scalar getEuclideanNorm();
 	EuclideanVector createUnitVector();
 
+	//operators
+	Scalar& operator[](int i);
+	Scalar operator[](int i) const;
+
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 
 private:

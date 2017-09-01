@@ -129,6 +129,29 @@ int main() {
 		std::cout << "norm " << e.createUnitVector() << " = " << e.createUnitVector().getEuclideanNorm() << "\n";
 	}
 
+	//operators
+	{
+		evec::EuclideanVector a{16, -56, 3.7};
+		std::cout << a << "\n";
+		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
+		a[0] = 44;
+		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
+		a[1] = 16;
+		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
+		a[2] = 99;
+		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
+		try {
+			std::cout << a[3];
+		} catch (std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
+		try {
+			a[-3] = 5;
+		} catch (std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+
 /*
 	std::list<double> l {1,2,3};
 	evec::EuclideanVector b{l.begin(),l.end()};
