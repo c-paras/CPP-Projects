@@ -3,8 +3,11 @@
  * Implementation of the EuclideanVector class library.
  */
 
+#include <cmath>
 #include <iostream>
 #include <iterator>
+#include <stdexcept>
+#include <exception>
 #include "EuclideanVector.h"
 
 namespace evec {
@@ -78,7 +81,7 @@ EuclideanVector::~EuclideanVector() {
 //copy assignment operator
 EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 	if (this != &e) {
-		//delete [] _vector;
+		delete [] _vector;
 		_dimension = e._dimension;
 		_vector = new Scalar[_dimension];
 		for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
@@ -89,10 +92,10 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 //move assignment operator
 EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
 	if (this != &e) {
-		//delete [] _vector;
+		delete [] _vector;
 		_dimension = e._dimension;
-		_vector = std::move(e._vector);
-		//_vector = e._vector;
+		//_vector = std::move(e._vector);
+		_vector = e._vector;
 		//_vector = new Scalar[_dimension];
 		//for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
 		//delete [] e._vector;
@@ -100,6 +103,28 @@ EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
 		e._dimension = 0;
 	}
 	return *this;
+}
+
+//return the number of dimensions
+size_t EuclideanVector::getNumDimensions() {
+	return _dimension;
+}
+
+//return the magnitude in the given dimension
+Scalar EuclideanVector::get(size_t pos) {
+	if (pos >= _dimension) {
+		throw std::invalid_argument("Position is too big for this vector");
+	}
+	return _vector[pos];
+}
+
+//return the Euclidean norm of the vector
+Scalar EuclideanVector::getEuclideanNorm() {
+	double norm = 0;
+	for (size_t i = 0; i < _dimension; ++i) {
+		norm += pow(_vector[i], 2);
+	}
+	return sqrt(norm);
 }
 
 //print vector in the form [v1 v2 v3 ...]

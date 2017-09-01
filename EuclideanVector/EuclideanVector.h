@@ -33,6 +33,11 @@ public:
 	EuclideanVector& operator=(const EuclideanVector& e);
 	EuclideanVector& operator=(EuclideanVector&& e);
 
+	//getters
+	size_t getNumDimensions();
+	Scalar get(size_t pos);
+	Scalar getEuclideanNorm();
+
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 
 private:

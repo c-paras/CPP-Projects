@@ -81,12 +81,46 @@ int main() {
 
 	//copy and move assignment operators
 	{
+		//TODO
+		/*
 		evec::EuclideanVector a{72, 34, 5, -7};
-		//evec::EuclideanVector b{a};
+		std::cout << a << std::endl;
+		evec::EuclideanVector b{a};
+		std::cout << b << std::endl;
 		evec::EuclideanVector c{std::move(a)};
-		//std::cout << a << std::endl;
-		//std::cout << b << std::endl;
-//		std::cout << c << std::endl;
+		std::cout << c << std::endl;
+		*/
+	}
+
+	//getters
+	{
+		evec::EuclideanVector a{13};
+		std::cout << "dim " << a << " = " << a.getNumDimensions() << "\n";
+		evec::EuclideanVector b{13, 44};
+		std::cout << "dim " << b << " = " << b.getNumDimensions() << "\n";
+		evec::EuclideanVector c{13, 44, -78};
+		std::cout << "dim " << c << " = " << c.getNumDimensions() << "\n";
+		evec::EuclideanVector d{13, 44, -78, 3.3};
+		std::cout << "dim " << d << " = " << d.getNumDimensions() << "\n";
+
+		std::cout << a.get(0) << "\n";
+		std::cout << b.get(0) << " " << b.get(1) << "\n";
+		std::cout << c.get(0) << " " << c.get(1) << " " << c.get(2) << "\n";
+
+		for (int i = 0; i < 4; ++i) std::cout << d.get(i) << " ";
+		std::cout << "\n";
+		try {
+			d.get(5);
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+
+		std::cout << a.getEuclideanNorm() << std::endl;
+		std::cout << b.getEuclideanNorm() << std::endl;
+		std::cout << c.getEuclideanNorm() << std::endl;
+		std::cout << d.getEuclideanNorm() << std::endl;
+		evec::EuclideanVector e{1, 2, 3};
+		std::cout << e.getEuclideanNorm() << std::endl;
 	}
 
 /*
