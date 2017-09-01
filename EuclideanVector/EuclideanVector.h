@@ -34,7 +34,7 @@ public:
 	EuclideanVector& operator=(EuclideanVector&& e);
 
 	//getters
-	size_t getNumDimensions();
+	size_t getNumDimensions() const;
 	Scalar get(size_t pos);
 	Scalar getEuclideanNorm();
 	EuclideanVector createUnitVector();
@@ -42,6 +42,10 @@ public:
 	//operators
 	Scalar& operator[](int i);
 	Scalar operator[](int i) const;
+	EuclideanVector& operator+=(const EuclideanVector& rhs);
+	EuclideanVector& operator-=(const EuclideanVector& rhs);
+	EuclideanVector& operator*=(const Scalar& rhs);
+	EuclideanVector& operator/=(const Scalar& rhs);
 
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 

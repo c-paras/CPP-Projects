@@ -109,7 +109,7 @@ EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
 }
 
 //return the number of dimensions
-size_t EuclideanVector::getNumDimensions() {
+size_t EuclideanVector::getNumDimensions() const {
 	return _dimension;
 }
 
@@ -153,6 +153,45 @@ Scalar EuclideanVector::operator[](int i) const {
 	int dim = static_cast<int>(_dimension);
 	if (i < 0 || i >= dim) throw std::invalid_argument("Bad index");
 	return _vector[i];
+}
+
+//transform the first vector by applying the given operator
+EuclideanVector& applyWith(EuclideanVector &a, const EuclideanVector &b, auto op) {
+	if (a.getNumDimensions() != b.getNumDimensions()) {
+		throw std::invalid_argument("Vectors must have same dimension");
+	}
+	for (size_t i = 0; i < a.getNumDimensions(); ++i) {
+		a[i] = op(a[i], b[i]);
+	}
+	return a;
+}
+
+//overloaded += operator for adding vectors of same dimension
+EuclideanVector& EuclideanVector::operator+=(const EuclideanVector& rhs) {
+	return applyWith(*this, rhs, std::plus<Scalar>());
+}
+
+//overloaded -= operator for subtracting vectors of same dimension
+EuclideanVector& EuclideanVector::operator-=(const EuclideanVector& rhs) {
+	return applyWith(*this, rhs, std::minus<Scalar>());
+}
+
+//transform the given vector by applying the given operator
+EuclideanVector& applyWith(EuclideanVector &a, const Scalar& c, auto op) {
+	for (size_t i = 0; i < a.getNumDimensions(); ++i) {
+		a[i] = op(a[i], c);
+	}
+	return a;
+}
+
+//overloaded /= operator for scalar multiplication
+EuclideanVector& EuclideanVector::operator*=(const Scalar& rhs) {
+	return applyWith(*this, rhs, std::multiplies<Scalar>());
+}
+
+//overloaded /= operator for scalar division
+EuclideanVector& EuclideanVector::operator/=(const Scalar& rhs) {
+	return applyWith(*this, rhs, std::divides<Scalar>());
 }
 
 //print vector in the form [v1 v2 v3 ...]

@@ -131,6 +131,7 @@ int main() {
 
 	//operators
 	{
+		//subscript operator []
 		evec::EuclideanVector a{16, -56, 3.7};
 		std::cout << a << "\n";
 		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
@@ -150,6 +151,46 @@ int main() {
 		} catch (std::exception& e) {
 			std::cout << e.what() << std::endl;
 		}
+
+		//the += and -= operators
+		evec::EuclideanVector b{-73, 23, -4.1};
+		std::cout << a << " += " << b << " = ";
+		a += b;
+		std::cout << a << "\n";
+		std::cout << a << " -= " << b << " = ";
+		a -= b;
+		std::cout << a << "\n";
+		evec::EuclideanVector c{12, 60, 55, 48};
+		try {
+			c += a;
+		} catch (std::exception& e) {
+			std::cout << e.what() << "\n";
+		}
+		try {
+			b += c;
+		} catch (std::exception& e) {
+			std::cout << e.what() << "\n";
+		}
+
+		//the */ and /= operators
+		std::cout << a << " * 2 = ";
+		a *= 2;
+		std::cout << a << "\n";
+		std::cout << b << " * 0 = ";
+		b *= 0;
+		std::cout << b << "\n";
+		std::cout << c << " * -1 = ";
+		c *= -1;
+		std::cout << c << "\n";
+		std::cout << a << " / 2 = ";
+		a /= 2;
+		std::cout << a << "\n";
+		std::cout << b << " / 0 = ";
+		b /= 0;
+		std::cout << b << "\n";
+		std::cout << c << " / -1 = ";
+		c /= -1;
+		std::cout << c << "\n";
 	}
 
 /*
