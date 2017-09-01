@@ -70,9 +70,39 @@ EuclideanVector::EuclideanVector(EuclideanVector&& e) :
 
 //destructor
 EuclideanVector::~EuclideanVector() {
-	delete [] _vector;
+	if (_vector != nullptr) {
+		delete [] _vector;
+	}
 }
 
+//copy assignment operator
+EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
+	if (this != &e) {
+		//delete [] _vector;
+		_dimension = e._dimension;
+		_vector = new Scalar[_dimension];
+		for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
+	}
+	return *this;
+}
+
+//move assignment operator
+EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
+	if (this != &e) {
+		//delete [] _vector;
+		_dimension = e._dimension;
+		_vector = std::move(e._vector);
+		//_vector = e._vector;
+		//_vector = new Scalar[_dimension];
+		//for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
+		//delete [] e._vector;
+		e._vector = nullptr;
+		e._dimension = 0;
+	}
+	return *this;
+}
+
+//print vector in the form [v1 v2 v3 ...]
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	std::cout << "[";
 	for (size_t i = 0; i < v._dimension; ++i) {

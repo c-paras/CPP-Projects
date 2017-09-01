@@ -29,6 +29,10 @@ public:
 	//destructor
 	~EuclideanVector();
 
+	//copy assignment and move assignment
+	EuclideanVector& operator=(const EuclideanVector& e);
+	EuclideanVector& operator=(EuclideanVector&& e);
+
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 
 private:

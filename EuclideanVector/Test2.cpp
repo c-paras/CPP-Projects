@@ -79,6 +79,16 @@ int main() {
 		std::cout << move_b << std::endl;
 	}
 
+	//copy and move assignment operators
+	{
+		evec::EuclideanVector a{72, 34, 5, -7};
+		//evec::EuclideanVector b{a};
+		evec::EuclideanVector c{std::move(a)};
+		//std::cout << a << std::endl;
+		//std::cout << b << std::endl;
+//		std::cout << c << std::endl;
+	}
+
 /*
 	std::list<double> l {1,2,3};
 	evec::EuclideanVector b{l.begin(),l.end()};
