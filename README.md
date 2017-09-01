@@ -3,8 +3,6 @@ A collection of C++ programs written for COMP6771
 
 These programs were built and tested on Ubuntu 64-bit 16.04 LTS using G++ version 4.9.3 but are not guaranteed to be bug-free.
 
-Contents
---------
 * calculator - A stack-based calculator that reads tokens from a file
 * EuclideanVector - A Euclidean Vector class library
 
