@@ -35,9 +35,9 @@ public:
 
 	//getters
 	size_t getNumDimensions() const;
-	Scalar get(size_t pos);
-	Scalar getEuclideanNorm();
-	EuclideanVector createUnitVector();
+	Scalar get(size_t pos) const;
+	Scalar getEuclideanNorm() const;
+	EuclideanVector createUnitVector() const;
 
 	//operators
 	Scalar& operator[](size_t i);

@@ -101,7 +101,7 @@ size_t EuclideanVector::getNumDimensions() const {
 }
 
 //return the magnitude in the given dimension
-Scalar EuclideanVector::get(size_t pos) {
+Scalar EuclideanVector::get(size_t pos) const {
 	if (pos >= _dimension) {
 		throw std::invalid_argument("Position is too big for this vector");
 	}
@@ -109,7 +109,7 @@ Scalar EuclideanVector::get(size_t pos) {
 }
 
 //return the Euclidean norm of the vector
-Scalar EuclideanVector::getEuclideanNorm() {
+Scalar EuclideanVector::getEuclideanNorm() const {
 	Scalar norm = 0;
 	std::for_each(_vector, _vector + _dimension, [&norm](const Scalar& mag) {
 		norm += pow(mag, 2);
@@ -118,7 +118,7 @@ Scalar EuclideanVector::getEuclideanNorm() {
 }
 
 //return the unit vector for the Euclidean vector
-EuclideanVector EuclideanVector::createUnitVector() {
+EuclideanVector EuclideanVector::createUnitVector() const {
 	Scalar norm = getEuclideanNorm();
 	std::vector<Scalar> magnitudes;
 	std::for_each(_vector, _vector + _dimension, [&magnitudes, &norm](const Scalar& mag) {
@@ -128,13 +128,13 @@ EuclideanVector EuclideanVector::createUnitVector() {
 	return unit;
 }
 
-//get the magnitude in the given dimension
+//set the magnitude in the given dimension
 Scalar& EuclideanVector::operator[](size_t i) {
 	if (i >= _dimension) throw std::invalid_argument("Bad index");
 	return _vector[i];
 }
 
-//set the magnitude in the given dimension
+//get the magnitude in the given dimension
 Scalar EuclideanVector::operator[](size_t i) const {
 	if (i >= _dimension) throw std::invalid_argument("Bad index");
 	return _vector[i];
