@@ -53,12 +53,12 @@ public:
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 	friend bool operator==(const EuclideanVector& a, const EuclideanVector& b);
 	friend Scalar operator*(const EuclideanVector& a, const EuclideanVector& b);
-
 private:
-	Scalar* _vector;
-	size_t _dimension;
+	Scalar* _vector; //the magnitudes in each dimension
+	size_t _dimension; //the dimension of the vector
+	mutable Scalar _norm; //the Euclidean norm for the vector
+	mutable bool _changed{true}; //true if _vector has changed; true initially
 };
-
 	//non-member functions
 	bool operator!=(const EuclideanVector& a, const EuclideanVector& b);
 	EuclideanVector operator+(const EuclideanVector& a, const EuclideanVector& b);

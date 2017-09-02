@@ -29,14 +29,16 @@ EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 }
 
 //construct a vector from a std::list iterator
-EuclideanVector::EuclideanVector(std::list<Scalar>::const_iterator begin, std::list<Scalar>::const_iterator end) :
+EuclideanVector::EuclideanVector(std::list<Scalar>::const_iterator begin,
+	std::list<Scalar>::const_iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
 	std::copy(begin, end, _vector);
 }
 
 //construct a vector from a std::vector iterator
-EuclideanVector::EuclideanVector(std::vector<Scalar>::const_iterator begin, std::vector<Scalar>::const_iterator end) :
+EuclideanVector::EuclideanVector(std::vector<Scalar>::const_iterator begin,
+	std::vector<Scalar>::const_iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
 	std::copy(begin, end, _vector);
@@ -102,19 +104,20 @@ size_t EuclideanVector::getNumDimensions() const {
 
 //return the magnitude in the given dimension
 Scalar EuclideanVector::get(size_t pos) const {
-	if (pos >= _dimension) {
-		throw std::invalid_argument("Position is too big for this vector");
-	}
+	if (pos >= _dimension) throw std::out_of_range("Index too large");
 	return _vector[pos];
 }
 
 //return the Euclidean norm of the vector
 Scalar EuclideanVector::getEuclideanNorm() const {
+	if (_changed == false) return _norm;
 	Scalar norm = 0;
 	std::for_each(_vector, _vector + _dimension, [&norm](const Scalar& mag) {
 		norm += pow(mag, 2);
 	});
-	return sqrt(norm);
+	_norm = sqrt(norm); //cache norm in mutable field
+	_changed = false;
+	return _norm;
 }
 
 //return the unit vector for the Euclidean vector
@@ -130,13 +133,14 @@ EuclideanVector EuclideanVector::createUnitVector() const {
 
 //set the magnitude in the given dimension
 Scalar& EuclideanVector::operator[](size_t i) {
-	if (i >= _dimension) throw std::invalid_argument("Bad index");
+	if (i >= _dimension) throw std::out_of_range("Index too large");
+	_changed = true;
 	return _vector[i];
 }
 
 //get the magnitude in the given dimension
 Scalar EuclideanVector::operator[](size_t i) const {
-	if (i >= _dimension) throw std::invalid_argument("Bad index");
+	if (i >= _dimension) throw std::out_of_range("Index too large"); //unnecessary
 	return _vector[i];
 }
 
@@ -153,11 +157,13 @@ EuclideanVector& applyWith(EuclideanVector &a, const EuclideanVector &b, auto op
 
 //overloaded += operator for adding vectors of same dimension
 EuclideanVector& EuclideanVector::operator+=(const EuclideanVector& rhs) {
+	_changed = true;
 	return applyWith(*this, rhs, std::plus<Scalar>());
 }
 
 //overloaded -= operator for subtracting vectors of same dimension
 EuclideanVector& EuclideanVector::operator-=(const EuclideanVector& rhs) {
+	_changed = true;
 	return applyWith(*this, rhs, std::minus<Scalar>());
 }
 
@@ -171,11 +177,13 @@ EuclideanVector& applyWith(EuclideanVector &a, const Scalar& c, auto op) {
 
 //overloaded /= operator for scalar multiplication
 EuclideanVector& EuclideanVector::operator*=(const Scalar& rhs) {
+	_changed = true;
 	return applyWith(*this, rhs, std::multiplies<Scalar>());
 }
 
 //overloaded /= operator for scalar division
 EuclideanVector& EuclideanVector::operator/=(const Scalar& rhs) {
+	_changed = true;
 	return applyWith(*this, rhs, std::divides<Scalar>());
 }
 

@@ -147,6 +147,11 @@ int main() {
 		} catch (std::exception& e) {
 			std::cout << e.what() << std::endl;
 		}
+		try {
+			a[7] = -3;
+		} catch (std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
 
 		//the += and -= operators
 		evec::EuclideanVector b{-73, 23, -4.1};
