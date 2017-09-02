@@ -109,6 +109,7 @@ Scalar EuclideanVector::get(size_t pos) const {
 }
 
 //return the Euclidean norm of the vector
+//retrieve from cache if possible
 Scalar EuclideanVector::getEuclideanNorm() const {
 	if (_changed == false) return _norm;
 	Scalar norm = 0;

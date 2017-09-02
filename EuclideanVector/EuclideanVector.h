@@ -20,8 +20,10 @@ public:
 	EuclideanVector();
 	EuclideanVector(size_t n_dim);
 	EuclideanVector(size_t n_dim, Scalar mag);
-	EuclideanVector(std::list<Scalar>::const_iterator begin, std::list<Scalar>::const_iterator end);
-	EuclideanVector(std::vector<Scalar>::const_iterator begin, std::vector<Scalar>::const_iterator end);
+	EuclideanVector(std::list<Scalar>::const_iterator begin,
+		std::list<Scalar>::const_iterator end);
+	EuclideanVector(std::vector<Scalar>::const_iterator begin,
+		std::vector<Scalar>::const_iterator end);
 	EuclideanVector(std::initializer_list<Scalar> lst);
 	EuclideanVector(const EuclideanVector& e);
 	EuclideanVector(EuclideanVector&& e) noexcept;
