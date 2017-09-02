@@ -57,7 +57,7 @@ EuclideanVector::EuclideanVector(const EuclideanVector& e) {
 }
 
 //move constructor
-EuclideanVector::EuclideanVector(EuclideanVector&& e) :
+EuclideanVector::EuclideanVector(EuclideanVector&& e) noexcept :
 	_vector(nullptr), _dimension(0) {
 	_vector = e._vector;
 	_dimension = e._dimension;
@@ -84,7 +84,7 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 }
 
 //move assignment operator
-EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
+EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) noexcept {
 	if (this != &e) {
 		delete [] _vector;
 		_dimension = e._dimension;
