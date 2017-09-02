@@ -228,6 +228,18 @@ EuclideanVector operator-(const EuclideanVector& a, const EuclideanVector& b) {
 	return c;
 }
 
+//perform dot-product multiplication on two vectors
+Scalar operator*(const EuclideanVector& a, const EuclideanVector& b) {
+	if (a._dimension != b._dimension) {
+		throw std::invalid_argument("Vectors must have same dimension");
+	}
+	Scalar dot_product = 0;
+	for (size_t i = 0; i < a._dimension; ++i) {
+		dot_product += a._vector[i] * b._vector[i];
+	}
+	return dot_product;
+}
+
 //perform scalar multiplication on a vector
 EuclideanVector operator*(const EuclideanVector& a, const Scalar& b) {
 	EuclideanVector c = a;

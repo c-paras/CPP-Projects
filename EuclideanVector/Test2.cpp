@@ -94,6 +94,7 @@ int main() {
 
 	//getters
 	{
+		//getNumDimensions
 		evec::EuclideanVector a{13};
 		std::cout << "dim " << a << " = " << a.getNumDimensions() << "\n";
 		evec::EuclideanVector b{13, 44};
@@ -103,10 +104,10 @@ int main() {
 		evec::EuclideanVector d{13, 44, -78, 3.3};
 		std::cout << "dim " << d << " = " << d.getNumDimensions() << "\n";
 
+		//get (at an index)
 		std::cout << a.get(0) << "\n";
 		std::cout << b.get(0) << " " << b.get(1) << "\n";
 		std::cout << c.get(0) << " " << c.get(1) << " " << c.get(2) << "\n";
-
 		for (int i = 0; i < 4; ++i) std::cout << d.get(i) << " ";
 		std::cout << "\n";
 		try {
@@ -115,6 +116,7 @@ int main() {
 			std::cout << e.what() << std::endl;
 		}
 
+		//getEuclideanNorm
 		std::cout << "norm " << a << " = " << a.getEuclideanNorm() << "\n";
 		std::cout << "norm " << b << " = " << b.getEuclideanNorm() << "\n";
 		std::cout << "norm " << c << " = " << c.getEuclideanNorm() << "\n";
@@ -122,6 +124,7 @@ int main() {
 		evec::EuclideanVector e{1, 2, 3};
 		std::cout << "norm " << e << " = " << e.getEuclideanNorm() << "\n";
 
+		//createUnitVector
 		std::cout << "norm " << a.createUnitVector() << " = " << a.createUnitVector().getEuclideanNorm() << "\n";
 		std::cout << "norm " << b.createUnitVector() << " = " << b.createUnitVector().getEuclideanNorm() << "\n";
 		std::cout << "norm " << c.createUnitVector() << " = " << c.createUnitVector().getEuclideanNorm() << "\n";
@@ -167,12 +170,12 @@ int main() {
 			std::cout << e.what() << "\n";
 		}
 		try {
-			b += c;
+			b -= c;
 		} catch (std::exception& e) {
 			std::cout << e.what() << "\n";
 		}
 
-		//the */ and /= operators
+		//the *= and /= operators
 		std::cout << a << " * 2 = ";
 		a *= 2;
 		std::cout << a << "\n";
@@ -236,7 +239,7 @@ int main() {
 		std::cout << c << " != " << e << " = " << (c != e) << std::endl;
 		std::cout << d << " != " << e << " = " << (d != e) << std::endl;
 
-		//adding and subtracting
+		//addition of vectors
 		evec::EuclideanVector add1 = b + d;
 		std::cout << b << " + " << d << " = " << add1 << std::endl;
 		evec::EuclideanVector add2 = d + b;
@@ -251,6 +254,7 @@ int main() {
 			std::cout << e.what() << std::endl;
 		}
 
+		//subtraction of vectors
 		evec::EuclideanVector sub1 = b - d;
 		std::cout << b << " - " << d << " = " << sub1 << std::endl;
 		evec::EuclideanVector sub2 = d - b;
@@ -265,10 +269,24 @@ int main() {
 			std::cout << e.what() << std::endl;
 		}
 
-		//dot product
-		//TODO
+		//dot product of vectors
+		{
+			double dot1 = b * d;
+			std::cout << b << " * " << d << " = " << dot1 << std::endl;
+			double dot2 = d * b;
+			std::cout << d << " * " << b << " = " << dot2 << std::endl;
+			double dot3 = e * c;
+			std::cout << e << " * " << c << " = " << dot3 << std::endl;
+			double dot4 = c * e;
+			std::cout << c << " * " << e << " = " << dot4 << std::endl;
+			try {
+				dot4 = b * c;
+			} catch (std::exception& e) {
+				std::cout << e.what() << std::endl;
+			}
+		}
 
-		//scalar multiplication and division
+		//scalar multiplication (with scalar on right)
 		{
 			evec::EuclideanVector scalarX1 = b * 2;
 			std::cout << b << " * 2" << " = " << scalarX1 << std::endl;
@@ -280,6 +298,7 @@ int main() {
 			std::cout << c << " * 5" << " = " << scalarX4 << std::endl;
 		}
 
+		//scalar multiplication (with scalar on left)
 		{
 			evec::EuclideanVector scalarX1 = 2 * b;
 			std::cout << "2 * " << b << " = " << scalarX1 << std::endl;
@@ -291,6 +310,7 @@ int main() {
 			std::cout << "5 * " << c << " = " << scalarX4 << std::endl;
 		}
 
+		//scalar dvision
 		{
 			evec::EuclideanVector scalarD1 = b / 2;
 			std::cout << b << " / 2" << " = " << scalarD1 << std::endl;
@@ -304,66 +324,4 @@ int main() {
 
 	}
 
-/*
-	std::list<double> l {1,2,3};
-	evec::EuclideanVector b{l.begin(),l.end()};
-
-	std::vector<double> v2 {4,5,6,7};
-	evec::EuclideanVector c{v2.begin(),v2.end()};
-
-	std::vector<double> a1 {5,4,3,2,1};
-	evec::EuclideanVector d{a1.begin(),a1.end()};
-
-	std::list<double> a2 {9,0,8,6,7};
-	evec::EuclideanVector e{a2.begin(),a2.end()};
-
-	//use the copy constructor
-	evec::EuclideanVector f{e};
-	std::cout << a.getNumDimensions() << ": " << a << std::endl;
-	std::cout << "D1:" << b.get(1) << " " << b << std::endl;
-	std::cout << c << " Euclidean Norm = " << c.getEuclideanNorm() << std::endl;
-	std::cout << d << " Unit Vector: " << d.createUnitVector() << " L = " << d.createUnitVector().getEuclideanNorm() << std::endl;
-	std::cout << e << std::endl;
-	std::cout << f << std::endl;
-
-	//test the move constructor
-	evec::EuclideanVector g = std::move(f);
-	std::cout << g << std::endl;
-	std::cout << f << std::endl;
-
-	//try operator overloading
-	e += d;
-	std::cout << e << std::endl;
-
-	evec::EuclideanVector h = e - g;
-	std::cout << h << std::endl;
-
-	//test scalar multiplication
-	h *= 2;
-	std::cout << h << std::endl;
-
-	evec::EuclideanVector j = b / 2;
-	std::cout << j << std::endl;
-
-	std::cout << "dot product = " << j * b << std::endl;
-
-	if (g == (e - d)) std::cout << "true" << std::endl;
-	if (j != b ) std::cout << "false" << std::endl;
-
-	j[0] = 1;
-	std::cout << j << std::endl;
-
-	//type cast from EuclideanVector to a std::vector
-	std::vector<double> vj = j;
-
-	//type cast from EuclideanVector to a std::vector
-	std::list<double> lj = j;
-	for (auto d: lj) {
-		std::cout << d << std::endl;
-	}
-
-	//list initialisation
-	evec::EuclideanVector k {1, 2, 3};
-	std::cout << k << std::endl;
-*/
 }
