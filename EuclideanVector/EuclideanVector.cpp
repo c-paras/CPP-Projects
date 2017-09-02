@@ -253,10 +253,11 @@ EuclideanVector operator/(const EuclideanVector& a, const Scalar& b) {
 //print vector in the form [v1 v2 v3 ...]
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	std::cout << "[";
-	for (size_t i = 0; i < v._dimension; ++i) {
-		if (i > 0) std::cout << " ";
-		std::cout << v._vector[i];
-	}
+	//write first n-1 magnitudes sequentially, space-delimited
+	std::ostream_iterator<Scalar> out_it(std::cout, " ");
+	std::copy(v._vector, v._vector + v._dimension - 1, out_it);
+	//then write the last magnitude (without a trailing space)
+	if (v._dimension > 0) std::cout << v._vector[v._dimension - 1];
 	std::cout << "]";
 	return os;
 }
