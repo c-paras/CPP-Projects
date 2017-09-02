@@ -320,6 +320,56 @@ int main() {
 			std::cout << c << " / 5" << " = " << scalarD4 << std::endl;
 		}
 
+		//const correctness
+		{
+			const evec::EuclideanVector a{1, 5, -8};
+			std::cout << a << std::endl;
+			std::cout << a.get(0) << ' ' << a.get(1) << ' ' << a.get(2) << '\n';
+			std::cout << a.getEuclideanNorm() << std::endl;
+			std::cout << a.createUnitVector() << std::endl;
+			std::cout << a[0] << ' ' << a[1] << ' ' << a[2] << '\n';
+			const evec::EuclideanVector b{3, 17, 4.4};
+			std::cout << b << std::endl;
+			std::cout << a << " + " << b << " = " << a + b << std::endl;
+			std::cout << a << " - " << b << " = " << a - b << std::endl;
+			std::cout << a << " * " << b << " = " << a * b << std::endl;
+			std::cout << a << " * 2 = " << a * 2 << std::endl;
+			std::cout << "2 * " << a << " = " << 2 * a << std::endl;
+			std::cout << a << " / 2 = " << a / 2 << std::endl;
+			std::cout << a << " == " << b << " = " << (a == b) << std::endl;
+			std::cout << a << " != " << b << " = " << (a != b) << std::endl;
+			evec::EuclideanVector c{5, 5, 5};
+			std::cout << c << " += " << a << " = ";
+			c += a;
+			std::cout << c << std::endl;
+			std::cout << c << " -= " << a << " = ";
+			c -= a;
+			std::cout << c << std::endl;
+			std::cout << c << " *= 2 = ";
+			c *= 2;
+			std::cout << c << std::endl;
+			std::cout << c << " /= 2 = ";
+			c /= 2;
+			std::cout << c << std::endl;
+		}
+
+		//caching of Euclidean norm
+		{
+			evec::EuclideanVector a{3, 8.4, -6, 92};
+			const evec::EuclideanVector b{3, 8.4, -6, 92};
+			std::cout << "norm " << a << " = " << a.getEuclideanNorm() << '\n';
+			a[2] = 1;
+			std::cout << "norm " << a << " = " << a.getEuclideanNorm() << '\n';
+			a += b;
+			std::cout << "norm " << a << " = " << a.getEuclideanNorm() << '\n';
+			a -= b;
+			std::cout << "norm " << a << " = " << a.getEuclideanNorm() << '\n';
+			a *= 2;
+			std::cout << "norm " << a << " = " << a.getEuclideanNorm() << '\n';
+			a /= 2;
+			std::cout << "norm " << a << " = " << a.getEuclideanNorm() << '\n';
+		}
+
 	}
 
 }
