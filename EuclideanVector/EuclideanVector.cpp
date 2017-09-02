@@ -58,7 +58,9 @@ EuclideanVector::EuclideanVector(const EuclideanVector& e) {
 
 //move constructor
 EuclideanVector::EuclideanVector(EuclideanVector&& e) :
-	_vector{std::move(_vector)}, _dimension{std::move(_dimension)} {
+	_vector(nullptr), _dimension(0) {
+	_vector = e._vector;
+	_dimension = e._dimension;
 	e._vector = nullptr;
 	e._dimension = 0;
 }
@@ -84,18 +86,11 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 //move assignment operator
 EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) {
 	if (this != &e) {
-		//TODO
-		/*
 		delete [] _vector;
 		_dimension = e._dimension;
-		//_vector = std::move(e._vector);
 		_vector = e._vector;
-		//_vector = new Scalar[_dimension];
-		//for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
-		//delete [] e._vector;
 		e._vector = nullptr;
 		e._dimension = 0;
-		*/
 	}
 	return *this;
 }

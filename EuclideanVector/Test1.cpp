@@ -9,7 +9,6 @@
 #include "EuclideanVector.h"
 
 int main() {
-/*
 	evec::EuclideanVector a(2);
 
 	std::list<double> l {1,2,3};
@@ -26,6 +25,7 @@ int main() {
 
 	//use the copy constructor
 	evec::EuclideanVector f{e};
+
 	std::cout << a.getNumDimensions() << ": " << a << std::endl;
 	std::cout << "D1:" << b.get(1) << " " << b << std::endl;
 	std::cout << c << " Euclidean Norm = " << c.getEuclideanNorm() << std::endl;
@@ -55,7 +55,7 @@ int main() {
 	std::cout << "dot product = " << j * b << std::endl;
 
 	if (g == (e - d)) std::cout << "true" << std::endl;
-	if (j != b ) std::cout << "false" << std::endl;
+	if (j != b) std::cout << "false" << std::endl;
 
 	j[0] = 1;
 	std::cout << j << std::endl;
@@ -72,5 +72,4 @@ int main() {
 	//list initialisation
 	evec::EuclideanVector k {1, 2, 3};
 	std::cout << k << std::endl;
-*/
 }

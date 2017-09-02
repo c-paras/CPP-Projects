@@ -81,15 +81,12 @@ int main() {
 
 	//copy and move assignment operators
 	{
-		//TODO
-		/*
 		evec::EuclideanVector a{72, 34, 5, -7};
 		std::cout << a << std::endl;
 		evec::EuclideanVector b{a};
 		std::cout << b << std::endl;
 		evec::EuclideanVector c{std::move(a)};
 		std::cout << c << std::endl;
-		*/
 	}
 
 	//getters
@@ -310,7 +307,7 @@ int main() {
 			std::cout << "5 * " << c << " = " << scalarX4 << std::endl;
 		}
 
-		//scalar dvision
+		//scalar division
 		{
 			evec::EuclideanVector scalarD1 = b / 2;
 			std::cout << b << " / 2" << " = " << scalarD1 << std::endl;
