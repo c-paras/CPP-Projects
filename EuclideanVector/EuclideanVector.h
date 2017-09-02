@@ -46,6 +46,8 @@ public:
 	EuclideanVector& operator-=(const EuclideanVector& rhs);
 	EuclideanVector& operator*=(const Scalar& rhs);
 	EuclideanVector& operator/=(const Scalar& rhs);
+	operator std::vector<Scalar>() const;
+	operator std::list<Scalar>() const;
 
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 

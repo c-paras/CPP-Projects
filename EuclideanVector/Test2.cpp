@@ -193,6 +193,18 @@ int main() {
 		std::cout << c << "\n";
 	}
 
+	//type casting
+	{
+		evec::EuclideanVector a{14, -32, 6.7};
+		std::cout << a << "\n";
+		std::vector<double> vec = a;
+		for (auto v: vec) std::cout << v << " ";
+		std::cout << std::endl;
+		std::list<double> lst = a;
+		for (auto l: lst) std::cout << l << " ";
+		std::cout << std::endl;
+	}
+
 /*
 	std::list<double> l {1,2,3};
 	evec::EuclideanVector b{l.begin(),l.end()};

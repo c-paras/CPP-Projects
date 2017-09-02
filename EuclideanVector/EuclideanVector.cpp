@@ -8,6 +8,7 @@
 #include <iterator>
 #include <stdexcept>
 #include <exception>
+#include <algorithm>
 #include "EuclideanVector.h"
 
 namespace evec {
@@ -24,44 +25,35 @@ EuclideanVector::EuclideanVector(size_t n_dim) :
 EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 	_dimension = n_dim;
 	_vector = new Scalar[_dimension];
-	for (size_t i = 0; i < _dimension; ++i) _vector[i] = mag;
+	std::fill(_vector, _vector + _dimension, mag);
 }
 
 //construct a vector from a std::list iterator
 EuclideanVector::EuclideanVector(std::list<Scalar>::iterator begin, std::list<Scalar>::iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
-	int i = 0;
-	while (begin != end) {
-		_vector[i++] = *begin++;
-	}
+	std::copy(begin, end, _vector);
 }
 
 //construct a vector from a std::vector iterator
 EuclideanVector::EuclideanVector(std::vector<Scalar>::iterator begin, std::vector<Scalar>::iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
-	int i = 0;
-	while (begin != end) {
-		_vector[i++] = *begin++;
-	}
+	std::copy(begin, end, _vector);
 }
 
 //construct a vector from an initializer list
 EuclideanVector::EuclideanVector(std::initializer_list<Scalar> lst) :
 	_dimension{lst.size()} {
 	_vector = new Scalar[_dimension];
-	int i = 0;
-	for (auto begin = lst.begin(); begin != lst.end(); ++begin) {
-		_vector[i++] = *begin;
-	}
+	std::copy(lst.begin(), lst.end(), _vector);
 }
 
 //copy constructor
 EuclideanVector::EuclideanVector(const EuclideanVector& e) {
 	_dimension = e._dimension;
 	_vector = new Scalar[_dimension];
-	for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
+	std::copy(e._vector, e._vector + e._dimension, _vector);
 }
 
 //move constructor
@@ -84,7 +76,7 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 		delete [] _vector;
 		_dimension = e._dimension;
 		_vector = new Scalar[_dimension];
-		for (size_t i = 0; i < _dimension; ++i) _vector[i] = e._vector[i];
+		std::copy(e._vector, e._vector + e._dimension, _vector);
 	}
 	return *this;
 }
@@ -124,9 +116,9 @@ Scalar EuclideanVector::get(size_t pos) {
 //return the Euclidean norm of the vector
 Scalar EuclideanVector::getEuclideanNorm() {
 	double norm = 0;
-	for (size_t i = 0; i < _dimension; ++i) {
-		norm += pow(_vector[i], 2);
-	}
+	std::for_each(_vector, _vector + _dimension, [&norm](const Scalar& mag) {
+		norm += pow(mag, 2);
+	});
 	return sqrt(norm);
 }
 
@@ -134,25 +126,29 @@ Scalar EuclideanVector::getEuclideanNorm() {
 EuclideanVector EuclideanVector::createUnitVector() {
 	Scalar norm = getEuclideanNorm();
 	std::vector<Scalar> magnitudes;
-	for (size_t i = 0; i < _dimension; ++i) {
-		magnitudes.push_back(_vector[i]/norm);
-	}
+	std::for_each(_vector, _vector + _dimension, [&magnitudes, &norm](const Scalar& mag) {
+		magnitudes.push_back(mag/norm);
+	});
 	EuclideanVector unit{magnitudes.begin(), magnitudes.end()};
 	return unit;
 }
 
 //get the magnitude in the given dimension
 Scalar& EuclideanVector::operator[](int i) {
-	int dim = static_cast<int>(_dimension);
-	if (i < 0 || i >= dim) throw std::invalid_argument("Bad index");
-	return _vector[i];
+	size_t index = static_cast<size_t>(i);
+	if (index < 0 || index >= _dimension) {
+		throw std::invalid_argument("Bad index");
+	}
+	return _vector[index];
 }
 
 //set the magnitude in the given dimension
 Scalar EuclideanVector::operator[](int i) const {
-	int dim = static_cast<int>(_dimension);
-	if (i < 0 || i >= dim) throw std::invalid_argument("Bad index");
-	return _vector[i];
+	size_t index = static_cast<size_t>(i);
+	if (index < 0 || index >= _dimension) {
+		throw std::invalid_argument("Bad index");
+	}
+	return _vector[index];
 }
 
 //transform the first vector by applying the given operator
@@ -192,6 +188,16 @@ EuclideanVector& EuclideanVector::operator*=(const Scalar& rhs) {
 //overloaded /= operator for scalar division
 EuclideanVector& EuclideanVector::operator/=(const Scalar& rhs) {
 	return applyWith(*this, rhs, std::divides<Scalar>());
+}
+
+//cast a Euclidean vector to a std::vector
+EuclideanVector::operator std::vector<Scalar>() const {
+	return std::vector<Scalar>(_vector, _vector + _dimension);
+}
+
+//cast a Euclidean vector to a std::list
+EuclideanVector::operator std::list<Scalar>() const {
+	return std::list<Scalar>(_vector, _vector + _dimension);
 }
 
 //print vector in the form [v1 v2 v3 ...]
