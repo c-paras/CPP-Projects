@@ -129,21 +129,15 @@ EuclideanVector EuclideanVector::createUnitVector() {
 }
 
 //get the magnitude in the given dimension
-Scalar& EuclideanVector::operator[](int i) {
-	size_t index = static_cast<size_t>(i);
-	if (index < 0 || index >= _dimension) {
-		throw std::invalid_argument("Bad index");
-	}
-	return _vector[index];
+Scalar& EuclideanVector::operator[](size_t i) {
+	if (i >= _dimension) throw std::invalid_argument("Bad index");
+	return _vector[i];
 }
 
 //set the magnitude in the given dimension
-Scalar EuclideanVector::operator[](int i) const {
-	size_t index = static_cast<size_t>(i);
-	if (index < 0 || index >= _dimension) {
-		throw std::invalid_argument("Bad index");
-	}
-	return _vector[index];
+Scalar EuclideanVector::operator[](size_t i) const {
+	if (i >= _dimension) throw std::invalid_argument("Bad index");
+	return _vector[i];
 }
 
 //transform the first vector by applying the given operator

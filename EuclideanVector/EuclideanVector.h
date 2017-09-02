@@ -40,8 +40,8 @@ public:
 	EuclideanVector createUnitVector();
 
 	//operators
-	Scalar& operator[](int i);
-	Scalar operator[](int i) const;
+	Scalar& operator[](size_t i);
+	Scalar operator[](size_t i) const;
 	EuclideanVector& operator+=(const EuclideanVector& rhs);
 	EuclideanVector& operator-=(const EuclideanVector& rhs);
 	EuclideanVector& operator*=(const Scalar& rhs);

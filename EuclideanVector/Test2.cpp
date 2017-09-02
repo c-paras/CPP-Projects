@@ -141,13 +141,9 @@ int main() {
 		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
 		a[2] = 99;
 		std::cout << a[0] << " " << a[1] << " " << a[2] << "\n";
+		std::cout << a << "\n";
 		try {
 			std::cout << a[3];
-		} catch (std::exception& e) {
-			std::cout << e.what() << std::endl;
-		}
-		try {
-			a[-3] = 5;
 		} catch (std::exception& e) {
 			std::cout << e.what() << std::endl;
 		}
