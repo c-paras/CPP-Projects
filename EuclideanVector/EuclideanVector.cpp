@@ -28,22 +28,6 @@ EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 	std::fill(_vector, _vector + _dimension, mag);
 }
 
-//construct a vector from a std::list iterator
-EuclideanVector::EuclideanVector(std::list<Scalar>::const_iterator begin,
-	std::list<Scalar>::const_iterator end) :
-	_dimension{static_cast<size_t>(std::distance(begin, end))} {
-	_vector = new Scalar[_dimension];
-	std::copy(begin, end, _vector);
-}
-
-//construct a vector from a std::vector iterator
-EuclideanVector::EuclideanVector(std::vector<Scalar>::const_iterator begin,
-	std::vector<Scalar>::const_iterator end) :
-	_dimension{static_cast<size_t>(std::distance(begin, end))} {
-	_vector = new Scalar[_dimension];
-	std::copy(begin, end, _vector);
-}
-
 //construct a vector from an initializer list
 EuclideanVector::EuclideanVector(std::initializer_list<Scalar> lst) :
 	_dimension{lst.size()} {

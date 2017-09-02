@@ -20,11 +20,17 @@ public:
 	EuclideanVector();
 	EuclideanVector(size_t n_dim);
 	EuclideanVector(size_t n_dim, Scalar mag);
-	EuclideanVector(std::list<Scalar>::const_iterator begin, std::list<Scalar>::const_iterator end);
-	EuclideanVector(std::vector<Scalar>::const_iterator begin, std::vector<Scalar>::const_iterator end);
 	EuclideanVector(std::initializer_list<Scalar> lst);
 	EuclideanVector(const EuclideanVector& e);
 	EuclideanVector(EuclideanVector&& e) noexcept;
+
+	//construct a EuclideanVector from a std::list or a std::vector
+	template <typename Iter>
+	EuclideanVector(Iter begin, Iter end) :
+		_dimension{static_cast<size_t>(std::distance(begin, end))} {
+		_vector = new Scalar[_dimension];
+		std::copy(begin, end, _vector);
+	}
 
 	//destructor
 	~EuclideanVector();
