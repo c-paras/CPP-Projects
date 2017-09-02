@@ -110,7 +110,7 @@ Scalar EuclideanVector::get(size_t pos) {
 
 //return the Euclidean norm of the vector
 Scalar EuclideanVector::getEuclideanNorm() {
-	double norm = 0;
+	Scalar norm = 0;
 	std::for_each(_vector, _vector + _dimension, [&norm](const Scalar& mag) {
 		norm += pow(mag, 2);
 	});
