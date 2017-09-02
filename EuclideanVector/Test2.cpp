@@ -237,8 +237,33 @@ int main() {
 		std::cout << d << " != " << e << " = " << (d != e) << std::endl;
 
 		//adding and subtracting
-		
+		evec::EuclideanVector add1 = b + d;
+		std::cout << b << " + " << d << " = " << add1 << std::endl;
+		evec::EuclideanVector add2 = d + b;
+		std::cout << d << " + " << b << " = " << add2 << std::endl;
+		evec::EuclideanVector add3 = e + c;
+		std::cout << e << " + " << c << " = " << add3 << std::endl;
+		evec::EuclideanVector add4 = c + e;
+		std::cout << c << " + " << e << " = " << add4 << std::endl;
+		try {
+			evec::EuclideanVector add5 = b + c;
+		} catch (std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
 
+		evec::EuclideanVector sub1 = b - d;
+		std::cout << b << " - " << d << " = " << sub1 << std::endl;
+		evec::EuclideanVector sub2 = d - b;
+		std::cout << d << " - " << b << " = " << sub2 << std::endl;
+		evec::EuclideanVector sub3 = e - c;
+		std::cout << e << " - " << c << " = " << sub3 << std::endl;
+		evec::EuclideanVector sub4 = c - e;
+		std::cout << c << " - " << e << " = " << sub4 << std::endl;
+		try {
+			evec::EuclideanVector sub5 = b - c;
+		} catch (std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
 		//dot product
 		
 

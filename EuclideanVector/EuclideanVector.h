@@ -52,6 +52,8 @@ public:
 	//friend functions
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
 	friend bool operator==(const EuclideanVector& a, const EuclideanVector& b);
+	friend EuclideanVector operator+(const EuclideanVector& a, const EuclideanVector& b);
+	friend EuclideanVector operator-(const EuclideanVector& a, const EuclideanVector& b);
 
 private:
 	Scalar* _vector;

@@ -214,6 +214,20 @@ bool operator!=(const EuclideanVector& a, const EuclideanVector& b) {
 	return !(a == b);
 }
 
+//add two vectors of the same dimension
+EuclideanVector operator+(const EuclideanVector& a, const EuclideanVector& b) {
+	EuclideanVector c = a;
+	c += b;
+	return c;
+}
+
+//subtract two vectors of the same dimension
+EuclideanVector operator-(const EuclideanVector& a, const EuclideanVector& b) {
+	EuclideanVector c = a;
+	c -= b;
+	return c;
+}
+
 //print vector in the form [v1 v2 v3 ...]
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	std::cout << "[";
