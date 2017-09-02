@@ -191,11 +191,8 @@ EuclideanVector::operator std::list<Scalar>() const {
 
 //check if two vectors have the same dimension and magnitudes
 bool operator==(const EuclideanVector& a, const EuclideanVector& b) {
-	if (a._dimension != b._dimension) return false;
-	for (size_t i = 0; i < a._dimension; ++i) {
-		if (a._vector[i] != b._vector[i]) return false;
-	}
-	return true;
+	return std::equal(a._vector, a._vector + a._dimension,
+		b._vector, b._vector + b._dimension);
 }
 
 //check if two vectors have differing dimensions and/or magnitudes
@@ -222,11 +219,7 @@ Scalar operator*(const EuclideanVector& a, const EuclideanVector& b) {
 	if (a._dimension != b._dimension) {
 		throw std::invalid_argument("Vectors must have same dimension");
 	}
-	Scalar dot_product = 0;
-	for (size_t i = 0; i < a._dimension; ++i) {
-		dot_product += a._vector[i] * b._vector[i];
-	}
-	return dot_product;
+	return std::inner_product(a._vector, a._vector + a._dimension, b._vector, 0.0);
 }
 
 //perform scalar multiplication on a vector
