@@ -228,6 +228,27 @@ EuclideanVector operator-(const EuclideanVector& a, const EuclideanVector& b) {
 	return c;
 }
 
+//perform scalar multiplication on a vector
+EuclideanVector operator*(const EuclideanVector& a, const Scalar& b) {
+	EuclideanVector c = a;
+	c *= b;
+	return c;
+}
+
+//perform scalar multiplication on a vector
+EuclideanVector operator*(const Scalar& a, const EuclideanVector& b) {
+	EuclideanVector c = b;
+	c *= a;
+	return c;
+}
+
+//perform scalar division on a vector
+EuclideanVector operator/(const EuclideanVector& a, const Scalar& b) {
+	EuclideanVector c = a;
+	c /= b;
+	return c;
+}
+
 //print vector in the form [v1 v2 v3 ...]
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	std::cout << "[";

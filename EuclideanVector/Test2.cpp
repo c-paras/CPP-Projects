@@ -264,11 +264,44 @@ int main() {
 		} catch (std::exception& e) {
 			std::cout << e.what() << std::endl;
 		}
+
 		//dot product
-		
+		//TODO
 
 		//scalar multiplication and division
-		
+		{
+			evec::EuclideanVector scalarX1 = b * 2;
+			std::cout << b << " * 2" << " = " << scalarX1 << std::endl;
+			evec::EuclideanVector scalarX2 = b * 0;
+			std::cout << b << " * 0" << " = " << scalarX2 << std::endl;
+			evec::EuclideanVector scalarX3 = c * -1;
+			std::cout << c << " * -1" << " = " << scalarX3 << std::endl;
+			evec::EuclideanVector scalarX4 = c * 5;
+			std::cout << c << " * 5" << " = " << scalarX4 << std::endl;
+		}
+
+		{
+			evec::EuclideanVector scalarX1 = 2 * b;
+			std::cout << "2 * " << b << " = " << scalarX1 << std::endl;
+			evec::EuclideanVector scalarX2 = 0 * b;
+			std::cout << "0 * " << b << " = " << scalarX2 << std::endl;
+			evec::EuclideanVector scalarX3 = -1 * c;
+			std::cout << "-1 * " << c << " = " << scalarX3 << std::endl;
+			evec::EuclideanVector scalarX4 = 5 * c;
+			std::cout << "5 * " << c << " = " << scalarX4 << std::endl;
+		}
+
+		{
+			evec::EuclideanVector scalarD1 = b / 2;
+			std::cout << b << " / 2" << " = " << scalarD1 << std::endl;
+			evec::EuclideanVector scalarD2 = b / 0;
+			std::cout << b << " / 0" << " = " << scalarD2 << std::endl;
+			evec::EuclideanVector scalarD3 = c / -1;
+			std::cout << c << " / -1" << " = " << scalarD3 << std::endl;
+			evec::EuclideanVector scalarD4 = c / 5;
+			std::cout << c << " / 5" << " = " << scalarD4 << std::endl;
+		}
+
 	}
 
 /*
