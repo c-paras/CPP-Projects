@@ -29,14 +29,14 @@ EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
 }
 
 //construct a vector from a std::list iterator
-EuclideanVector::EuclideanVector(std::list<Scalar>::iterator begin, std::list<Scalar>::iterator end) :
+EuclideanVector::EuclideanVector(std::list<Scalar>::const_iterator begin, std::list<Scalar>::const_iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
 	std::copy(begin, end, _vector);
 }
 
 //construct a vector from a std::vector iterator
-EuclideanVector::EuclideanVector(std::vector<Scalar>::iterator begin, std::vector<Scalar>::iterator end) :
+EuclideanVector::EuclideanVector(std::vector<Scalar>::const_iterator begin, std::vector<Scalar>::const_iterator end) :
 	_dimension{static_cast<size_t>(std::distance(begin, end))} {
 	_vector = new Scalar[_dimension];
 	std::copy(begin, end, _vector);
@@ -192,7 +192,7 @@ EuclideanVector::operator std::list<Scalar>() const {
 //check if two vectors have the same dimension and magnitudes
 bool operator==(const EuclideanVector& a, const EuclideanVector& b) {
 	return std::equal(a._vector, a._vector + a._dimension,
-		b._vector, b._vector + b._dimension);
+	b._vector, b._vector + b._dimension);
 }
 
 //check if two vectors have differing dimensions and/or magnitudes
@@ -247,8 +247,8 @@ EuclideanVector operator/(const EuclideanVector& a, const Scalar& b) {
 std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
 	std::cout << "[";
 	//write first n-1 magnitudes sequentially, space-delimited
-	std::ostream_iterator<Scalar> out_it(std::cout, " ");
-	std::copy(v._vector, v._vector + v._dimension - 1, out_it);
+	std::ostream_iterator<Scalar> output(std::cout, " ");
+	std::copy(v._vector, v._vector + v._dimension - 1, output);
 	//then write the last magnitude (without a trailing space)
 	if (v._dimension > 0) std::cout << v._vector[v._dimension - 1];
 	std::cout << "]";
