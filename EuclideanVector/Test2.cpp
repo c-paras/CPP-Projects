@@ -205,6 +205,47 @@ int main() {
 		std::cout << std::endl;
 	}
 
+	//nonmember functions
+	{
+		evec::EuclideanVector a{};
+		evec::EuclideanVector b{1, 2};
+		evec::EuclideanVector c{1, 2, 3};
+		evec::EuclideanVector d{1, 2};
+		evec::EuclideanVector e = c;
+
+		//equality
+		std::cout << a << " == " << b << " = " << (a == b) << std::endl;
+		std::cout << a << " == " << c << " = " << (a == c) << std::endl;
+		std::cout << a << " == " << d << " = " << (a == d) << std::endl;
+		std::cout << a << " == " << e << " = " << (a == e) << std::endl;
+		std::cout << b << " == " << c << " = " << (b == c) << std::endl;
+		std::cout << b << " == " << d << " = " << (b == d) << std::endl;
+		std::cout << b << " == " << e << " = " << (b == e) << std::endl;
+		std::cout << c << " == " << d << " = " << (c == d) << std::endl;
+		std::cout << c << " == " << e << " = " << (c == e) << std::endl;
+		std::cout << d << " == " << e << " = " << (d == e) << std::endl;
+
+		std::cout << a << " != " << b << " = " << (a != b) << std::endl;
+		std::cout << a << " != " << c << " = " << (a != c) << std::endl;
+		std::cout << a << " != " << d << " = " << (a != d) << std::endl;
+		std::cout << a << " != " << e << " = " << (a != e) << std::endl;
+		std::cout << b << " != " << c << " = " << (b != c) << std::endl;
+		std::cout << b << " != " << d << " = " << (b != d) << std::endl;
+		std::cout << b << " != " << e << " = " << (b != e) << std::endl;
+		std::cout << c << " != " << d << " = " << (c != d) << std::endl;
+		std::cout << c << " != " << e << " = " << (c != e) << std::endl;
+		std::cout << d << " != " << e << " = " << (d != e) << std::endl;
+
+		//adding and subtracting
+		
+
+		//dot product
+		
+
+		//scalar multiplication and division
+		
+	}
+
 /*
 	std::list<double> l {1,2,3};
 	evec::EuclideanVector b{l.begin(),l.end()};

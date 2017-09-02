@@ -15,7 +15,7 @@ namespace evec {
 
 //construct a vector with 1 dimension & default magnitude = 0.0
 EuclideanVector::EuclideanVector() :
-	EuclideanVector{1, 0.0} { }
+	EuclideanVector(1, 0.0) { }
 
 //construct a vector with given # dimensions & default magnitude = 0.0
 EuclideanVector::EuclideanVector(size_t n_dim) :
@@ -198,6 +198,20 @@ EuclideanVector::operator std::vector<Scalar>() const {
 //cast a Euclidean vector to a std::list
 EuclideanVector::operator std::list<Scalar>() const {
 	return std::list<Scalar>(_vector, _vector + _dimension);
+}
+
+//check if two vectors have the same dimension and magnitudes
+bool operator==(const EuclideanVector& a, const EuclideanVector& b) {
+	if (a._dimension != b._dimension) return false;
+	for (size_t i = 0; i < a._dimension; ++i) {
+		if (a._vector[i] != b._vector[i]) return false;
+	}
+	return true;
+}
+
+//check if two vectors have differing dimensions and/or magnitudes
+bool operator!=(const EuclideanVector& a, const EuclideanVector& b) {
+	return !(a == b);
 }
 
 //print vector in the form [v1 v2 v3 ...]

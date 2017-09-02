@@ -49,13 +49,17 @@ public:
 	operator std::vector<Scalar>() const;
 	operator std::list<Scalar>() const;
 
+	//friend functions
 	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
+	friend bool operator==(const EuclideanVector& a, const EuclideanVector& b);
 
 private:
 	Scalar* _vector;
 	size_t _dimension;
 };
 
+	//non-member functions
+	bool operator!=(const EuclideanVector& a, const EuclideanVector& b);
 }
 
 #endif
