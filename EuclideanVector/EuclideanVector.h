@@ -5,7 +5,8 @@
 
 #include <list>
 #include <vector>
-#include <iterator>
+#include <ostream>
+#include <initializer_list>
 
 #ifndef EUCLIDEAN_VECTOR_H
 #define EUCLIDEAN_VECTOR_H
@@ -18,8 +19,8 @@ class EuclideanVector {
 public:
 	//constructors
 	EuclideanVector();
-	EuclideanVector(size_t n_dim);
-	EuclideanVector(size_t n_dim, Scalar mag);
+	EuclideanVector(size_t dim);
+	EuclideanVector(size_t dim, Scalar mag);
 	EuclideanVector(std::list<Scalar>::const_iterator begin,
 		std::list<Scalar>::const_iterator end);
 	EuclideanVector(std::vector<Scalar>::const_iterator begin,
@@ -52,13 +53,13 @@ public:
 	operator std::list<Scalar>() const;
 
 	//friend functions
-	friend std::ostream& operator<<(std::ostream &os, const EuclideanVector &v);
+	friend std::ostream& operator<<(std::ostream& os, const EuclideanVector& v);
 	friend bool operator==(const EuclideanVector& a, const EuclideanVector& b);
 	friend Scalar operator*(const EuclideanVector& a, const EuclideanVector& b);
 private:
 	Scalar* _vector; //the magnitudes in each dimension
 	size_t _dimension; //the dimension of the vector
-	mutable Scalar _norm; //the Euclidean norm for the vector
+	mutable Scalar _norm; //the Euclidean norm of the vector
 	mutable bool _changed{true}; //true if _vector has changed; true initially
 };
 	//non-member functions

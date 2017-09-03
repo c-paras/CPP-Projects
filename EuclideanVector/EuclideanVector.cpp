@@ -4,11 +4,13 @@
  */
 
 #include <cmath>
+#include <numeric>
 #include <iostream>
 #include <iterator>
 #include <stdexcept>
-#include <exception>
 #include <algorithm>
+#include <functional>
+#include <initializer_list>
 #include "EuclideanVector.h"
 
 namespace evec {
@@ -18,12 +20,12 @@ EuclideanVector::EuclideanVector() :
 	EuclideanVector(1, 0.0) { }
 
 //construct a vector with given # dimensions & default magnitude = 0.0
-EuclideanVector::EuclideanVector(size_t n_dim) :
-	EuclideanVector(n_dim, 0.0) { }
+EuclideanVector::EuclideanVector(size_t dim) :
+	EuclideanVector(dim, 0.0) { }
 
 //construct a vector with given # dimensions & given magnitude
-EuclideanVector::EuclideanVector(size_t n_dim, Scalar mag) {
-	_dimension = n_dim;
+EuclideanVector::EuclideanVector(size_t dim, Scalar mag) {
+	_dimension = dim;
 	_vector = new Scalar[_dimension];
 	std::fill(_vector, _vector + _dimension, mag);
 }
@@ -60,10 +62,10 @@ EuclideanVector::EuclideanVector(const EuclideanVector& e) {
 
 //move constructor
 EuclideanVector::EuclideanVector(EuclideanVector&& e) noexcept :
-	_vector(nullptr), _dimension(0) {
-	_vector = e._vector;
+	_vector{nullptr}, _dimension{0} {
+	_vector = e._vector; //copy over pointer and dimension
 	_dimension = e._dimension;
-	e._vector = nullptr;
+	e._vector = nullptr; //avoid multiple frees
 	e._dimension = 0;
 }
 
@@ -77,7 +79,7 @@ EuclideanVector::~EuclideanVector() {
 //copy assignment operator
 EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 	if (this != &e) {
-		delete [] _vector;
+		delete [] _vector; //delete existing resource
 		_dimension = e._dimension;
 		_vector = new Scalar[_dimension];
 		std::copy(e._vector, e._vector + e._dimension, _vector);
@@ -88,10 +90,10 @@ EuclideanVector& EuclideanVector::operator=(const EuclideanVector& e) {
 //move assignment operator
 EuclideanVector& EuclideanVector::operator=(EuclideanVector&& e) noexcept {
 	if (this != &e) {
-		delete [] _vector;
-		_dimension = e._dimension;
+		delete [] _vector; //delete existing resource
+		_dimension = e._dimension; //copy over pointer and dimension
 		_vector = e._vector;
-		e._vector = nullptr;
+		e._vector = nullptr; //avoid multiple frees
 		e._dimension = 0;
 	}
 	return *this;
@@ -113,10 +115,13 @@ Scalar EuclideanVector::get(size_t pos) const {
 Scalar EuclideanVector::getEuclideanNorm() const {
 	if (_changed == false) return _norm;
 	Scalar norm = 0;
+
+	//compute sqrt(v_1^2 + v_2^2 + ... + v_n^2)
 	std::for_each(_vector, _vector + _dimension, [&norm](const Scalar& mag) {
 		norm += pow(mag, 2);
 	});
 	_norm = sqrt(norm); //cache norm in mutable field
+
 	_changed = false;
 	return _norm;
 }
@@ -125,16 +130,19 @@ Scalar EuclideanVector::getEuclideanNorm() const {
 EuclideanVector EuclideanVector::createUnitVector() const {
 	Scalar norm = getEuclideanNorm();
 	std::vector<Scalar> magnitudes;
+
+	//create a new vector containing [v_1/norm, v_2/norm, ..., v_n/norm]
 	std::for_each(_vector, _vector + _dimension, [&magnitudes, &norm](const Scalar& mag) {
 		magnitudes.push_back(mag/norm);
 	});
 	EuclideanVector unit{magnitudes.begin(), magnitudes.end()};
+
 	return unit;
 }
 
 //set the magnitude in the given dimension
 Scalar& EuclideanVector::operator[](size_t i) {
-	if (i >= _dimension) throw std::out_of_range("Index too large");
+	if (i >= _dimension) throw std::out_of_range("Index too large"); //unnecessary
 	_changed = true;
 	return _vector[i];
 }
@@ -146,11 +154,12 @@ Scalar EuclideanVector::operator[](size_t i) const {
 }
 
 //transform the first vector by applying the given operator
-EuclideanVector& applyWith(EuclideanVector &a, const EuclideanVector &b, auto op) {
+EuclideanVector& applyWith(EuclideanVector& a, const EuclideanVector& b, auto op) {
 	if (a.getNumDimensions() != b.getNumDimensions()) {
 		throw std::invalid_argument("Vectors must have same dimension");
 	}
 	for (size_t i = 0; i < a.getNumDimensions(); ++i) {
+		//update the magnitude in a[i] by applying op to a[i] and b[i]
 		a[i] = op(a[i], b[i]);
 	}
 	return a;
@@ -169,8 +178,9 @@ EuclideanVector& EuclideanVector::operator-=(const EuclideanVector& rhs) {
 }
 
 //transform the given vector by applying the given operator
-EuclideanVector& applyWith(EuclideanVector &a, const Scalar& c, auto op) {
+EuclideanVector& applyWith(EuclideanVector& a, const Scalar& c, auto op) {
 	for (size_t i = 0; i < a.getNumDimensions(); ++i) {
+		//update the magnitude in a[i] by applying op to a[i] and c
 		a[i] = op(a[i], c);
 	}
 	return a;
@@ -252,14 +262,17 @@ EuclideanVector operator/(const EuclideanVector& a, const Scalar& b) {
 	return c;
 }
 
-//print vector in the form [v1 v2 v3 ...]
-std::ostream& operator<<(std::ostream &os, const EuclideanVector &v) {
+//print the Euclidean vector in the form [v1 v2 v3 ...]
+std::ostream& operator<<(std::ostream& os, const EuclideanVector& v) {
 	std::cout << "[";
+
 	//write first n-1 magnitudes sequentially, space-delimited
 	std::ostream_iterator<Scalar> output(std::cout, " ");
 	std::copy(v._vector, v._vector + v._dimension - 1, output);
+
 	//then write the last magnitude (without a trailing space)
 	if (v._dimension > 0) std::cout << v._vector[v._dimension - 1];
+
 	std::cout << "]";
 	return os;
 }
