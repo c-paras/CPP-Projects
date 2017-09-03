@@ -69,23 +69,31 @@ int main() {
 		evec::EuclideanVector b{1, 4, 9.9, 4, -62.8, 3};
 		std::cout << a << std::endl;
 		std::cout << b << std::endl;
-		evec::EuclideanVector copy_a(a);
-		evec::EuclideanVector copy_b(b);
+		evec::EuclideanVector copy_a(a); //copy constructor
+		evec::EuclideanVector copy_b{b};
 		std::cout << copy_a << std::endl;
 		std::cout << copy_b << std::endl;
-		evec::EuclideanVector move_a(a);
-		evec::EuclideanVector move_b(b);
+		std::cout << a << std::endl; //check that a and b are in valid state
+		std::cout << b << std::endl;
+		evec::EuclideanVector move_a = std::move(a); //move constructor
+		evec::EuclideanVector move_b{std::move(b)};
 		std::cout << move_a << std::endl;
 		std::cout << move_b << std::endl;
+		std::cout << a << std::endl; //check that a and b are in valid state
+		std::cout << b << std::endl;
 	}
 
 	//copy and move assignment operators
 	{
 		evec::EuclideanVector a{72, 34, 5, -7};
 		std::cout << a << std::endl;
-		evec::EuclideanVector b{a};
+		evec::EuclideanVector b;
+		b = a; //copy assignment
+		std::cout << a << std::endl; //check that a is in a valid state
 		std::cout << b << std::endl;
-		evec::EuclideanVector c{std::move(a)};
+		evec::EuclideanVector c;
+		c = std::move(a); //move assignment
+		std::cout << a << std::endl; //check that a is in a valid state
 		std::cout << c << std::endl;
 	}
 
