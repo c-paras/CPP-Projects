@@ -129,13 +129,13 @@ Scalar EuclideanVector::getEuclideanNorm() const {
 //return the unit vector for the Euclidean vector
 EuclideanVector EuclideanVector::createUnitVector() const {
 	Scalar norm = getEuclideanNorm();
-	std::vector<Scalar> magnitudes;
+	EuclideanVector unit = *this;
 
-	//create a new vector containing [v_1/norm, v_2/norm, ..., v_n/norm]
-	std::for_each(_vector, _vector + _dimension, [&magnitudes, &norm](const Scalar& mag) {
-		magnitudes.push_back(mag/norm);
+	//divide all the magnitudes by the norm
+	std::transform(unit._vector, unit._vector + unit._dimension,
+	unit._vector, [&norm](const Scalar& mag) {
+		return mag / norm;
 	});
-	EuclideanVector unit{magnitudes.begin(), magnitudes.end()};
 
 	return unit;
 }
@@ -262,7 +262,7 @@ EuclideanVector operator/(const EuclideanVector& a, const Scalar& b) {
 	return c;
 }
 
-//print the Euclidean vector in the form [v1 v2 v3 ...]
+//print the Euclidean vector in the form [v_1 v_2 v_3 ... v_n]
 std::ostream& operator<<(std::ostream& os, const EuclideanVector& v) {
 	std::cout << "[";
 
