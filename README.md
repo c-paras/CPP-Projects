@@ -5,6 +5,7 @@ These programs were built and tested on Ubuntu 64-bit 16.04 LTS using G++ versio
 
 * calculator - A stack-based calculator that reads tokens from a file
 * EuclideanVector - A Euclidean Vector class library
+* GDWG - A generic directed weighted graph
 
 Copyright (C) 2017 Costa Paraskevopoulos
 
