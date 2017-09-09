@@ -71,61 +71,7 @@ namespace gdwg {
 
 	};
 
-	//#include "Graph.tem"
-
-	/*
-	 * Adds a new Node with value val to the Graph. Returns true if the
-	 * Node is added to the Graph and false if there is already a Node
-	 * containing val in the Graph (with the Graph unchanged).
-	 */
-	template <typename N, typename E>
-	bool Graph<N, E>::addNode(const N& val) {
-		if (isNode(val) == false) {
-			auto node = std::make_shared<Node>(val);
-			nodes.push_back(node);
-			std::sort(nodes.begin(), nodes.end(),
-			[](const std::shared_ptr<Node>& lhs, const std::shared_ptr<Node>& rhs) {
-				if (lhs->outDegree() != rhs->outDegree()) {
-					return lhs->outDegree() < rhs->outDegree();
-				} else {
-					return lhs->getData() < rhs->getData();
-				}
-			});
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/*
-	 * Prints the data stored in all the Nodes in the graph, with one Node
-	 * per line, starting from the Node with the smallest outdgree to the
-	 * Node with the largest. If two Nodes have the same Edge count, then
-	 * the one with the smaller Node value determined by the < operator is
-	 * printed first.
-	 */
-	template <typename N, typename E>
-	void Graph<N, E>::printNodes() const {
-		for (const auto& node: nodes) {
-			std::cout << node->getData() << "\n";
-		}
-	}
-
-	/*
-	 * Returns true if a Node with value val exists in the Graph
-	 * and false otherwise.
-	 */
-	template <typename N, typename E>
-	bool Graph<N, E>::isNode(const N& val) const {
-		for (const auto& node: nodes) {
-			//equality may not be defined on N
-			if (!(node->getData() < val) && !(node->getData() > val)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
+	#include "Graph.tem"
 }
 
 #endif
