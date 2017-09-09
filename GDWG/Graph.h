@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 #ifndef GRAPH_H
 #define GRAPH_H
@@ -26,7 +27,7 @@ namespace gdwg {
 		Graph& operator=(const Graph& g) = default;
 		Graph& operator=(Graph&& g) noexcept = default;
 
-		//graph operations
+		//standard Graph operations
 		bool addNode(const N& val);
 		bool addEdge(const N& src, const N& dst, const E& w);
 		bool replace(const N& oldData, const N& newData);
@@ -39,7 +40,7 @@ namespace gdwg {
 		void printNodes() const;
 		void printEdges(const N& val) const;
 
-		//iterator for enumerating node values in the graph
+		//iterator for enumerating Node values in the Graph
 		void begin() const;
 		bool end() const;
 		void next() const;
@@ -47,13 +48,15 @@ namespace gdwg {
 	private:
 		class Node;
 		class Edge;
-		std::vector<std::unique_ptr<Node>> nodes; //a graph is a vector of Nodes
+		std::vector<std::shared_ptr<Node>> nodes; //a Graph is a vector of Nodes
 
 		class Node {
 		public:
-
+			Node(N val) : data{val} { }
+			N getData() const { return data; }
+			size_t outDegree() const { return edges.size(); }
 		private:
-			N data; //a node consists of its data of type N
+			N data; //a Node consists of its data of type N
 			std::vector<std::weak_ptr<Edge>> edges; //and a vector of its outgoing Edges
 		};
 
@@ -68,7 +71,61 @@ namespace gdwg {
 
 	};
 
-	#include "Graph.tem"
+	//#include "Graph.tem"
+
+	/*
+	 * Adds a new Node with value val to the Graph. Returns true if the
+	 * Node is added to the Graph and false if there is already a Node
+	 * containing val in the Graph (with the Graph unchanged).
+	 */
+	template <typename N, typename E>
+	bool Graph<N, E>::addNode(const N& val) {
+		if (isNode(val) == false) {
+			auto node = std::make_shared<Node>(val);
+			nodes.push_back(node);
+			std::sort(nodes.begin(), nodes.end(),
+			[](const std::shared_ptr<Node>& lhs, const std::shared_ptr<Node>& rhs) {
+				if (lhs->outDegree() != rhs->outDegree()) {
+					return lhs->outDegree() < rhs->outDegree();
+				} else {
+					return lhs->getData() < rhs->getData();
+				}
+			});
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/*
+	 * Prints the data stored in all the Nodes in the graph, with one Node
+	 * per line, starting from the Node with the smallest outdgree to the
+	 * Node with the largest. If two Nodes have the same Edge count, then
+	 * the one with the smaller Node value determined by the < operator is
+	 * printed first.
+	 */
+	template <typename N, typename E>
+	void Graph<N, E>::printNodes() const {
+		for (const auto& node: nodes) {
+			std::cout << node->getData() << "\n";
+		}
+	}
+
+	/*
+	 * Returns true if a Node with value val exists in the Graph
+	 * and false otherwise.
+	 */
+	template <typename N, typename E>
+	bool Graph<N, E>::isNode(const N& val) const {
+		for (const auto& node: nodes) {
+			//equality may not be defined on N
+			if (!(node->getData() < val) && !(node->getData() > val)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
 
 #endif
