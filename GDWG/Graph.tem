@@ -1,13 +1,8 @@
 /*
  * Copyright (C) 2017 Costa Paraskevopoulos.
- * ...
+ * Implementation for the generic directed weighted graph.
  */
-
-#ifndef GRAPH_H
-#define GRAPH_H
 
 namespace gdwg {
 
 }
-
-#endif
