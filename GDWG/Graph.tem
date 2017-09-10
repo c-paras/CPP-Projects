@@ -3,6 +3,12 @@
  * Implementation for the generic directed weighted graph.
  */
 
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <memory>
+
 /*
  * Adds a new Node with value val to the Graph. Returns true if the
  * Node is added to the Graph and false if there is already a Node
