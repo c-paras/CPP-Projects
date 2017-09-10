@@ -4,12 +4,11 @@ CFLAGS=-std=c++14 -Wall -Werror -O2
 graph: tests/Graph.h tests/Graph.tem
 	cd tests && \
 	$(CC) $(CFLAGS) -o ../graph test$(test).cpp && \
-	rm -f tests/Graph.h tests/Graph.tem && \
+	touch ../graph -t 201612141350.12 && \
 	cd .. && \
 	./graph | diff tests/result$(test).txt - && \
 	printf "\nTest passed\n"; \
-	rm -f tests/Graph.h tests/Graph.tem && \
-	touch graph -t 201612141350.12
+	rm -f tests/Graph.h tests/Graph.tem
 
 tests/Graph.h:
 	cd tests && \
