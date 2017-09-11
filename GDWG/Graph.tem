@@ -57,10 +57,7 @@ void gdwg::Graph<N, E>::printNodes() const {
 template <typename N, typename E>
 bool gdwg::Graph<N, E>::isNode(const N& val) const {
 	for (const auto& node: nodes) {
-		//equality may not be defined on N
-		if (!(node->getData() < val) && !(node->getData() > val)) {
-			return true;
-		}
+		if (node->getData() == val) return true;
 	}
 	return false;
 }
@@ -72,10 +69,7 @@ bool gdwg::Graph<N, E>::isNode(const N& val) const {
 template <typename N, typename E>
 auto gdwg::Graph<N, E>::getNode(const N& val) const {
 	for (const auto& node: nodes) {
-		//equality may not be defined on N
-		if (!(node->getData() < val) && !(node->getData() > val)) {
-			return node;
-		}
+		if (node->getData() == val) return node;
 	}
 	return std::shared_ptr<Node>(nullptr);
 }
