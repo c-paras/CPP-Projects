@@ -19,6 +19,8 @@ bool gdwg::Graph<N, E>::addNode(const N& val) {
 	if (isNode(val) == false) {
 		auto node = std::make_shared<Node>(val);
 		nodes.push_back(node);
+
+		//sort the nodes straight away
 		std::sort(nodes.begin(), nodes.end(),
 		[](const std::shared_ptr<Node>& lhs, const std::shared_ptr<Node>& rhs) {
 			if (lhs->outDegree() != rhs->outDegree()) {
@@ -27,6 +29,7 @@ bool gdwg::Graph<N, E>::addNode(const N& val) {
 				return lhs->getData() < rhs->getData();
 			}
 		});
+
 		return true;
 	} else {
 		return false;
@@ -60,4 +63,82 @@ bool gdwg::Graph<N, E>::isNode(const N& val) const {
 		}
 	}
 	return false;
+}
+
+/*
+ * Returns a shared pointer to a Node with value val if it exists in the
+ * Graph and a nullptr otherwise.
+ */
+template <typename N, typename E>
+auto gdwg::Graph<N, E>::getNode(const N& val) const {
+	for (const auto& node: nodes) {
+		//equality may not be defined on N
+		if (!(node->getData() < val) && !(node->getData() > val)) {
+			return node;
+		}
+	}
+	return std::shared_ptr<Node>(nullptr);
+}
+
+/*
+ * Adds the Edge e to the Node's outgoing Edge set. Returns false if
+ * the Edge already exists and true otherwise.
+ */
+template <typename N, typename E>
+bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
+	for (const auto& edge: edges) {
+		if (edge->getDest() == e.getDest() && edge->getWeight() == e.getWeight()) {
+			return false;
+		}
+	}
+	auto edge = std::make_shared<Edge>(e);
+	edges.push_back(edge);
+	//sort the edges straight away
+	std::sort(edges.begin(), edges.end(),
+	[](const std::shared_ptr<Edge>& lhs, const std::shared_ptr<Edge>& rhs) {
+		if (lhs->getWeight() != rhs->getWeight()) {
+			return lhs->getWeight() < rhs->getWeight();
+		} else {
+			return lhs->getDest()->outDegree() < rhs->getDest()->outDegree();
+		}
+	});
+	return true;
+}
+
+/*
+ * Adds a new Edge src -> dst with weight w. Returns true if the Edge is
+ * added and false if the Edge src -> dst with weight w already exists in
+ * the Graph. Throws std::runtime_error if src or dst is not in the Graph.
+ */
+template <typename N, typename E>
+bool gdwg::Graph<N, E>::addEdge(const N& src, const N& dst, const E& w) {
+	auto s = getNode(src);
+	auto d = getNode(dst);
+	if (s == nullptr || d == nullptr) {
+		throw std::runtime_error("Both Nodes must be in the Graph");
+	}
+	return s->addEdge(Edge(s, d, w));
+}
+
+/*
+ * Prints the outoing Edges of this Node.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::Node::showEdges() const {
+	if (edges.size() == 0) std::cout << "(null)\n";
+	for (const auto& e: edges) {
+		std::cout << e->getDest()->getData() << " " << e->getWeight() << "\n";
+	}
+}
+
+/*
+ * Prints the outgoing edges of the Node with value val in increasing
+ * order of weight. If two Edges have the saem weight, then the Edge
+ * whose destination Node has a smaller node value is printed first.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::printEdges(const N& val) const {
+	auto node = getNode(val);
+	std::cout << "Edges attached to Node " << node->getData() << "\n";
+	node->showEdges();
 }
