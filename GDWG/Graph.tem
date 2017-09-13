@@ -135,7 +135,7 @@ template <typename N, typename E>
 void gdwg::Graph<N, E>::printEdges(const N& val) const {
 	auto node = getNode(val);
 	if (node == nullptr) {
-		throw std::runtime_error("Node does not exist");
+		throw std::runtime_error("Node does not exist in Graph");
 	}
 	std::cout << "Edges attached to Node " << node->getData() << "\n";
 	node->showEdges();
@@ -164,6 +164,28 @@ bool gdwg::Graph<N ,E>::isConnected(const N& src, const N& dst) const {
 		throw std::runtime_error("Both Nodes must be in the Graph");
 	}
 	return s->isEdge(*d);
+}
+
+/*
+ * Replaces the original data stored at the particular Node with the value
+ * oldData by the replacement data, newData. Returns false if a Node that
+ * contains the value newData already exists in the Graph (with the Graph
+ * unchanged) and true otherwise. Throws std::runtime_error if no Node
+ * with value oldData can be found in the Graph.
+ */
+template <typename N, typename E>
+bool gdwg::Graph<N, E>::replace(const N& oldData, const N& newData) {
+	auto node = getNode(oldData);
+	auto dest = getNode(newData);
+	if (node == nullptr) {
+		throw std::runtime_error("Node does not exist in Graph");
+	}
+	if (dest == nullptr) {
+		node->setData(newData);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /*

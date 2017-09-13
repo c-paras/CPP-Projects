@@ -53,6 +53,7 @@ namespace gdwg {
 		public:
 			Node(N val) : data{val} { }
 			N getData() const { return data; }
+			void setData(const N& val) { data = val; }
 			size_t outDegree() const { return edges.size(); }
 			bool addEdge(const Edge& e);
 			void showEdges() const;
