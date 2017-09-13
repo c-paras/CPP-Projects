@@ -129,12 +129,27 @@ void gdwg::Graph<N, E>::Node::showEdges() const {
  * Prints the outgoing edges of the Node with value val in increasing
  * order of weight. If two Edges have the same weight, then the Edge
  * whose destination Node has a smaller Node value is printed first.
+ * Throws std::runtime_error if the Node does not exist in the Graph.
  */
 template <typename N, typename E>
 void gdwg::Graph<N, E>::printEdges(const N& val) const {
 	auto node = getNode(val);
+	if (node == nullptr) {
+		throw std::runtime_error("Node does not exist");
+	}
 	std::cout << "Edges attached to Node " << node->getData() << "\n";
 	node->showEdges();
+}
+
+/*
+ * Returns true if there is an Edge from this Node to n; false otherwise,
+ */
+template <typename N, typename E>
+bool gdwg::Graph<N, E>::Node::isEdge(const Node& n) const {
+	for (const auto& e: edges) {
+		if (e->getDest()->data == n.data) return true;
+	}
+	return false;
 }
 
 /*
@@ -143,9 +158,12 @@ void gdwg::Graph<N, E>::printEdges(const N& val) const {
  */
 template <typename N, typename E>
 bool gdwg::Graph<N ,E>::isConnected(const N& src, const N& dst) const {
-//	auto s = getNode(src);
-//	auto d = getNode(dst);
-	return false; //TODO
+	auto s = getNode(src);
+	auto d = getNode(dst);
+	if (s == nullptr || d == nullptr) {
+		throw std::runtime_error("Both Nodes must be in the Graph");
+	}
+	return s->isEdge(*d);
 }
 
 /*
