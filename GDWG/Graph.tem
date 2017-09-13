@@ -189,5 +189,35 @@ bool gdwg::Graph<N, E>::replace(const N& oldData, const N& newData) {
 }
 
 /*
+ * Moves all incoming and outgoing Edges from the Node with value oldData
+ * to the Node with value newData and deletes the Node with value oldData.
+ * Duplicate Egdes are removed in the process. Throws std::runtime_error
+ * if either Node does not exist in the Graph.
+ */
 template <typename N, typename E>
+void gdwg::Graph<N, E>::mergeReplace(const N& oldData, const N& newData) {
+	auto src = getNode(oldData);
+	auto dst = getNode(newData);
+	if (src == nullptr || dst == nullptr) {
+		throw std::runtime_error("Both Nodes must be in the Graph");
+	}
+	for (const auto& e: src->getEdges()) {
+		addEdge(newData, e->getDest()->getData(), e->getWeight());
+	}
+	for (const auto& node: nodes) {
+		for (const auto& e: node->getEdges()) {
+			if (e->getDest()->getData() == oldData) {
+				e->setDest(dst);
+			}
+		}
+	}
+	nodes.erase(std::remove_if(nodes.begin(), nodes.end(),
+	[&oldData](const auto& n) {
+		return n->getData() == oldData;
+	}), nodes.end());
+}
+
+/*
+template <typename N, typename E>
+gdwg::Graph<N, E>::
 */

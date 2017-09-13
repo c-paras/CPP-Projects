@@ -57,6 +57,7 @@ namespace gdwg {
 			size_t outDegree() const { return edges.size(); }
 			bool addEdge(const Edge& e);
 			void showEdges() const;
+			std::vector<std::shared_ptr<Edge>> getEdges() const { return edges; }
 			bool isEdge(const Node& n) const;
 		private:
 			N data; //a Node consists of its data of type N
@@ -69,6 +70,7 @@ namespace gdwg {
 				src{src}, dst{dst}, weight{w} { }
 			std::shared_ptr<Node> getDest() const { return dst; }
 			E getWeight() const { return weight; }
+			void setDest(const std::shared_ptr<Node>& node) { dst = node; }
 		private:
 			std::shared_ptr<Node> src; //an Edge consists of a source Node,
 			std::shared_ptr<Node> dst; //a destination Node
