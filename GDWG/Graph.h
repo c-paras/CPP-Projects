@@ -57,6 +57,7 @@ namespace gdwg {
 			size_t outDegree() const { return edges.size(); }
 			bool addEdge(const Edge& e);
 			void showEdges() const;
+			void deleteEdge(const N& dst, const E& weight) noexcept;
 			std::vector<std::shared_ptr<Edge>> getEdges() const { return edges; }
 			bool isEdge(const Node& n) const;
 		private:

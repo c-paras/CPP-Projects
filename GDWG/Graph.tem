@@ -218,6 +218,28 @@ void gdwg::Graph<N, E>::mergeReplace(const N& oldData, const N& newData) {
 }
 
 /*
+ * Deletes the Edge from to dst with weight w if it exists.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::Node::deleteEdge(const N& dst, const E& weight) noexcept {
+	edges.erase(std::remove_if(edges.begin(), edges.end(),
+	[&dst, &weight](const auto& e) {
+		return e->getDest()->getData() == dst && e->getWeight() == weight;
+	}), edges.end());
+}
+
+/*
+ * Deletes the Edge from src to dst with weight w if it exists.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::deleteEdge(const N& src, const N& dst, const E& w) noexcept {
+	auto n1 = getNode(src);
+	auto n2 = getNode(dst);
+	if (n1 == nullptr || n2 == nullptr) return;
+	n1->deleteEdge(dst, w);
+}
+
+/*
 template <typename N, typename E>
 gdwg::Graph<N, E>::
 */
