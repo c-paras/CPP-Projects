@@ -31,7 +31,7 @@ namespace gdwg {
 		bool addEdge(const N& src, const N& dst, const E& w);
 		bool replace(const N& oldData, const N& newData);
 		void mergeReplace(const N& oldData, const N& newData);
-		void deleteNode(const N&) noexcept;
+		void deleteNode(const N& val) noexcept;
 		void deleteEdge(const N& src, const N& dst, const E& w) noexcept;
 		void clear() noexcept;
 		bool isNode(const N& val) const;
@@ -62,7 +62,7 @@ namespace gdwg {
 			bool isEdge(const Node& n) const;
 		private:
 			N data; //a Node consists of its data of type N
-			std::vector<std::shared_ptr<Edge>> edges; //and a vector of its outgoing Edges
+			std::vector<std::weak_ptr<Edge>> edges; //and a vector of its outgoing Edges
 		};
 
 		class Edge {

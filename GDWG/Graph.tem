@@ -79,13 +79,14 @@ auto gdwg::Graph<N, E>::getNode(const N& val) const {
 template <typename N, typename E>
 bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
 	for (const auto& edge: edges) {
-		if (edge->getDest() == e.getDest() && edge->getWeight() == e.getWeight()) {
+		auto ep = edge.lock();
+		if (ep && e.getDest() == ep->getDest() && e.getWeight() == ep->getWeight()) {
 			return false;
 		}
 	}
 	auto edge = std::make_shared<Edge>(e);
 	edges.push_back(edge);
-
+/*
 	//sort the edges straight away
 	std::sort(edges.begin(), edges.end(),
 	[](const std::shared_ptr<Edge>& lhs, const std::shared_ptr<Edge>& rhs) {
@@ -95,7 +96,7 @@ bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
 			return lhs->getDest()->outDegree() < rhs->getDest()->outDegree();
 		}
 	});
-
+*/
 	return true;
 }
 
@@ -121,7 +122,10 @@ template <typename N, typename E>
 void gdwg::Graph<N, E>::Node::showEdges() const {
 	if (edges.size() == 0) std::cout << "(null)\n";
 	for (const auto& e: edges) {
-		std::cout << e->getDest()->getData() << " " << e->getWeight() << "\n";
+		auto we = e.lock();
+		if (we == nullptr) continue;
+//std::cout << "aaaaaa\n";
+		std::cout << we->getDest()->getData() << " " << we->getWeight() << "\n";
 	}
 }
 
@@ -237,6 +241,15 @@ void gdwg::Graph<N, E>::deleteEdge(const N& src, const N& dst, const E& w) noexc
 	auto n2 = getNode(dst);
 	if (n1 == nullptr || n2 == nullptr) return;
 	n1->deleteEdge(dst, w);
+}
+
+/*
+ * Deletes a given Node and all its associated incoming and outgoing
+ * Edges. The Graph is unchanged if the Node does not exist.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::deleteNode(const N& val) noexcept {
+	
 }
 
 /*
