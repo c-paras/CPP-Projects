@@ -62,7 +62,7 @@ namespace gdwg {
 			bool isEdge(const Node& n) const;
 		private:
 			N data; //a Node consists of its data of type N
-			std::vector<std::weak_ptr<Edge>> edges; //and a vector of its outgoing Edges
+			std::vector<std::shared_ptr<Edge>> edges; //and a vector of its outgoing Edges
 		};
 
 		class Edge {

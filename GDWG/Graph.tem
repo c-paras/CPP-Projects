@@ -79,14 +79,13 @@ auto gdwg::Graph<N, E>::getNode(const N& val) const {
 template <typename N, typename E>
 bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
 	for (const auto& edge: edges) {
-		auto ep = edge.lock();
-		if (ep && e.getDest() == ep->getDest() && e.getWeight() == ep->getWeight()) {
+		if (edge->getDest() == e.getDest() && edge->getWeight() == e.getWeight()) {
 			return false;
 		}
 	}
 	auto edge = std::make_shared<Edge>(e);
 	edges.push_back(edge);
-/*
+
 	//sort the edges straight away
 	std::sort(edges.begin(), edges.end(),
 	[](const std::shared_ptr<Edge>& lhs, const std::shared_ptr<Edge>& rhs) {
@@ -96,7 +95,7 @@ bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
 			return lhs->getDest()->outDegree() < rhs->getDest()->outDegree();
 		}
 	});
-*/
+
 	return true;
 }
 
@@ -122,10 +121,7 @@ template <typename N, typename E>
 void gdwg::Graph<N, E>::Node::showEdges() const {
 	if (edges.size() == 0) std::cout << "(null)\n";
 	for (const auto& e: edges) {
-		auto we = e.lock();
-		if (we == nullptr) continue;
-//std::cout << "aaaaaa\n";
-		std::cout << we->getDest()->getData() << " " << we->getWeight() << "\n";
+		std::cout << e->getDest()->getData() << " " << e->getWeight() << "\n";
 	}
 }
 
@@ -249,7 +245,23 @@ void gdwg::Graph<N, E>::deleteEdge(const N& src, const N& dst, const E& w) noexc
  */
 template <typename N, typename E>
 void gdwg::Graph<N, E>::deleteNode(const N& val) noexcept {
-	
+	auto n = getNode(val);
+	if (n == nullptr) return;
+
+	//remove all incoming edges first
+	for (const auto& node: nodes) {
+		for (const auto& e: node->getEdges()) {
+			if (e->getDest()->getData() == val) {
+				deleteEdge(node->getData(), val, e->getWeight());
+			}
+		}
+	}
+
+	//then remove the node itself
+	nodes.erase(std::remove_if(nodes.begin(), nodes.end(),
+	[&val](const auto& n) {
+		return n->getData() == val;
+	}), nodes.end());
 }
 
 /*
