@@ -265,6 +265,14 @@ void gdwg::Graph<N, E>::deleteNode(const N& val) noexcept {
 }
 
 /*
+ * Removes all Nodes and Edges from the Graph.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::clear() noexcept {
+	nodes.clear();
+}
+
+/*
 template <typename N, typename E>
 gdwg::Graph<N, E>::
 */
