@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 Costa Paraskevopoulos.
- * Interface for the generic directed weighted graph.
+ * Interface for the Generic Directed Weighted Graph.
  */
 
 #include <algorithm>
@@ -48,6 +48,7 @@ namespace gdwg {
 		class Node;
 		class Edge;
 		std::vector<std::shared_ptr<Node>> nodes; //a Graph is a vector of Nodes
+		mutable typename std::vector<std::shared_ptr<Node>>::const_iterator current; //current Node (iterator)
 
 		class Node {
 		public:

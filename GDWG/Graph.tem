@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 Costa Paraskevopoulos.
- * Implementation for the generic directed weighted graph.
+ * Implementation for the Generic Directed Weighted Graph.
  */
 
 #include <algorithm>
@@ -320,6 +320,35 @@ Graph<N, E>& gdwg::Graph<N, E>::operator=(Graph&& g) noexcept {
 }
 
 /*
+ * Sets an internal iterator to the first Node in the Graph.
+ */
 template <typename N, typename E>
-gdwg::Graph<N, E>::
-*/
+void gdwg::Graph<N, E>::begin() const {
+	current = nodes.begin();
+}
+
+/*
+ * Returns true if the iterator goes past the last Node; false otherwise.
+ */
+template <typename N, typename E>
+bool gdwg::Graph<N, E>::end() const {
+	return current == nodes.end();
+}
+
+/*
+ * Moves the iterator to the next Node in the Graph.
+ */
+template <typename N, typename E>
+void gdwg::Graph<N, E>::next() const {
+	++current;
+}
+
+/*
+ * Returns the value of the Node pointed to by the iterator.
+ */
+template <typename N, typename E>
+const N& gdwg::Graph<N, E>::value() const {
+	static N copy;
+	copy = (*current)->getData();
+	return copy;
+}
