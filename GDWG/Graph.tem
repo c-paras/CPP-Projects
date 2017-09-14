@@ -35,6 +35,8 @@ bool gdwg::Graph<N, E>::addNode(const N& val) {
 template <typename N, typename E>
 void gdwg::Graph<N, E>::printNodes() const {
 	std::vector<std::shared_ptr<Node>> sorted = nodes;
+
+	//sort the nodes first
 	std::sort(sorted.begin(), sorted.end(),
 	[](const std::shared_ptr<Node>& lhs, const std::shared_ptr<Node>& rhs) {
 		if (lhs->outDegree() != rhs->outDegree()) {
@@ -43,6 +45,7 @@ void gdwg::Graph<N, E>::printNodes() const {
 			return lhs->getData() < rhs->getData();
 		}
 	});
+
 	for (const auto& node: sorted) {
 		std::cout << node->getData() << "\n";
 	}
@@ -85,17 +88,6 @@ bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
 	}
 	auto edge = std::make_shared<Edge>(e);
 	edges.push_back(edge);
-
-	//sort the edges straight away
-	std::sort(edges.begin(), edges.end(),
-	[](const std::shared_ptr<Edge>& lhs, const std::shared_ptr<Edge>& rhs) {
-		if (lhs->getWeight() != rhs->getWeight()) {
-			return lhs->getWeight() < rhs->getWeight();
-		} else {
-			return lhs->getDest()->outDegree() < rhs->getDest()->outDegree();
-		}
-	});
-
 	return true;
 }
 
@@ -120,7 +112,19 @@ bool gdwg::Graph<N, E>::addEdge(const N& src, const N& dst, const E& w) {
 template <typename N, typename E>
 void gdwg::Graph<N, E>::Node::showEdges() const {
 	if (edges.size() == 0) std::cout << "(null)\n";
-	for (const auto& e: edges) {
+	std::vector<std::shared_ptr<Edge>> sorted = edges;
+
+	//sort the edges first
+	std::sort(sorted.begin(), sorted.end(),
+	[](const std::shared_ptr<Edge>& lhs, const std::shared_ptr<Edge>& rhs) {
+		if (lhs->getWeight() != rhs->getWeight()) {
+			return lhs->getWeight() < rhs->getWeight();
+		} else {
+			return lhs->getDest()->outDegree() < rhs->getDest()->outDegree();
+		}
+	});
+
+	for (const auto& e: sorted) {
 		std::cout << e->getDest()->getData() << " " << e->getWeight() << "\n";
 	}
 }
@@ -270,6 +274,49 @@ void gdwg::Graph<N, E>::deleteNode(const N& val) noexcept {
 template <typename N, typename E>
 void gdwg::Graph<N, E>::clear() noexcept {
 	nodes.clear();
+}
+
+/*
+ * Copy constructs a Graph.
+ */
+template <typename N, typename E>
+gdwg::Graph<N, E>::Graph(const Graph& g) {
+	for (const auto& node: g.nodes) {
+		nodes.push_back(std::make_shared<Node>(*node));
+	}
+}
+
+/*
+ * Move constructs a Graph.
+ */
+template <typename N, typename E>
+gdwg::Graph<N, E>::Graph(Graph&& g) noexcept {
+	nodes = std::move(g.nodes);
+}
+
+/*
+ * Copy assignment operator for a Graph.
+ */
+template <typename N, typename E>
+Graph<N, E>& gdwg::Graph<N, E>::operator=(const Graph& g) {
+	if (this != &g) {
+		nodes.clear(); //remove existing nodes
+		for (const auto& node: g.nodes) {
+			nodes.push_back(std::make_shared<Node>(*node));
+		}
+	}
+	return *this;
+}
+
+/*
+ * Move assignment operator for a Graph.
+ */
+template <typename N, typename E>
+Graph<N, E>& gdwg::Graph<N, E>::operator=(Graph&& g) noexcept {
+	if (this != &g) {
+		nodes = std::move(g.nodes);
+	}
+	return *this;
 }
 
 /*
