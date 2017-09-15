@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <cassert>
 
 /*
  * Adds a new Node with value val to the Graph. Returns true if the
@@ -27,7 +28,7 @@ bool gdwg::Graph<N, E>::addNode(const N& val) {
 
 /*
  * Prints the data stored in all the Nodes in the graph, with one Node
- * per line, starting from the Node with the smallest outdgree to the
+ * per line, starting from the Node with the smallest outdegree to the
  * Node with the largest. If two Nodes have the same Edge count, then
  * the one with the smaller Node value determined by the < operator is
  * printed first.
@@ -120,7 +121,7 @@ void gdwg::Graph<N, E>::Node::showEdges() const {
 		if (lhs->getWeight() != rhs->getWeight()) {
 			return lhs->getWeight() < rhs->getWeight();
 		} else {
-			return lhs->getDest()->outDegree() < rhs->getDest()->outDegree();
+			return lhs->getDest()->getData() < rhs->getDest()->getData();
 		}
 	});
 
@@ -205,9 +206,13 @@ void gdwg::Graph<N, E>::mergeReplace(const N& oldData, const N& newData) {
 	if (src == nullptr || dst == nullptr) {
 		throw std::runtime_error("Both Nodes must be in the Graph");
 	}
+
+	//move all outgoing edges from src to outgoing edges from dst
 	for (const auto& e: src->getEdges()) {
 		addEdge(newData, e->getDest()->getData(), e->getWeight());
 	}
+
+	//update the destination of all incoming edges to src to dst
 	for (const auto& node: nodes) {
 		for (const auto& e: node->getEdges()) {
 			if (e->getDest()->getData() == oldData) {
@@ -215,6 +220,8 @@ void gdwg::Graph<N, E>::mergeReplace(const N& oldData, const N& newData) {
 			}
 		}
 	}
+
+	//remove the src node
 	nodes.erase(std::remove_if(nodes.begin(), nodes.end(),
 	[&oldData](const auto& n) {
 		return n->getData() == oldData;
@@ -222,7 +229,7 @@ void gdwg::Graph<N, E>::mergeReplace(const N& oldData, const N& newData) {
 }
 
 /*
- * Deletes the Edge from to dst with weight w if it exists.
+ * Deletes the Edge from this Node to dst with weight w if it exists.
  */
 template <typename N, typename E>
 void gdwg::Graph<N, E>::Node::deleteEdge(const N& dst, const E& weight) noexcept {
@@ -340,6 +347,7 @@ bool gdwg::Graph<N, E>::end() const {
  */
 template <typename N, typename E>
 void gdwg::Graph<N, E>::next() const {
+	assert(current != nodes.end()); //sanity check
 	++current;
 }
 
