@@ -1,0 +1,1095 @@
+Create an empty graph:
+Nodes:
+Edges:
+Node does not exist in Graph
+Node does not exist in Graph
+Node does not exist in Graph
+Add some nodes:
+true
+true
+true
+Nodes:
+hello 1
+test 3
+world 2
+Edges:
+Edges attached to Node hello 1
+(null)
+Edges attached to Node world 2
+(null)
+Edges attached to Node test 3
+(null)
+Check the nodes are in the graph:
+true
+true
+true
+Check for nodes that are not in the graph:
+false
+false
+false
+Add duplicate nodes:
+false
+false
+false
+Nodes:
+hello 1
+test 3
+world 2
+Edges:
+Edges attached to Node hello 1
+(null)
+Edges attached to Node world 2
+(null)
+Edges attached to Node test 3
+(null)
+Check the nodes are still in the graph:
+true
+true
+true
+Add some edges:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+hello 1
+test 3
+world 2
+Edges:
+Edges attached to Node hello 1
+world 2 3
+world 2 5
+world 2 14
+Edges attached to Node world 2
+test 3 -824
+hello 1 -55
+test 3 0
+test 3 66
+hello 1 290
+Edges attached to Node test 3
+hello 1 1
+hello 1 66
+world 2 290
+Check that the edges exist:
+true
+true
+true
+true
+true
+Check for edges that are not in the graph:
+false
+false
+false
+false
+Call isConnected with invalid arguments:
+Both Nodes must be in the Graph
+Both Nodes must be in the Graph
+Both Nodes must be in the Graph
+Add duplicate edges:
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+Nodes:
+hello 1
+test 3
+world 2
+Edges:
+Edges attached to Node hello 1
+world 2 3
+world 2 5
+world 2 14
+Edges attached to Node world 2
+test 3 -824
+hello 1 -55
+test 3 0
+test 3 66
+hello 1 290
+Edges attached to Node test 3
+hello 1 1
+hello 1 66
+world 2 290
+Check that the edges still exist:
+true
+true
+true
+true
+true
+Add some invalid edges:
+Both Nodes must be in the Graph
+Both Nodes must be in the Graph
+Both Nodes must be in the Graph
+Add some more nodes to check ordering:
+true
+true
+true
+true
+Nodes:
+1
+10
+5
+zzzz
+hello 1
+test 3
+world 2
+Edges:
+Edges attached to Node hello 1
+world 2 3
+world 2 5
+world 2 14
+Edges attached to Node world 2
+test 3 -824
+hello 1 -55
+test 3 0
+test 3 66
+hello 1 290
+Edges attached to Node test 3
+hello 1 1
+hello 1 66
+world 2 290
+Edges attached to Node zzzz
+(null)
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+(null)
+Edges attached to Node 5
+(null)
+Check that all nodes are in the graph:
+true
+true
+true
+true
+true
+true
+true
+Add some more edges to check ordering:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+10
+zzzz
+1
+5
+hello 1
+world 2
+test 3
+Edges:
+Edges attached to Node hello 1
+world 2 3
+world 2 5
+world 2 14
+Edges attached to Node world 2
+hello 1 -824
+test 3 -824
+hello 1 -55
+hello 1 0
+test 3 0
+test 3 66
+hello 1 290
+test 3 290
+Edges attached to Node test 3
+hello 1 -130
+hello 1 -129
+hello 1 -128
+hello 1 1
+world 2 1
+hello 1 66
+world 2 66
+hello 1 290
+world 2 290
+Edges attached to Node zzzz
+(null)
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+zzzz 0
+Edges attached to Node 5
+10 -25
+zzzz -25
+Check that all nodes are still in the graph:
+true
+true
+true
+true
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Delete some nodes not in the graph:
+Nodes:
+10
+zzzz
+1
+5
+hello 1
+world 2
+test 3
+Edges:
+Edges attached to Node hello 1
+world 2 3
+world 2 5
+world 2 14
+Edges attached to Node world 2
+hello 1 -824
+test 3 -824
+hello 1 -55
+hello 1 0
+test 3 0
+test 3 66
+hello 1 290
+test 3 290
+Edges attached to Node test 3
+hello 1 -130
+hello 1 -129
+hello 1 -128
+hello 1 1
+world 2 1
+hello 1 66
+world 2 66
+hello 1 290
+world 2 290
+Edges attached to Node zzzz
+(null)
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+zzzz 0
+Edges attached to Node 5
+10 -25
+zzzz -25
+Delete some edges not in the graph:
+Nodes:
+10
+zzzz
+1
+5
+hello 1
+world 2
+test 3
+Edges:
+Edges attached to Node hello 1
+world 2 3
+world 2 5
+world 2 14
+Edges attached to Node world 2
+hello 1 -824
+test 3 -824
+hello 1 -55
+hello 1 0
+test 3 0
+test 3 66
+hello 1 290
+test 3 290
+Edges attached to Node test 3
+hello 1 -130
+hello 1 -129
+hello 1 -128
+hello 1 1
+world 2 1
+hello 1 66
+world 2 66
+hello 1 290
+world 2 290
+Edges attached to Node zzzz
+(null)
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+zzzz 0
+Edges attached to Node 5
+10 -25
+zzzz -25
+Check that all nodes are still in the graph:
+true
+true
+true
+true
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Delete some edges from the graph:
+Nodes:
+10
+hello 1
+zzzz
+1
+5
+test 3
+world 2
+Edges:
+Edges attached to Node hello 1
+(null)
+Edges attached to Node world 2
+hello 1 -824
+test 3 -824
+hello 1 -55
+hello 1 0
+test 3 0
+test 3 66
+hello 1 290
+test 3 290
+Edges attached to Node test 3
+hello 1 -130
+hello 1 -128
+hello 1 1
+world 2 1
+hello 1 66
+world 2 66
+hello 1 290
+world 2 290
+Edges attached to Node zzzz
+(null)
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+Edges attached to Node 5
+10 -25
+zzzz -25
+Check that all nodes are still in the graph:
+true
+true
+true
+true
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+true
+true
+true
+true
+true
+Check that removed edges no longer exist:
+false
+false
+Delete some nodes from the graph:
+Nodes:
+10
+hello 1
+1
+test 3
+Edges:
+Edges attached to Node hello 1
+(null)
+Edges attached to Node test 3
+hello 1 -130
+hello 1 -128
+hello 1 1
+hello 1 66
+hello 1 290
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+Check that all nodes are still in the graph:
+true
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+Check that deleted nodes are not in graph:
+false
+false
+false
+Call replace with non-existant nodes:
+Node does not exist in Graph
+Node does not exist in Graph
+Node does not exist in Graph
+Call replace with existing destination data:
+false
+false
+false
+false
+Nodes:
+10
+hello 1
+1
+test 3
+Edges:
+Edges attached to Node hello 1
+(null)
+Edges attached to Node test 3
+hello 1 -130
+hello 1 -128
+hello 1 1
+hello 1 66
+hello 1 290
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+Check that all nodes are still in the graph:
+true
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+Call replace with valid pairs of args:
+true
+true
+Nodes:
+1 HELLO
+10
+1
+test
+Edges:
+Edges attached to Node 1 HELLO
+(null)
+Edges attached to Node test
+1 HELLO -130
+1 HELLO -128
+1 HELLO 1
+1 HELLO 66
+1 HELLO 290
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+Check that all nodes are still in the graph:
+true
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+Check that renamed nodes are not in graph:
+false
+false
+Call mergeReplace with unknown nodes:
+Both Nodes must be in the Graph
+Both Nodes must be in the Graph
+Both Nodes must be in the Graph
+Call mergeReplace on nodes with no outgoing edges:
+Nodes:
+10
+1
+test
+Edges:
+Edges attached to Node test
+10 -130
+10 -128
+10 1
+10 66
+10 290
+Edges attached to Node 10
+(null)
+Edges attached to Node 1
+10 0
+Check that all nodes are still in the graph:
+true
+true
+true
+Check that all edges are in the graph:
+true
+true
+Check that "1 HELLO" has been deleted
+false
+Call mergeReplace on nodes where one has outgoing edges:
+Nodes:
+10
+test
+Edges:
+Edges attached to Node test
+10 -130
+10 -128
+10 1
+10 66
+10 290
+Edges attached to Node 10
+10 0
+Check that all nodes are still in the graph:
+true
+true
+Check that all edges are in the graph:
+true
+true
+Check that "1" has been deleted:
+false
+Call mergeReplace on nodes both with outgoing edges:
+Nodes:
+test
+Edges:
+Edges attached to Node test
+test -130
+test -128
+test 0
+test 1
+test 66
+test 290
+Check that all nodes are still in the graph:
+true
+Check that all edges are in the graph:
+true
+Check that "10" has been deleted:
+false
+Remove all nodes and edges from the graph:
+Nodes:
+Add new nodes and edges to the graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+extra node
+yet another node
+another node
+new node
+Edges:
+Edges attached to Node new node
+another node 15
+yet another node 27
+yet another node 42
+Edges attached to Node another node
+yet another node -357
+another node -7
+new node 1
+Edges attached to Node yet another node
+(null)
+Edges attached to Node extra node
+(null)
+Check the nodes and edges are in the graph
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Remove all nodes and edges from the graph:
+Nodes:
+Add some new nodes to the graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in the graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Iterate through graph using the iterator:
+node 1:
+Edges attached to Node node 1
+(null)
+node 2:
+Edges attached to Node node 2
+(null)
+node 3:
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+node 4:
+Edges attached to Node node 4
+(null)
+node 5:
+Edges attached to Node node 5
+node 7 5
+node 3 16
+node 6:
+Edges attached to Node node 6
+(null)
+node 7:
+Edges attached to Node node 7
+(null)
+node 8:
+Edges attached to Node node 8
+(null)
+Copy construct g1 to g2:
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Construct a new graph g3:
+true
+true
+true
+true
+true
+true
+Nodes:
+44
+node 2
+55
+node 1
+Edges:
+Edges attached to Node 55
+node 1 342
+Edges attached to Node 44
+(null)
+Edges attached to Node node 1
+node 2 14
+Edges attached to Node node 2
+(null)
+true
+true
+true
+true
+true
+true
+Copy assign g1 to g3:
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+hello world
+new name for node 6
+node 2
+node 4
+node 5
+node 7
+node 8
+new node
+Edges:
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+(null)
+Edges attached to Node new name for node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Edges attached to Node hello world
+(null)
+Edges attached to Node new node
+node 2 861
+Check the nodes and edges are in the graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Check that the node and edge are deleted:
+false
+false
+false
+false
+Check that g2 is unaffected:
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Check that g3 is unaffected:
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Nodes:
+Nodes:
+node 1
+node 2
+node 4
+node 6
+node 7
+node 8
+node 3
+node 5
+Edges:
+Edges attached to Node node 1
+(null)
+Edges attached to Node node 2
+(null)
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+Edges attached to Node node 4
+(null)
+Edges attached to Node node 5
+node 7 5
+node 3 16
+Edges attached to Node node 6
+(null)
+Edges attached to Node node 7
+(null)
+Edges attached to Node node 8
+(null)
+Check the nodes and edges are in new graph:
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+Iterate through const graph with iterator:
+node 1:
+Edges attached to Node node 1
+(null)
+node 2:
+Edges attached to Node node 2
+(null)
+node 3:
+Edges attached to Node node 3
+node 2 -4
+node 4 32
+node 4:
+Edges attached to Node node 4
+(null)
+node 5:
+Edges attached to Node node 5
+node 7 5
+node 3 16
+node 6:
+Edges attached to Node node 6
+(null)
+node 7:
+Edges attached to Node node 7
+(null)
+node 8:
+Edges attached to Node node 8
+(null)
