@@ -15,8 +15,9 @@
 namespace gdwg {
 	template <typename N, typename E> class Graph {
 	public:
-		//default constructor
+		//constructor and destructor
 		Graph() = default;
+		~Graph() = default;
 
 		//copy constructor and move constructor
 		Graph(const Graph& g);

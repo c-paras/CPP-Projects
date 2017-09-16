@@ -12,6 +12,9 @@
 #include <algorithm>
 #include <stdexcept>
 
+#ifndef GRAPH_TEM
+#define GRAPH_TEM
+
 /*
  * Adds a new Node with value val to the Graph. Returns true if the
  * Node is added to the Graph and false if there is already a Node
@@ -365,3 +368,5 @@ const N& gdwg::Graph<N, E>::value() const {
 	copy = (*current)->getData();
 	return copy;
 }
+
+#endif
