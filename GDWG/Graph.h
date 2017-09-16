@@ -3,11 +3,11 @@
  * Interface for the Generic Directed Weighted Graph.
  */
 
-#include <algorithm>
-#include <iostream>
 #include <string>
 #include <vector>
 #include <memory>
+#include <iostream>
+#include <algorithm>
 
 #ifndef GRAPH_H
 #define GRAPH_H

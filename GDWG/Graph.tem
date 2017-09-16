@@ -3,12 +3,14 @@
  * Implementation for the Generic Directed Weighted Graph.
  */
 
-#include <algorithm>
-#include <iostream>
 #include <string>
 #include <vector>
 #include <memory>
+#include <utility>
 #include <cassert>
+#include <iostream>
+#include <algorithm>
+#include <stdexcept>
 
 /*
  * Adds a new Node with value val to the Graph. Returns true if the
@@ -35,11 +37,11 @@ bool gdwg::Graph<N, E>::addNode(const N& val) {
  */
 template <typename N, typename E>
 void gdwg::Graph<N, E>::printNodes() const {
-	std::vector<std::shared_ptr<Node>> sorted = nodes;
+	auto sorted = nodes;
 
 	//sort the nodes first
 	std::sort(sorted.begin(), sorted.end(),
-	[](const std::shared_ptr<Node>& lhs, const std::shared_ptr<Node>& rhs) {
+	[](const auto& lhs, const auto& rhs) {
 		if (lhs->outDegree() != rhs->outDegree()) {
 			return lhs->outDegree() < rhs->outDegree();
 		} else {
@@ -82,14 +84,17 @@ auto gdwg::Graph<N, E>::getNode(const N& val) const {
  */
 template <typename N, typename E>
 bool gdwg::Graph<N, E>::Node::addEdge(const Edge& e) {
-	for (const auto& edge: edges) {
-		if (edge->getDest() == e.getDest() && edge->getWeight() == e.getWeight()) {
-			return false;
-		}
+	auto result = std::find_if(edges.cbegin(), edges.cend(),
+	[&e](const auto& edge) {
+		return edge->getDest() == e.getDest() && edge->getWeight() == e.getWeight();
+	});
+	if (result == edges.end()) {
+		auto edge = std::make_shared<Edge>(e);
+		edges.push_back(edge);
+		return true;
+	} else {
+		return false;
 	}
-	auto edge = std::make_shared<Edge>(e);
-	edges.push_back(edge);
-	return true;
 }
 
 /*
@@ -113,11 +118,11 @@ bool gdwg::Graph<N, E>::addEdge(const N& src, const N& dst, const E& w) {
 template <typename N, typename E>
 void gdwg::Graph<N, E>::Node::showEdges() const {
 	if (edges.size() == 0) std::cout << "(null)\n";
-	std::vector<std::shared_ptr<Edge>> sorted = edges;
+	auto sorted = edges;
 
 	//sort the edges first
 	std::sort(sorted.begin(), sorted.end(),
-	[](const std::shared_ptr<Edge>& lhs, const std::shared_ptr<Edge>& rhs) {
+	[](const auto& lhs, const auto& rhs) {
 		if (lhs->getWeight() != rhs->getWeight()) {
 			return lhs->getWeight() < rhs->getWeight();
 		} else {
