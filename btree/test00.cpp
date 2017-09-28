@@ -24,6 +24,12 @@ int main(int argc, char *argv[]) {
 	std::cout << "Insert Z: " << t1.insert('Z').second << std::endl;
 	std::cout << "Insert N: " << t1.insert('N').second << std::endl;
 	std::cout << "Insert R: " << t1.insert('R').second << std::endl;
+	std::cout << "Insert S: " << t1.insert('S').second << std::endl;
+	std::cout << "Insert W: " << t1.insert('W').second << std::endl;
+	std::cout << "Insert Q: " << t1.insert('Q').second << std::endl;
+	std::cout << "Insert V: " << t1.insert('V').second << std::endl;
+
+	std::cout << "t1: " << t1 << std::endl;
 
 	//try to re-insert the keys again
 	std::cout << "Insert M: " << t1.insert('M').second << std::endl;
@@ -35,6 +41,12 @@ int main(int argc, char *argv[]) {
 	std::cout << "Insert Z: " << t1.insert('Z').second << std::endl;
 	std::cout << "Insert N: " << t1.insert('N').second << std::endl;
 	std::cout << "Insert R: " << t1.insert('R').second << std::endl;
+	std::cout << "Insert S: " << t1.insert('S').second << std::endl;
+	std::cout << "Insert W: " << t1.insert('W').second << std::endl;
+	std::cout << "Insert Q: " << t1.insert('Q').second << std::endl;
+	std::cout << "Insert V: " << t1.insert('V').second << std::endl;
+
+	std::cout << "t1: " << t1 << std::endl;
 
 	return 0;
 }

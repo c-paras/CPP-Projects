@@ -7,6 +7,11 @@ Insert B: true
 Insert Z: true
 Insert N: true
 Insert R: true
+Insert S: true
+Insert W: true
+Insert Q: true
+Insert V: true
+t1: G M P X B N R S T W Z Q V
 Insert M: false
 Insert X: false
 Insert P: false
@@ -16,3 +21,8 @@ Insert B: false
 Insert Z: false
 Insert N: false
 Insert R: false
+Insert S: false
+Insert W: false
+Insert Q: false
+Insert V: false
+t1: G M P X B N R S T W Z Q V

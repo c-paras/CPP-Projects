@@ -19,6 +19,7 @@
 #include <vector>
 #include <memory>
 #include <set>
+#include <queue>
 #include <algorithm>
 #include "btree_iterator.h"
 
@@ -104,16 +105,17 @@ public:
 	}
 
 	/**
-	 * Puts a breadth-first traversal of the B-Tree onto the output
+	 * Puts a breadth-first traversal of the btree onto the output
 	 * stream os. Elements must, in turn, support the output operator.
-	 * Elements are separated by space. Should not output any newlines.
+	 * Elements are separated by spaces. No newline is output.
 	 *
-	 * @param os a reference to a C++ output stream
-	 * @param tree a const reference to a B-Tree object
+	 * @param os a reference to an output stream
+	 * @param tree a const reference to a btree
 	 * @return a reference to os
 	 */
 	friend std::ostream& operator<<(std::ostream& os, const btree<T>& tree) {
-		//TODO
+		if (tree.root == nullptr) return os;
+		tree.root->show();
 		return os;
 	}
 
@@ -271,6 +273,35 @@ private:
 			}
 			iterator it;
 			return std::make_pair(it, false);
+		}
+
+		//displays the keys in the node and its children in level order
+		void show() {
+			std::queue<node*> q;
+			node* n = this;
+			q.push(n);
+			bool first = true;
+			while (!q.empty()) {
+				auto values = q.front()->keys;
+
+				//enqueue all children nodes of the current node
+				for (const auto& child: q.front()->children) {
+					n = &*child;
+					if (child != nullptr) q.push(n);
+				}
+				q.pop();
+
+				//print all values in the current node
+				for (const auto& v: values) {
+					if (first == true) {
+						first = false;
+						std::cout << v;
+					} else {
+						std::cout << " " << v;
+					}
+				}
+
+			}
 		}
 
 	private:
