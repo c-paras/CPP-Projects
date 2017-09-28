@@ -11,7 +11,7 @@
 template <typename T>
 class btree_iterator {
 public:
-	//TODO
+	btree_iterator iterator() { }
 private:
 	//TODO
 };

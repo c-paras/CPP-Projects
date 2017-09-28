@@ -4,7 +4,7 @@
  *
  * The btree is a linked structure which operates much like
  * a binary search tree, save the fact that multiple client
- * elements are stored in a single node.  Whereas a single element
+ * elements are stored in a single node. Whereas a single element
  * would partition the tree into two ordered subtrees, a node
  * that stores m client elements partition the tree
  * into m + 1 sorted subtrees.
@@ -36,21 +36,18 @@ public:
 	using const_iterator = const_btree_iterator<T>;
 
 	/**
-	 * Constructs an empty btree.  Note that
-	 * the elements stored in your btree must
+	 * Constructs an empty btree.
+	 *
+	 * The elements stored in the btree must
 	 * have a well-defined zero-arg constructor,
 	 * copy constructor, operator=, and destructor.
-	 * The elements must also know how to order themselves
-	 * relative to each other by implementing operator<
-	 * and operator==. (These are already implemented on
-	 * behalf of all built-ins: ints, doubles, strings, etc.)
+	 * The elements must also implement operator<
+	 * and operator== for the purposes of ordering.
 	 *
-	 * @param maxNodeElems the maximum number of elements
-	 *        that can be stored in each B-Tree node
+	 * @param max_elems the maximum number of elements
+	 *        that can be stored in each btree node
 	 */
-	btree(size_t maxNodeElems = 40) {
-		//TODO
-	}
+	btree(size_t max_elems = 40) : node_size{max_elems} { }
 
 	/**
 	 * The copy constructor and  assignment operator.
@@ -119,17 +116,44 @@ public:
 	}
 
 	/**
-	 * The following can go here
-	 * -- begin()
-	 * -- end()
-	 * -- rbegin()
-	 * -- rend()
-	 * -- cbegin()
-	 * -- cend()
-	 * -- crbegin()
-	 * -- crend()
+	 * Returns an iterator positioned at the first element.
 	 */
-	//begin();
+	iterator begin();
+
+	/**
+	 * Returns an iterator positioned at one past the last element.
+	 */
+	iterator end();
+
+	/**
+	 * Returns an iterator positioned at the last element.
+	 */
+	iterator rbegin();
+
+	/**
+	 * Returns an iterator positioned at one before the first element.
+	 */
+	iterator rend();
+
+	/**
+	 * Returns a const iterator positioned at the first element.
+	 */
+	const_iterator cbegin();
+
+	/**
+	 * Returns a const iterator positioned at one past the last element.
+	 */
+	const_iterator cend();
+
+	/**
+	 * Returns a const iterator positioned at the last element.
+	 */
+	const_iterator crbegin();
+
+	/**
+	 * Returns a const iterator positioned at one before the first element.
+	 */
+	const_iterator crend();
 
 	/**
 	 * Returns an iterator to the matching element, or whatever
@@ -185,7 +209,12 @@ public:
 	 *         stores true if and only if the element needed to be added
 	 *         because no matching element was there prior to the insert call.
 	 */
-	std::pair<iterator, bool> insert(const T& elem);
+	std::pair<iterator, bool> insert(const T& elem) {
+		node n{elem};
+		root = std::make_unique<node>(std::move(n));
+		iterator it;
+		return std::make_pair(it, true);
+	}
 
 	/**
 	 * Disposes of all internal resources, which includes
@@ -201,10 +230,13 @@ private:
 	class node;
 	using node_ptr = std::unique_ptr<node>;
 	node_ptr root; //a b-tree has a pointer to the root node
+	size_t node_size; //and a value representing the maximum size of nodes
 
 	class node {
 	public:
-		//TODO
+		node(const T& elem) {
+			keys.push_back(elem);
+		}
 	private:
 		//a node consists of a collection of keys
 		std::vector<T> keys;
