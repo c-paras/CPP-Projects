@@ -16,14 +16,24 @@
 #include <iostream>
 #include <cstddef>
 #include <utility>
+#include <vector>
+#include <memory>
 #include "btree_iterator.h"
 
-//we do this to avoid compiler errors about non-template friends
-//what do we do, remember? :)
+//forward declaration for the non-template friend function operator<<
+template <typename T> class btree;
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const btree<T>& tree);
 
 template <typename T> class btree {
 public:
-	/** Hmm, need some iterator typedefs here... friends? **/
+	//make the iterator classes friends
+	friend class btree_iterator<T>;
+	friend class const_btree_iterator<T>;
+
+	//define some useful aliases for the iterators
+	using iterator = btree_iterator<T>;
+	using const_iterator = const_btree_iterator<T>;
 
 	/**
 	 * Constructs an empty btree.  Note that
@@ -38,7 +48,9 @@ public:
 	 * @param maxNodeElems the maximum number of elements
 	 *        that can be stored in each B-Tree node
 	 */
-	btree(size_t maxNodeElems = 40);
+	btree(size_t maxNodeElems = 40) {
+		//TODO
+	}
 
 	/**
 	 * The copy constructor and  assignment operator.
@@ -55,7 +67,9 @@ public:
 	 *
 	 * @param original a const lvalue reference to a B-Tree object
 	 */
-	btree(const btree<T>& original);
+	btree(const btree<T>& original) {
+		//TODO
+	}
 
 	/**
 	 * Move constructor
@@ -63,7 +77,9 @@ public:
 	 *
 	 * @param original an rvalue reference to a B-Tree object
 	 */
-	btree(btree<T>&& original);
+	btree(btree<T>&& original) {
+		//TODO
+	}
 
 	/**
 	 * Copy assignment
@@ -71,7 +87,10 @@ public:
 	 *
 	 * @param rhs a const lvalue reference to a B-Tree object
 	 */
-	btree<T>& operator=(const btree<T>& rhs);
+	btree<T>& operator=(const btree<T>& rhs) {
+		//TODO
+		return *this;
+	}
 
 	/**
 	 * Move assignment
@@ -80,7 +99,10 @@ public:
 	 *
 	 * @param rhs a const reference to a B-Tree object
 	 */
-	btree<T>& operator=(btree<T>&& rhs);
+	btree<T>& operator=(btree<T>&& rhs) {
+		//TODO;
+		return *this;
+	}
 
 	/**
 	 * Puts a breadth-first traversal of the B-Tree onto the output
@@ -91,7 +113,10 @@ public:
 	 * @param tree a const reference to a B-Tree object
 	 * @return a reference to os
 	 */
-	friend std::ostream& operator<<<T>(std::ostream& os, const btree<T>& tree);
+	friend std::ostream& operator<<(std::ostream& os, const btree<T>& tree) {
+		//TODO
+		return os;
+	}
 
 	/**
 	 * The following can go here
@@ -168,15 +193,26 @@ public:
 	 * inserted using the insert operation.
 	 * Check that your implementation does not leak memory!
 	 */
-	~btree();
+	~btree() {
+		//TODO
+	}
 
 private:
+	class node;
+	using node_ptr = std::unique_ptr<node>;
+	node_ptr root; //a b-tree has a pointer to the root node
+
 	class node {
 	public:
 		//TODO
 	private:
-		//TODO
-	}
+		//a node consists of a collection of keys
+		std::vector<T> keys;
+
+		//and a vector of pointers to its children nodes
+		std::vector<node_ptr> children;
+	};
+
 };
 
 #endif
