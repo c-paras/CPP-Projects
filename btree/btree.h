@@ -18,6 +18,8 @@
 #include <utility>
 #include <vector>
 #include <memory>
+#include <set>
+#include <algorithm>
 #include "btree_iterator.h"
 
 //forward declaration for the non-template friend function operator<<
@@ -29,11 +31,11 @@ template <typename T> class btree {
 public:
 	//make the iterator classes friends
 	friend class btree_iterator<T>;
-	friend class const_btree_iterator<T>;
+	friend class const_btree_iterator<const T>;
 
 	//define some useful aliases for the iterators
 	using iterator = btree_iterator<T>;
-	using const_iterator = const_btree_iterator<T>;
+	using const_iterator = const_btree_iterator<const T>;
 
 	/**
 	 * Constructs an empty btree.
@@ -50,7 +52,7 @@ public:
 	btree(size_t max_elems = 40) : node_size{max_elems} { }
 
 	/**
-	 * The copy constructor and  assignment operator.
+	 * The copy constructor and assignment operator.
 	 * They allow us to pass around B-Trees by value.
 	 * Although these operations are likely to be expensive
 	 * they make for an interesting programming exercise.
@@ -160,10 +162,10 @@ public:
 	 * the non-const end() returns if the element could
 	 * not be found.
 	 *
-	 * @param elem the client element we are trying to match.  The elem,
+	 * @param elem the client element we are trying to match. The elem,
 	 *        if an instance of a true class, relies on the operator< and
 	 *        and operator== methods to compare elem to elements already
-	 *        in the btree.  You must ensure that your class implements
+	 *        in the btree. You must ensure that your class implements
 	 *        these things, else code making use of btree<T>::find will
 	 *        not compile.
 	 * @return an iterator to the matching element, or whatever the
@@ -183,37 +185,34 @@ public:
 	const_iterator find(const T& elem) const;
 
 	/**
-	 * Operation which inserts the specified element
-	 * into the btree if a matching element isn't already
-	 * present.  In the event where the element truly needs
-	 * to be inserted, the size of the btree is effectively
-	 * increases by one, and the pair that gets returned contains
-	 * an iterator to the inserted element and true in its first and
-	 * second fields.
+	 * Inserts the specified element into the btree.
+	 *
+	 * If the element does not already exist, it is inserted, effectively
+	 * increasing the size of the btree by one and a pair containing and
+	 * iterator to the inserted element and true is returned.
 	 *
 	 * If a matching element already exists in the btree, nothing
-	 * is added at all, and the size of the btree stays the same.  The
-	 * returned pair still returns an iterator to the matching element, but
-	 * the second field of the returned pair will store false.  This
-	 * second value can be checked to after an insertion to decide whether
-	 * or not the btree got bigger.
+	 * is added at all, and the size of the btree stays the same. The
+	 * returned pair still contains an iterator to the matching element
+	 * but the second field of the returned pair will store false.
 	 *
-	 * The insert method makes use of T's zero-arg constructor and
-	 * operator= method, and if these things aren't available,
-	 * then the call to btree<T>::insert will not compile.  The implementation
-	 * also makes use of the class's operator== and operator< as well.
+	 * Requires T's zero-arg constructor, operator= method, operator==
+	 * method and operator< method to be defined.
 	 *
-	 * @param elem the element to be inserted.
+	 * @param elem the element to be inserted
 	 * @return a pair whose first field is an iterator positioned at
 	 *         the matching element in the btree, and whose second field
-	 *         stores true if and only if the element needed to be added
-	 *         because no matching element was there prior to the insert call.
+	 *         stores true if and only if the element was actually added
 	 */
 	std::pair<iterator, bool> insert(const T& elem) {
-		node n{elem};
-		root = std::make_unique<node>(std::move(n));
-		iterator it;
-		return std::make_pair(it, true);
+		if (root == nullptr) {
+			node n{elem, node_size};
+			root = std::make_unique<node>(std::move(n));
+			iterator it;
+			return std::make_pair(it, true);
+		} else {
+			return root->insert(elem);
+		}
 	}
 
 	/**
@@ -229,20 +228,60 @@ public:
 private:
 	class node;
 	using node_ptr = std::unique_ptr<node>;
-	node_ptr root; //a b-tree has a pointer to the root node
+	node_ptr root{nullptr}; //a b-tree has a pointer to the root node
 	size_t node_size; //and a value representing the maximum size of nodes
 
 	class node {
 	public:
-		node(const T& elem) {
-			keys.push_back(elem);
+		//constructor for a node
+		node(const T& elem, size_t node_size) : node_size{node_size} {
+			keys.insert(elem);
+			children.resize(node_size + 1);
+			std::fill(children.begin(), children.begin() + node_size + 1, nullptr);
 		}
+
+		//inserts elem into the appropriate node of the btree
+		std::pair<iterator, bool> insert(const T& elem) {
+			if (keys.size() < node_size) {
+				//insert in current node if not yet full
+				auto res = keys.insert(elem);
+				iterator it;
+				return std::make_pair(it, res.second);
+			} else if (keys.find(elem) != keys.end()) {
+				//do not re-insert element
+				iterator it;
+				return std::make_pair(it, false);
+			} else {
+				size_t i = 0;
+				for (const auto& k: keys) {
+					if (elem < k) break; //find the relevant child branch
+					i++;
+				}
+				if (children[i] == nullptr) {
+					//insert new node at child branch if not there
+					node n{elem, node_size};
+					auto child = std::make_unique<node>(std::move(n));
+					children[i] = std::move(child);
+					iterator it;
+					return std::make_pair(it, true);
+				} else {
+					//recursively find the right child branch
+					return children[i]->insert(elem);
+				}
+			}
+			iterator it;
+			return std::make_pair(it, false);
+		}
+
 	private:
 		//a node consists of a collection of keys
-		std::vector<T> keys;
+		std::set<T> keys;
 
 		//and a vector of pointers to its children nodes
 		std::vector<node_ptr> children;
+
+		//the maximum number of keys this node can hold
+		size_t node_size;
 	};
 
 };

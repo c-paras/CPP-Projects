@@ -1,3 +1,18 @@
-true
-true
-true
+Insert M: true
+Insert X: true
+Insert P: true
+Insert G: true
+Insert T: true
+Insert B: true
+Insert Z: true
+Insert N: true
+Insert R: true
+Insert M: false
+Insert X: false
+Insert P: false
+Insert G: false
+Insert T: false
+Insert B: false
+Insert Z: false
+Insert N: false
+Insert R: false
