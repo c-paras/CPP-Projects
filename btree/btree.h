@@ -1,4 +1,7 @@
 /**
+ * Copyright (C) 2017 Costa Paraskevopoulos.
+ * Implementation of a Generic B-Tree.
+ *
  * The btree is a linked structure which operates much like
  * a binary search tree, save the fact that multiple client
  * elements are stored in a single node.  Whereas a single element
