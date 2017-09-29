@@ -6,6 +6,27 @@
 #include <iostream>
 #include "btree.h"
 
+//custom class for testing
+class Car {
+public:
+	Car() : brand{""}, price{0} { }
+	Car(const std::string& b, double p) : brand{b}, price{p} { }
+	~Car() = default;
+	Car(const Car& c) = default;
+	Car& operator=(const Car& c) = default;
+	std::string get_brand() const { return brand; }
+	double get_price() const { return price; }
+	friend bool operator<(const Car& a, const Car& b) { return a.price < b.price; }
+	friend bool operator==(const Car& a, const Car& b) { return a.price == b.price; }
+	friend std::ostream& operator<<(std::ostream& os, const Car& b) {
+		std::cout << "(" << b.brand << ", " << b.price << ")";
+		return os;
+	}
+private:
+	std::string brand;
+	double price;
+};
+
 int main(int argc, char *argv[]) {
 
 	//enable printing of booleans as "true" and "false"
@@ -14,6 +35,7 @@ int main(int argc, char *argv[]) {
 	//create an empty btree of characters with a node size of 4
 	std::cout << "Create t1 of chars with node size 4" << std::endl;
 	btree<char> t1{4};
+	std::cout << "t1: " << t1 << std::endl;
 
 	//insert some unique keys
 	std::cout << "Insert M: " << t1.insert('M').second << std::endl;
@@ -52,6 +74,7 @@ int main(int argc, char *argv[]) {
 	//create an empty btree of integers with a node size of 3
 	std::cout << "Create t2 of ints with node size 3" << std::endl;
 	btree<int> t2{3};
+	std::cout << "t2: " << t2 << std::endl;
 
 	//insert some unique keys
 	std::cout << "Insert 16: " << t2.insert(16).second << std::endl;
@@ -160,6 +183,79 @@ int main(int argc, char *argv[]) {
 	std::cout << "Insert 308: " << t2.insert(308).second << std::endl;
 
 	std::cout << "t2: " << t2 << std::endl;
+
+	//create an empty btree of strings with a node size of 40 (default)
+	std::cout << "Create t3 of strings with node size 40" << std::endl;
+	btree<std::string> t3{};
+	std::cout << "t3: " << t3 << std::endl;
+
+	//insert some unique keys, namely
+	//A, B, C, D, ..., T, AA, BB, CC, DD, ..., TT, AAA, BBB, CCC, DDD, ..., TTT
+	char chars[20] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+		'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'};
+	for (int len = 1; len <= 4; ++len) {
+		for (int i = 0; i < 20; ++i) {
+			std::string str = std::string{chars[i]};
+			for (int j = 1; j < len; ++j) str += chars[i];
+			std::cout << "Insert " << str << ": " << t3.insert(str).second << std::endl;
+			std::cout << "t3: " << t3 << std::endl;
+		}
+	}
+
+	//try to re-insert the keys again
+	for (int len = 1; len <= 4; ++len) {
+		for (int i = 0; i < 20; ++i) {
+			std::string str = std::string{chars[i]};
+			for (int j = 1; j < len; ++j) str += chars[i];
+			std::cout << "Insert " << str << ": " << t3.insert(str).second << std::endl;
+		}
+	}
+
+	std::cout << "t3: " << t3 << std::endl;
+
+	//create an empty btree of Car objects with a node size of 9
+	std::cout << "Create t4 of Car objects with node size 9" << std::endl;
+	btree<Car> t4{9};
+	std::cout << "t4: " << t4 << std::endl;
+
+	//insert some unique keys
+	std::cout << "Insert (Toyota, 15000): " << t4.insert(Car("Toyota", 15000)).second << std::endl;
+	std::cout << "Insert (Nissan, 27000): " << t4.insert(Car("Nissan", 27000)).second << std::endl;
+	std::cout << "Insert (Ford, 38000): " << t4.insert(Car("Ford", 38000)).second << std::endl;
+	std::cout << "Insert (Honda, 19000): " << t4.insert(Car("Honda", 19000)).second << std::endl;
+	std::cout << "Insert (Hyundai, 42000): " << t4.insert(Car("Hyundai", 42000)).second << std::endl;
+	std::cout << "t4: " << t4 << std::endl;
+	std::cout << "Insert (Toyota, 15001): " << t4.insert(Car("Toyota", 15001)).second << std::endl;
+	std::cout << "Insert (Nissan, 27001): " << t4.insert(Car("Nissan", 27001)).second << std::endl;
+	std::cout << "Insert (Ford, 38001): " << t4.insert(Car("Ford", 38001)).second << std::endl;
+	std::cout << "Insert (Honda, 19001): " << t4.insert(Car("Honda", 19001)).second << std::endl;
+	std::cout << "Insert (Hyundai, 42001): " << t4.insert(Car("Hyundai", 42001)).second << std::endl;
+	std::cout << "t4: " << t4 << std::endl;
+	std::cout << "Insert (Toyota, 14999): " << t4.insert(Car("Toyota", 14999)).second << std::endl;
+	std::cout << "Insert (Nissan, 26999): " << t4.insert(Car("Nissan", 26999)).second << std::endl;
+	std::cout << "Insert (Ford, 37999): " << t4.insert(Car("Ford", 37999)).second << std::endl;
+	std::cout << "Insert (Honda, 18999): " << t4.insert(Car("Honda", 18999)).second << std::endl;
+	std::cout << "Insert (Hyundai, 41999): " << t4.insert(Car("Hyundai", 41999)).second << std::endl;
+	std::cout << "t4: " << t4 << std::endl;
+
+	//try to re-insert the keys again
+	std::cout << "Insert (Toyota, 15000): " << t4.insert(Car("Toyota", 15000)).second << std::endl;
+	std::cout << "Insert (Nissan, 27000): " << t4.insert(Car("Nissan", 27000)).second << std::endl;
+	std::cout << "Insert (Ford, 38000): " << t4.insert(Car("Ford", 38000)).second << std::endl;
+	std::cout << "Insert (Honda, 19000): " << t4.insert(Car("Honda", 19000)).second << std::endl;
+	std::cout << "Insert (Hyundai, 42000): " << t4.insert(Car("Hyundai", 42000)).second << std::endl;
+	std::cout << "Insert (Toyota, 15001): " << t4.insert(Car("Toyota", 15001)).second << std::endl;
+	std::cout << "Insert (Nissan, 27001): " << t4.insert(Car("Nissan", 27001)).second << std::endl;
+	std::cout << "Insert (Ford, 38001): " << t4.insert(Car("Ford", 38001)).second << std::endl;
+	std::cout << "Insert (Honda, 19001): " << t4.insert(Car("Honda", 19001)).second << std::endl;
+	std::cout << "Insert (Hyundai, 42001): " << t4.insert(Car("Hyundai", 42001)).second << std::endl;
+	std::cout << "Insert (Toyota, 14999): " << t4.insert(Car("Toyota", 14999)).second << std::endl;
+	std::cout << "Insert (Nissan, 26999): " << t4.insert(Car("Nissan", 26999)).second << std::endl;
+	std::cout << "Insert (Ford, 37999): " << t4.insert(Car("Ford", 37999)).second << std::endl;
+	std::cout << "Insert (Honda, 18999): " << t4.insert(Car("Honda", 18999)).second << std::endl;
+	std::cout << "Insert (Hyundai, 41999): " << t4.insert(Car("Hyundai", 41999)).second << std::endl;
+
+	std::cout << "t4: " << t4 << std::endl;
 
 	return 0;
 }

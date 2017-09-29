@@ -114,8 +114,9 @@ public:
 	 * @return a reference to os
 	 */
 	friend std::ostream& operator<<(std::ostream& os, const btree<T>& tree) {
-		if (tree.root == nullptr) return os;
-		tree.root->show();
+		if (tree.root != nullptr) {
+			tree.root->show();
+		}
 		return os;
 	}
 
