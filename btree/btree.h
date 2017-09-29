@@ -210,6 +210,10 @@ private:
 
 	class node {
 	public:
+		//make btree and the iterators friends
+		friend class btree;
+		friend class btree_iterator<T>;
+
 		//constructor for a node
 		node(const T& elem, node *parent, size_t node_size);
 
@@ -218,6 +222,10 @@ private:
 
 		//displays the keys in the node and its children in level order
 		void show();
+
+		//return the key at the given position
+		const T& getVal(size_t pos) const; //TODO
+
 	private:
 		//a node consists of a collection of keys
 		std::set<T> keys;
@@ -327,22 +335,32 @@ void btree<T>::node::show() {
 }
 
 template <typename T>
+const T& btree<T>::node::getVal(size_t pos) const {
+/*	size_t i = 0;
+	for (const auto& k: keys) {
+		if (i == pos) return k;
+	}
+	return T{};*/
+	return *keys.begin(); //TODO
+}
+
+template <typename T>
 typename btree<T>::iterator btree<T>::begin() {
 	if (root == nullptr) {
-		return iterator(root, root);
+		return iterator(&*root, 0, &*root);
 	} else {
 		//traverse until the left-most node
-		node *curr = root;
-		while (curr.children[0] != nullptr) {
-			curr = curr.children[0];
+		node *curr = &*root;
+		while (&*curr->children[0] != nullptr) {
+			curr = &*curr->children[0];
 		}
-		return iterator(curr, root);
+		return iterator(curr, 0, &*root);
 	}
 }
 
 template <typename T>
 typename btree<T>::iterator btree<T>::end() {
-	return btree<T>::iterator(nullptr, root);
+	return btree<T>::iterator(nullptr, 0, &*root);
 }
 
 #endif

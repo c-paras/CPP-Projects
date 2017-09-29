@@ -257,5 +257,9 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "t4: " << t4 << std::endl;
 
+	for (btree<char>::iterator it = t1.begin(); it != t1.end(); ++it) {
+		std::cout << *it << std::endl;
+	}
+
 	return 0;
 }

@@ -1,5 +1,5 @@
 CC=g++-4.9
-CFLAGS=-std=c++14 -Wall -Werror -O2 -fsanitize=address
+CFLAGS=-std=c++14 -Wall -Werror -O2 -fsanitize=address -g
 
 default: test00
 
