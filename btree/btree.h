@@ -43,7 +43,7 @@ public:
 	 *
 	 * The elements stored in the btree must
 	 * have a well-defined zero-arg constructor,
-	 * copy constructor, operator=, and destructor.
+	 * copy constructor, operator= and destructor.
 	 * The elements must also implement operator<
 	 * and operator== for the purposes of ordering.
 	 *

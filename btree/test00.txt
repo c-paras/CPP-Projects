@@ -1,3 +1,4 @@
+Create t1 of chars with node size 4
 Insert M: true
 Insert X: true
 Insert P: true
@@ -26,3 +27,107 @@ Insert W: false
 Insert Q: false
 Insert V: false
 t1: G M P X B N R S T W Z Q V
+Create t2 of ints with node size 3
+Insert 16: true
+t2: 16
+Insert 4: true
+t2: 4 16
+Insert 29: true
+t2: 4 16 29
+Insert -6: true
+t2: 4 16 29 -6
+Insert 17: true
+t2: 4 16 29 -6 17
+Insert 15: true
+t2: 4 16 29 -6 15 17
+Insert 20: true
+t2: 4 16 29 -6 15 17 20
+Insert 28: true
+t2: 4 16 29 -6 15 17 20 28
+Insert 19: true
+t2: 4 16 29 -6 15 17 20 28 19
+Insert 18: true
+t2: 4 16 29 -6 15 17 20 28 18 19
+Insert 0: true
+t2: 4 16 29 -6 0 15 17 20 28 18 19
+Insert 1: true
+t2: 4 16 29 -6 0 1 15 17 20 28 18 19
+Insert 5: true
+t2: 4 16 29 -6 0 1 5 15 17 20 28 18 19
+Insert 14: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 18 19
+Insert 3: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 3 18 19
+Insert 2: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 2 3 18 19
+Insert -5: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -5 2 3 18 19
+Insert -1: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -5 -1 2 3 18 19
+Insert -4: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -5 -4 -1 2 3 18 19
+Insert 6: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -5 -4 -1 2 3 6 18 19
+Insert 13: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -5 -4 -1 2 3 6 13 18 19
+Insert 12: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -5 -4 -1 2 3 6 12 13 18 19
+Insert -7: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -7 -5 -4 -1 2 3 6 12 13 18 19
+Insert -248: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -7 -5 -4 -1 2 3 6 12 13 18 19
+Insert -19: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19
+Insert 27: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 27
+Insert 24: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 24 27
+Insert 21: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27
+Insert 11: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 11
+Insert 10: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 10 11
+Insert 9: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 9 10 11
+Insert 30: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 30 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 9 10 11
+Insert 672: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 30 672 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 9 10 11
+Insert 308: true
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 30 308 672 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 9 10 11
+Insert 16: false
+Insert 4: false
+Insert 29: false
+Insert -6: false
+Insert 17: false
+Insert 15: false
+Insert 20: false
+Insert 28: false
+Insert 19: false
+Insert 18: false
+Insert 0: false
+Insert 1: false
+Insert 5: false
+Insert 14: false
+Insert 3: false
+Insert 2: false
+Insert -5: false
+Insert -1: false
+Insert -4: false
+Insert 6: false
+Insert 13: false
+Insert 12: false
+Insert -7: false
+Insert -248: false
+Insert -19: false
+Insert 27: false
+Insert 24: false
+Insert 21: false
+Insert 11: false
+Insert 10: false
+Insert 9: false
+Insert 30: false
+Insert 672: false
+Insert 308: false
+t2: 4 16 29 -6 0 1 5 14 15 17 20 28 30 308 672 -248 -19 -7 -5 -4 -1 2 3 6 12 13 18 19 21 24 27 9 10 11
