@@ -143,20 +143,6 @@ int main(void) {
 	cout << *iter;
 	cout << endl;
   
-  // const iterator test
-  const btree<char>& refstring = astring;
-    btree<char>::const_iterator iter;
-	cout << "Voila!  Sorted!" << endl;
-	for(iter = refstring.begin(); iter != refstring.end(); ++iter) {
-		astring.insert(static_cast<char>(getRandom('A', 'z')));
-	
-		cout << *(iter) << " ";
-	}
-	
-	for(btree<char>::const_iterator iter = refstring.begin(); !(iter == refstring.end()); ++iter)
-		cout << *iter;
-	cout << endl;
-
   // a full-scale string test of the tree using iterators
   btree<string> *strTable = new btree<string>(40);
 		
