@@ -218,7 +218,6 @@ private:
 
 		//displays the keys in the node and its children in level order
 		void show();
-
 	private:
 		//a node consists of a collection of keys
 		std::set<T> keys;
@@ -236,7 +235,8 @@ private:
 };
 
 template <typename T>
-btree<T>::node::node(const T& elem, node *p, size_t node_size) : parent{p}, node_size{node_size} {
+btree<T>::node::node(const T& elem, node *p, size_t node_size) :
+	parent{p}, node_size{node_size} {
 	keys.insert(elem);
 	children.resize(node_size + 1);
 	std::fill(children.begin(), children.begin() + node_size + 1, nullptr);
@@ -256,7 +256,8 @@ std::pair<typename btree<T>::iterator, bool> btree<T>::insert(const T& elem) {
 }
 
 template <typename T>
-std::pair<typename btree<T>::iterator, bool> btree<T>::node::insert(const T& elem, node *parent) {
+std::pair<typename btree<T>::iterator, bool>
+btree<T>::node::insert(const T& elem, node *parent) {
 	if (keys.size() < node_size) {
 		//insert in current node if not yet full
 		auto res = keys.insert(elem);
@@ -322,8 +323,26 @@ void btree<T>::node::show() {
 				std::cout << " " << v;
 			}
 		}
-
 	}
+}
+
+template <typename T>
+typename btree<T>::iterator btree<T>::begin() {
+	if (root == nullptr) {
+		return iterator(root, root);
+	} else {
+		//traverse until the left-most node
+		node *curr = root;
+		while (curr.children[0] != nullptr) {
+			curr = curr.children[0];
+		}
+		return iterator(curr, root);
+	}
+}
+
+template <typename T>
+typename btree<T>::iterator btree<T>::end() {
+	return btree<T>::iterator(nullptr, root);
 }
 
 #endif
