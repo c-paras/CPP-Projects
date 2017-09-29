@@ -211,10 +211,10 @@ private:
 	class node {
 	public:
 		//constructor for a node
-		node(const T& elem, size_t node_size);
+		node(const T& elem, node *parent, size_t node_size);
 
 		//inserts elem into the appropriate node of the btree
-		std::pair<iterator, bool> insert(const T& elem);
+		std::pair<iterator, bool> insert(const T& elem, node *parent);
 
 		//displays the keys in the node and its children in level order
 		void show();
@@ -223,8 +223,11 @@ private:
 		//a node consists of a collection of keys
 		std::set<T> keys;
 
-		//and a vector of pointers to its children nodes
+		//a vector of pointers to its children nodes
 		std::vector<node_ptr> children;
+
+		//and a (non-owning) pointer to its parent node
+		node *parent;
 
 		//the maximum number of keys this node can hold
 		size_t node_size;
@@ -233,7 +236,7 @@ private:
 };
 
 template <typename T>
-btree<T>::node::node(const T& elem, size_t node_size) : node_size{node_size} {
+btree<T>::node::node(const T& elem, node *p, size_t node_size) : parent{p}, node_size{node_size} {
 	keys.insert(elem);
 	children.resize(node_size + 1);
 	std::fill(children.begin(), children.begin() + node_size + 1, nullptr);
@@ -242,17 +245,18 @@ btree<T>::node::node(const T& elem, size_t node_size) : node_size{node_size} {
 template <typename T>
 std::pair<typename btree<T>::iterator, bool> btree<T>::insert(const T& elem) {
 	if (root == nullptr) {
-		node n{elem, node_size};
+		node n{elem, nullptr, node_size};
 		root = std::make_unique<node>(std::move(n));
 		iterator it;
 		return std::make_pair(it, true);
 	} else {
-		return root->insert(elem);
+		node *p = &*root;
+		return root->insert(elem, p);
 	}
 }
 
 template <typename T>
-std::pair<typename btree<T>::iterator, bool> btree<T>::node::insert(const T& elem) {
+std::pair<typename btree<T>::iterator, bool> btree<T>::node::insert(const T& elem, node *parent) {
 	if (keys.size() < node_size) {
 		//insert in current node if not yet full
 		auto res = keys.insert(elem);
@@ -270,14 +274,15 @@ std::pair<typename btree<T>::iterator, bool> btree<T>::node::insert(const T& ele
 		}
 		if (children[i] == nullptr) {
 			//insert new node at child branch if not there
-			node n{elem, node_size};
+			node n{elem, parent, node_size};
 			auto child = std::make_unique<node>(std::move(n));
 			children[i] = std::move(child);
 			iterator it;
 			return std::make_pair(it, true);
 		} else {
 			//recursively find the right child branch
-			return children[i]->insert(elem);
+			node *p = this;
+			return children[i]->insert(elem, p);
 		}
 	}
 	iterator it;
