@@ -67,9 +67,7 @@ public:
 	 *
 	 * @param original a const lvalue reference to a B-Tree object
 	 */
-	btree(const btree<T>& original) {
-		//TODO
-	}
+	btree(const btree<T>& original);
 
 	/**
 	 * Move constructor
@@ -77,9 +75,7 @@ public:
 	 *
 	 * @param original an rvalue reference to a B-Tree object
 	 */
-	btree(btree<T>&& original) {
-		//TODO
-	}
+	btree(btree<T>&& original);
 
 	/**
 	 * Copy assignment
@@ -87,10 +83,7 @@ public:
 	 *
 	 * @param rhs a const lvalue reference to a B-Tree object
 	 */
-	btree<T>& operator=(const btree<T>& rhs) {
-		//TODO
-		return *this;
-	}
+	btree<T>& operator=(const btree<T>& rhs);
 
 	/**
 	 * Move assignment
@@ -99,10 +92,7 @@ public:
 	 *
 	 * @param rhs a const reference to a B-Tree object
 	 */
-	btree<T>& operator=(btree<T>&& rhs) {
-		//TODO;
-		return *this;
-	}
+	btree<T>& operator=(btree<T>&& rhs);
 
 	/**
 	 * Puts a breadth-first traversal of the btree onto the output
@@ -113,12 +103,7 @@ public:
 	 * @param tree a const reference to a btree
 	 * @return a reference to os
 	 */
-	friend std::ostream& operator<<(std::ostream& os, const btree<T>& tree) {
-		if (tree.root != nullptr) {
-			tree.root->show();
-		}
-		return os;
-	}
+	friend std::ostream& operator<<<T>(std::ostream& os, const btree<T>& tree);
 
 	/**
 	 * Returns an iterator positioned at the first element.
@@ -207,26 +192,15 @@ public:
 	 *         the matching element in the btree, and whose second field
 	 *         stores true if and only if the element was actually added
 	 */
-	std::pair<iterator, bool> insert(const T& elem) {
-		if (root == nullptr) {
-			node n{elem, node_size};
-			root = std::make_unique<node>(std::move(n));
-			iterator it;
-			return std::make_pair(it, true);
-		} else {
-			return root->insert(elem);
-		}
-	}
+	std::pair<iterator, bool> insert(const T& elem);
 
 	/**
 	 * Disposes of all internal resources, which includes
 	 * the disposal of any client objects previously
 	 * inserted using the insert operation.
-	 * Check that your implementation does not leak memory!
+	 * Check that your implementation does not leak memory! TODO
 	 */
-	~btree() {
-		//TODO
-	}
+	~btree() = default;
 
 private:
 	class node;
@@ -237,73 +211,13 @@ private:
 	class node {
 	public:
 		//constructor for a node
-		node(const T& elem, size_t node_size) : node_size{node_size} {
-			keys.insert(elem);
-			children.resize(node_size + 1);
-			std::fill(children.begin(), children.begin() + node_size + 1, nullptr);
-		}
+		node(const T& elem, size_t node_size);
 
 		//inserts elem into the appropriate node of the btree
-		std::pair<iterator, bool> insert(const T& elem) {
-			if (keys.size() < node_size) {
-				//insert in current node if not yet full
-				auto res = keys.insert(elem);
-				iterator it;
-				return std::make_pair(it, res.second);
-			} else if (keys.find(elem) != keys.end()) {
-				//do not re-insert element
-				iterator it;
-				return std::make_pair(it, false);
-			} else {
-				size_t i = 0;
-				for (const auto& k: keys) {
-					if (elem < k) break; //find the relevant child branch
-					i++;
-				}
-				if (children[i] == nullptr) {
-					//insert new node at child branch if not there
-					node n{elem, node_size};
-					auto child = std::make_unique<node>(std::move(n));
-					children[i] = std::move(child);
-					iterator it;
-					return std::make_pair(it, true);
-				} else {
-					//recursively find the right child branch
-					return children[i]->insert(elem);
-				}
-			}
-			iterator it;
-			return std::make_pair(it, false);
-		}
+		std::pair<iterator, bool> insert(const T& elem);
 
 		//displays the keys in the node and its children in level order
-		void show() {
-			std::queue<node*> q;
-			node* n = this;
-			q.push(n);
-			bool first = true;
-			while (!q.empty()) {
-				auto values = q.front()->keys;
-
-				//enqueue all children nodes of the current node
-				for (const auto& child: q.front()->children) {
-					n = &*child;
-					if (child != nullptr) q.push(n);
-				}
-				q.pop();
-
-				//print all values in the current node
-				for (const auto& v: values) {
-					if (first == true) {
-						first = false;
-						std::cout << v;
-					} else {
-						std::cout << " " << v;
-					}
-				}
-
-			}
-		}
+		void show();
 
 	private:
 		//a node consists of a collection of keys
@@ -317,5 +231,94 @@ private:
 	};
 
 };
+
+template <typename T>
+btree<T>::node::node(const T& elem, size_t node_size) : node_size{node_size} {
+	keys.insert(elem);
+	children.resize(node_size + 1);
+	std::fill(children.begin(), children.begin() + node_size + 1, nullptr);
+}
+
+template <typename T>
+std::pair<typename btree<T>::iterator, bool> btree<T>::insert(const T& elem) {
+	if (root == nullptr) {
+		node n{elem, node_size};
+		root = std::make_unique<node>(std::move(n));
+		iterator it;
+		return std::make_pair(it, true);
+	} else {
+		return root->insert(elem);
+	}
+}
+
+template <typename T>
+std::pair<typename btree<T>::iterator, bool> btree<T>::node::insert(const T& elem) {
+	if (keys.size() < node_size) {
+		//insert in current node if not yet full
+		auto res = keys.insert(elem);
+		iterator it;
+		return std::make_pair(it, res.second);
+	} else if (keys.find(elem) != keys.end()) {
+		//do not re-insert element
+		iterator it;
+		return std::make_pair(it, false);
+	} else {
+		size_t i = 0;
+		for (const auto& k: keys) {
+			if (elem < k) break; //find the relevant child branch
+			i++;
+		}
+		if (children[i] == nullptr) {
+			//insert new node at child branch if not there
+			node n{elem, node_size};
+			auto child = std::make_unique<node>(std::move(n));
+			children[i] = std::move(child);
+			iterator it;
+			return std::make_pair(it, true);
+		} else {
+			//recursively find the right child branch
+			return children[i]->insert(elem);
+		}
+	}
+	iterator it;
+	return std::make_pair(it, false);
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const btree<T>& tree) {
+	if (tree.root != nullptr) {
+		tree.root->show();
+	}
+	return os;
+}
+
+template <typename T>
+void btree<T>::node::show() {
+	std::queue<node*> q;
+	node *n = this;
+	q.push(n);
+	bool first = true;
+	while (!q.empty()) {
+		auto values = q.front()->keys;
+
+		//enqueue all children nodes of the current node
+		for (const auto& child: q.front()->children) {
+			n = &*child;
+			if (child != nullptr) q.push(n);
+		}
+		q.pop();
+
+		//print all values in the current node
+		for (const auto& v: values) {
+			if (first == true) {
+				first = false;
+				std::cout << v;
+			} else {
+				std::cout << " " << v;
+			}
+		}
+
+	}
+}
 
 #endif

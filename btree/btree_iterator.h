@@ -24,11 +24,15 @@ public:
 	bool operator==(const btree_iterator& other) const;
 	bool operator!=(const btree_iterator& other) const { return !operator==(other); }
 
-	btree_iterator iterator() { }
-
+	btree_iterator iterator();
 private:
 	//TODO
 };
+
+template <typename T>
+btree_iterator<T> btree_iterator<T>::iterator() {
+	//TODO
+}
 
 template <typename T>
 class const_btree_iterator {
