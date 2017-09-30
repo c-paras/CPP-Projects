@@ -1,3 +1,5 @@
+Create t0 of strings with node size 1000
+t0: 
 Create t1 of chars with node size 4
 t1: 
 Insert M: true
@@ -412,3 +414,49 @@ Insert (Ford, 37999): false
 Insert (Honda, 18999): false
 Insert (Hyundai, 41999): false
 t4: (Toyota, 15000) (Toyota, 15001) (Honda, 19000) (Honda, 19001) (Nissan, 27000) (Nissan, 27001) (Ford, 38000) (Ford, 38001) (Hyundai, 42000) (Toyota, 14999) (Honda, 18999) (Nissan, 26999) (Ford, 37999) (Hyundai, 41999) (Hyundai, 42001)
+Create t5 of chars with node size 1
+t5: 
+Insert C: true
+Insert B: true
+Insert A: true
+Insert G: true
+Insert E: true
+Insert D: true
+Insert F: true
+t5: C B G A E D F
+Insert C: false
+Insert B: false
+Insert A: false
+Insert G: false
+Insert E: false
+Insert D: false
+Insert F: false
+t5: C B G A E D F
+t1 traversal: B G M N P Q R S T V W X Z
+t2 traversal: -248 -19 -7 -6 -5 -4 -1 0 1 2 3 4 5 6 9 10 11 12 13 14 15 16 17 18 19 20 21 24 27 28 29 30 308 672
+t3 traversal: A AA AAA AAAA B BB BBB BBBB C CC CCC CCCC D DD DDD DDDD E EE EEE EEEE F FF FFF FFFF G GG GGG GGGG H HH HHH HHHH I II III IIII J JJ JJJ JJJJ K KK KKK KKKK L LL LLL LLLL M MM MMM MMMM N NN NNN NNNN O OO OOO OOOO P PP PPP PPPP Q QQ QQQ QQQQ R RR RRR RRRR S SS SSS SSSS T TT TTT TTTT
+t4 traversal: (Toyota, 14999) (Toyota, 15000) (Toyota, 15001) (Honda, 18999) (Honda, 19000) (Honda, 19001) (Nissan, 26999) (Nissan, 27000) (Nissan, 27001) (Ford, 37999) (Ford, 38000) (Ford, 38001) (Hyundai, 41999) (Hyundai, 42000) (Hyundai, 42001)
+t5 traversal: A B C D E F G
+Check that begin() and end() return the right thing
+Check that the dereference operator works:
+First in char tree: B
+First in int tree: -248
+First in string tree: A
+First in Car tree: (Toyota, 14999)
+First in char tree: A
+Check that the arrow operator works:
+First brand: Toyota
+First price: 14999
+Check that the (in)equality operators work:
+true
+false
+false
+false
+false
+false
+false
+true
+true
+true
+true
+true

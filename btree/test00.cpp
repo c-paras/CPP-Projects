@@ -32,6 +32,11 @@ int main(int argc, char *argv[]) {
 	//enable printing of booleans as "true" and "false"
 	std::cout << std::boolalpha;
 
+	//create an empty btree of strings with a node size of 1000
+	std::cout << "Create t0 of strings with node size 1000" << std::endl;
+	btree<std::string> t0{1000};
+	std::cout << "t0: " << t0 << std::endl;
+
 	//create an empty btree of characters with a node size of 4
 	std::cout << "Create t1 of chars with node size 4" << std::endl;
 	btree<char> t1{4};
@@ -285,35 +290,77 @@ int main(int argc, char *argv[]) {
 	std::cout << "t5: " << t5 << std::endl;
 
 	//do an in-order traversal of all the trees
-	std::cout << "t1 traversal:" << std::endl;
+	std::cout << "t1 traversal:";
 	for (auto it = t1.begin(); it != t1.end(); ++it) {
 		std::cout << " " << *it;
 	}
 	std::cout << std::endl;
 
-	std::cout << "t2 traversal:" << std::endl;
+	std::cout << "t2 traversal:";
 	for (auto it = t2.begin(); it != t2.end(); ++it) {
 		std::cout << " " << *it;
 	}
 	std::cout << std::endl;
 
-	std::cout << "t3 traversal:" << std::endl;
+	std::cout << "t3 traversal:";
 	for (auto it = t3.begin(); it != t3.end(); ++it) {
 		std::cout << " " << *it;
 	}
 	std::cout << std::endl;
 
-	std::cout << "t4 traversal:" << std::endl;
+	std::cout << "t4 traversal:";
 	for (auto it = t4.begin(); it != t4.end(); ++it) {
 		std::cout << " " << *it;
 	}
 	std::cout << std::endl;
 
-	std::cout << "t5 traversal:" << std::endl;
+	std::cout << "t5 traversal:";
 	for (auto it = t5.begin(); it != t5.end(); ++it) {
 		std::cout << " " << *it;
 	}
 	std::cout << std::endl;
+
+	//validate the iterator code
+	std::cout << "Check that begin() and end() return the right thing" << std::endl;
+	btree<std::string>::iterator beg0 = t0.begin();
+	btree<char>::iterator beg1 = t1.begin();
+	btree<int>::iterator beg2 = t2.begin();
+	btree<std::string>::iterator beg3 = t3.begin();
+	btree<Car>::iterator beg4 = t4.begin();
+	btree<char>::iterator beg5 = t5.begin();
+
+	btree<std::string>::iterator end0 = t0.end();
+	btree<char>::iterator end1 = t1.end();
+	btree<int>::iterator end2 = t2.end();
+	btree<std::string>::iterator end3 = t3.end();
+	btree<Car>::iterator end4 = t4.end();
+	btree<char>::iterator end5 = t5.end();
+
+	std::cout << "Check that the dereference operator works:" << std::endl;
+	std::cout << "First in char tree: " << *beg1 << std::endl;
+	std::cout << "First in int tree: " << *beg2 << std::endl;
+	std::cout << "First in string tree: " << *beg3 << std::endl;
+	std::cout << "First in Car tree: " << *beg4 << std::endl;
+	std::cout << "First in char tree: " << *beg5 << std::endl;
+
+	std::cout << "Check that the arrow operator works:" << std::endl;
+	std::cout << "First brand: " << beg4->get_brand() << std::endl;
+	std::cout << "First price: " << beg4->get_price() << std::endl;
+
+	std::cout << "Check that the (in)equality operators work:" << std::endl;
+	std::cout << (beg0 == end0) << std::endl; //true since tree is empty
+	std::cout << (beg1 == end1) << std::endl;
+	std::cout << (beg2 == end2) << std::endl;
+	std::cout << (beg3 == end3) << std::endl;
+	std::cout << (beg4 == end4) << std::endl;
+	std::cout << (beg5 == end5) << std::endl;
+
+	std::cout << (beg0 != end0) << std::endl; //false since tree is empty
+	std::cout << (beg1 != end1) << std::endl;
+	std::cout << (beg2 != end2) << std::endl;
+	std::cout << (beg3 != end3) << std::endl;
+	std::cout << (beg4 != end4) << std::endl;
+	std::cout << (beg5 != end5) << std::endl;
 
 	return 0;
 }
