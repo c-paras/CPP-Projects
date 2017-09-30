@@ -27,7 +27,7 @@ private:
 	double price;
 };
 
-int main(int argc, char *argv[]) {
+int main() {
 
 	//enable printing of booleans as "true" and "false"
 	std::cout << std::boolalpha;
@@ -401,25 +401,24 @@ int main(int argc, char *argv[]) {
 	std::cout << "t10: " << t10 << std::endl;
 
 	//insert some unique keys
-	std::cout << "Insert: " << t10.insert(16).second << std::endl;
-	std::cout << "Insert: " << t10.insert(42).second << std::endl;
-	std::cout << "Insert: " << t10.insert(-18).second << std::endl;
-	std::cout << "Insert: " << t10.insert(0).second << std::endl;
-	std::cout << "Insert: " << t10.insert(934).second << std::endl;
-	std::cout << "Insert: " << t10.insert(113).second << std::endl;
-	std::cout << "Insert: " << t10.insert(-392).second << std::endl;
+	std::cout << "Insert 16: " << t10.insert(16).second << std::endl;
+	std::cout << "Insert 42: " << t10.insert(42).second << std::endl;
+	std::cout << "Insert -18: " << t10.insert(-18).second << std::endl;
+	std::cout << "Insert 0: " << t10.insert(0).second << std::endl;
+	std::cout << "Insert 934: " << t10.insert(934).second << std::endl;
+	std::cout << "Insert 113: " << t10.insert(113).second << std::endl;
+	std::cout << "Insert -392: " << t10.insert(-392).second << std::endl;
 
 	std::cout << "t10: " << t10 << std::endl;
 
 	//try to re-insert the keys again
-	std::cout << "Insert: " << t10.insert(16).second << std::endl;
-	std::cout << "Insert: " << t10.insert(42).second << std::endl;
-	std::cout << "Insert: " << t10.insert(-18).second << std::endl;
-	std::cout << "Insert: " << t10.insert(0).second << std::endl;
-	std::cout << "Insert: " << t10.insert(934).second << std::endl;
-	std::cout << "Insert: " << t10.insert(113).second << std::endl;
-	std::cout << "Insert: " << t10.insert(-392).second << std::endl;
-
+	std::cout << "Insert 16: " << t10.insert(16).second << std::endl;
+	std::cout << "Insert 42: " << t10.insert(42).second << std::endl;
+	std::cout << "Insert -18: " << t10.insert(-18).second << std::endl;
+	std::cout << "Insert 0: " << t10.insert(0).second << std::endl;
+	std::cout << "Insert 934: " << t10.insert(934).second << std::endl;
+	std::cout << "Insert 113: " << t10.insert(113).second << std::endl;
+	std::cout << "Insert -392: " << t10.insert(-392).second << std::endl;
 	std::cout << "t10: " << t10 << std::endl;
 
 	//do an in-order traversal of all the trees
@@ -701,6 +700,216 @@ int main(int argc, char *argv[]) {
 	std::cout << (t10.find(44) == t10.end()) << std::endl;
 	std::cout << (t10.find(68) == t10.end()) << std::endl;
 	std::cout << (t10.find(-4) == t10.end()) << std::endl;
+
+	//create an empty btree of Cars with a node size of 1 (binary tree)
+	std::cout << "Create t11 of Cars with node size 1" << std::endl;
+	btree<Car> t11{1};
+	std::cout << "t11: " << t11 << std::endl;
+
+	//insert some unique keys
+	std::pair<btree<Car>::iterator, bool> b1 = t11.insert(Car("Toyota", 1500));
+	std::pair<btree<Car>::iterator, bool> b2 = t11.insert(Car("Honda", 9000));
+	std::pair<btree<Car>::iterator, bool> b3 = t11.insert(Car("Suzuki", 800));
+	std::pair<btree<Car>::iterator, bool> b4 = t11.insert(Car("Honda", 4000));
+	std::pair<btree<Car>::iterator, bool> b5 = t11.insert(Car("Toyota", 1200));
+	std::pair<btree<Car>::iterator, bool> b6 = t11.insert(Car("Ford", 1800));
+	std::pair<btree<Car>::iterator, bool> b7 = t11.insert(Car("Toyota", 20000));
+
+	//check the std::pair return value of insert()
+	std::cout << "Insert (Toyota, 1500): " << *b1.first << " " << b1.second << std::endl;
+	std::cout << "insert (Honda, 9000): " << *b2.first << " " << b2.second << std::endl;
+	std::cout << "Insert (Suzuki, 800): " << *b3.first << " " << b3.second << std::endl;
+	std::cout << "Insert (Honda, 4000): " << *b4.first << " " << b4.second << std::endl;
+	std::cout << "Insert (Toyota, 1200): " << *b5.first << " " << b5.second << std::endl;
+	std::cout << "Insert (Ford, 1800): " << *b6.first << " " << b6.second << std::endl;
+	std::cout << "Insert (Toyota, 20000): " << *b7.first << " " << b7.second << std::endl;
+
+	std::cout << "t11: " << t11 << std::endl;
+
+	//try to re-insert the keys again
+	std::pair<btree<Car>::iterator, bool> b_1 = t11.insert(Car("Toyota", 1500));
+	std::pair<btree<Car>::iterator, bool> b_2 = t11.insert(Car("Honda", 9000));
+	std::pair<btree<Car>::iterator, bool> b_3 = t11.insert(Car("Suzuki", 800));
+	std::pair<btree<Car>::iterator, bool> b_4 = t11.insert(Car("Honda", 4000));
+	std::pair<btree<Car>::iterator, bool> b_5 = t11.insert(Car("Toyota", 1200));
+	std::pair<btree<Car>::iterator, bool> b_6 = t11.insert(Car("Ford", 1800));
+	std::pair<btree<Car>::iterator, bool> b_7 = t11.insert(Car("Toyota", 20000));
+
+	//check the std::pair return value of insert()
+	std::cout << "Insert (Toyota, 1500): " << *b_1.first << " " << b_1.second << std::endl;
+	std::cout << "insert (Honda, 9000): " << *b_2.first << " " << b_2.second << std::endl;
+	std::cout << "Insert (Suzuki, 800): " << *b_3.first << " " << b_3.second << std::endl;
+	std::cout << "Insert (Honda, 4000): " << *b_4.first << " " << b_4.second << std::endl;
+	std::cout << "Insert (Toyota, 1200): " << *b_5.first << " " << b_5.second << std::endl;
+	std::cout << "Insert (Ford, 1800): " << *b_6.first << " " << b_6.second << std::endl;
+	std::cout << "Insert (Toyota, 20000): " << *b_7.first << " " << b_7.second << std::endl;
+
+	std::cout << "t11: " << t11 << std::endl;
+
+	//use post-increment for testing
+	b1.first++;
+	std::cout << "b1.first++ should be (Ford, 1800): " << *b1.first << std::endl;
+	b2.first++;
+	std::cout << "b2.first++ should be (Toyota, 20000): " << *b2.first << std::endl;
+	b3.first++;
+	std::cout << "b3.first++ should be (Toyota, 1200): " << *b3.first << std::endl;
+	b4.first++;
+	std::cout << "b4.first++ should be (Honda, 9000): " << *b4.first << std::endl;
+	b5.first++;
+	std::cout << "b5.first++ should be (Toyota, 1500): " << *b5.first << std::endl;
+	b6.first++;
+	std::cout << "b6.first++ should be (Honda, 4000): " << *b6.first << std::endl;
+	b7.first++;
+	std::cout << "b7.first++ should be the end: " << (b7.first == t11.end()) << std::endl;
+
+	//use post-increment for testing
+	b_1.first++;
+	std::cout << "b_1.first++ should be (Ford, 1800): " << *b_1.first << std::endl;
+	b_2.first++;
+	std::cout << "b_2.first++ should be (Toyota, 20000): " << *b_2.first << std::endl;
+	b_3.first++;
+	std::cout << "b_3.first++ should be (Toyota, 1200): " << *b_3.first << std::endl;
+	b_4.first++;
+	std::cout << "b_4.first++ should be (Honda, 9000): " << *b_4.first << std::endl;
+	b_5.first++;
+	std::cout << "b_5.first++ should be (Toyota, 1500): " << *b_5.first << std::endl;
+	b_6.first++;
+	std::cout << "b_6.first++ should be (Honda, 4000): " << *b_6.first << std::endl;
+	b_7.first++;
+	std::cout << "b_7.first++ should be the end: " << (b_7.first == t11.end()) << std::endl;
+
+	std::cout << "t11 traversal:";
+	for (auto it = t11.begin(); it != t11.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	btree<Car>::iterator beg11 = t11.begin();
+	btree<Car>::iterator end11 = t11.end();
+	std::cout << "First in Car tree: " << *beg11 << std::endl;
+	std::cout << "First brand: " << beg11->get_brand() << std::endl;
+	std::cout << "First price: " << beg11->get_price() << std::endl;
+	std::cout << (beg11 == end11) << std::endl;
+	std::cout << (beg11 != end11) << std::endl;
+
+	Car find1 = Car("Toyota", 1500);
+	Car find2 = Car("Suzuki", 800);
+	Car find3 = Car("Honda", 4000);
+	std::cout << (*t11.find(find1) == find1) << std::endl;
+	std::cout << (*t11.find(find2) == find2) << std::endl;
+	std::cout << (*t11.find(find3) == find3) << std::endl;
+
+	Car find4 = Car("Toyota", 4567);
+	Car find5 = Car("Suzuki", 1234);
+	Car find6 = Car("Honda", 9999);
+	std::cout << (t11.find(find4) == t11.end()) << std::endl;
+	std::cout << (t11.find(find5) == t11.end()) << std::endl;
+	std::cout << (t11.find(find6) == t11.end()) << std::endl;
+
+	//create an empty btree of Cars with a node size of 3
+	std::cout << "Create t12 of Cars with node size 3" << std::endl;
+	btree<Car> t12{3};
+	std::cout << "t12: " << t12 << std::endl;
+
+	//insert some unique keys
+	b1 = t12.insert(Car("Toyota", 1500));
+	b2 = t12.insert(Car("Honda", 9000));
+	b3 = t12.insert(Car("Suzuki", 800));
+	b4 = t12.insert(Car("Honda", 4000));
+	b5 = t12.insert(Car("Toyota", 1200));
+	b6 = t12.insert(Car("Ford", 1800));
+	b7 = t12.insert(Car("Toyota", 20000));
+
+	//check the std::pair return value of insert()
+	std::cout << "Insert (Toyota, 1500): " << *b1.first << " " << b1.second << std::endl;
+	std::cout << "insert (Honda, 9000): " << *b2.first << " " << b2.second << std::endl;
+	std::cout << "Insert (Suzuki, 800): " << *b3.first << " " << b3.second << std::endl;
+	std::cout << "Insert (Honda, 4000): " << *b4.first << " " << b4.second << std::endl;
+	std::cout << "Insert (Toyota, 1200): " << *b5.first << " " << b5.second << std::endl;
+	std::cout << "Insert (Ford, 1800): " << *b6.first << " " << b6.second << std::endl;
+	std::cout << "Insert (Toyota, 20000): " << *b7.first << " " << b7.second << std::endl;
+
+	std::cout << "t12: " << t12 << std::endl;
+
+	//try to re-insert the keys again
+	b_1 = t12.insert(Car("Toyota", 1500));
+	b_2 = t12.insert(Car("Honda", 9000));
+	b_3 = t12.insert(Car("Suzuki", 800));
+	b_4 = t12.insert(Car("Honda", 4000));
+	b_5 = t12.insert(Car("Toyota", 1200));
+	b_6 = t12.insert(Car("Ford", 1800));
+	b_7 = t12.insert(Car("Toyota", 20000));
+
+	//check the std::pair return value of insert()
+	std::cout << "Insert (Toyota, 1500): " << *b_1.first << " " << b_1.second << std::endl;
+	std::cout << "insert (Honda, 9000): " << *b_2.first << " " << b_2.second << std::endl;
+	std::cout << "Insert (Suzuki, 800): " << *b_3.first << " " << b_3.second << std::endl;
+	std::cout << "Insert (Honda, 4000): " << *b_4.first << " " << b_4.second << std::endl;
+	std::cout << "Insert (Toyota, 1200): " << *b_5.first << " " << b_5.second << std::endl;
+	std::cout << "Insert (Ford, 1800): " << *b_6.first << " " << b_6.second << std::endl;
+	std::cout << "Insert (Toyota, 20000): " << *b_7.first << " " << b_7.second << std::endl;
+
+	std::cout << "t12: " << t12 << std::endl;
+
+	//use post-increment for testing
+	//this would be undefined behaviour since the values in the nodes have been reordered
+	//thereby invalidating the iterators, so this is not a valid test case
+	/*
+	b1.first++;
+	std::cout << "b1.first++ should be (Ford, 1800): " << *b1.first << std::endl;
+	b2.first++;
+	std::cout << "b2.first++ should be (Toyota, 20000): " << *b2.first << std::endl;
+	b3.first++;
+	std::cout << "b3.first++ should be (Toyota, 1200): " << *b3.first << std::endl;
+	b4.first++;
+	std::cout << "b4.first++ should be (Honda, 9000): " << *b4.first << std::endl;
+	b5.first++;
+	std::cout << "b5.first++ should be (Toyota, 1500): " << *b5.first << std::endl;
+	b6.first++;
+	std::cout << "b6.first++ should be (Honda, 4000): " << *b6.first << std::endl;
+	b7.first++;
+	std::cout << "b7.first++ should be the end: " << (b7.first == t12.end()) << std::endl;
+	*/
+
+	//use post-increment for testing
+	//this is fine since the tree does not change (and is not meant to change)
+	//if the keys are already in the tree, which in this case they are
+	b_1.first++;
+	std::cout << "b_1.first++ should be (Ford, 1800): " << *b_1.first << std::endl;
+	b_2.first++;
+	std::cout << "b_2.first++ should be (Toyota, 20000): " << *b_2.first << std::endl;
+	b_3.first++;
+	std::cout << "b_3.first++ should be (Toyota, 1200): " << *b_3.first << std::endl;
+	b_4.first++;
+	std::cout << "b_4.first++ should be (Honda, 9000): " << *b_4.first << std::endl;
+	b_5.first++;
+	std::cout << "b_5.first++ should be (Toyota, 1500): " << *b_5.first << std::endl;
+	b_6.first++;
+	std::cout << "b_6.first++ should be (Honda, 4000): " << *b_6.first << std::endl;
+	b_7.first++;
+	std::cout << "b_7.first++ should be the end: " << (b_7.first == t12.end()) << std::endl;
+
+	std::cout << "t12 traversal:";
+	for (auto it = t12.begin(); it != t12.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	btree<Car>::iterator beg12 = t12.begin();
+	btree<Car>::iterator end12 = t12.end();
+	std::cout << "First in Car tree: " << *beg12 << std::endl;
+	std::cout << "First brand: " << beg12->get_brand() << std::endl;
+	std::cout << "First price: " << beg12->get_price() << std::endl;
+	std::cout << (beg12 == end12) << std::endl;
+	std::cout << (beg12 != end12) << std::endl;
+
+	std::cout << (*t12.find(find1) == find1) << std::endl;
+	std::cout << (*t12.find(find2) == find2) << std::endl;
+	std::cout << (*t12.find(find3) == find3) << std::endl;
+
+	std::cout << (t12.find(find4) == t12.end()) << std::endl;
+	std::cout << (t12.find(find5) == t12.end()) << std::endl;
+	std::cout << (t12.find(find6) == t12.end()) << std::endl;
 
 	return 0;
 }

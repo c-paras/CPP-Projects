@@ -25,8 +25,10 @@ public:
 	//iterator operations
 	reference operator*() const;
 	pointer operator->() const { return &(operator*()); }
-	btree_iterator<T>& operator++();
+	btree_iterator<T>& operator++(); //prefix
 	btree_iterator<T>& operator--();
+	btree_iterator<T> operator++(int); //postfix
+	btree_iterator<T> operator--(int);
 	bool operator==(const btree_iterator<T>& other) const;
 	bool operator!=(const btree_iterator<T>& other) const { return !operator==(other); }
 
@@ -58,7 +60,7 @@ typename btree_iterator<T>::reference btree_iterator<T>::operator*() const {
 	return const_cast<T&>(*cval);
 }
 
-//increment operator for an iterator
+//prefix increment operator for an iterator
 template <typename T>
 btree_iterator<T>& btree_iterator<T>::operator++() {
 	++cpos; //go to next value position in current node
@@ -112,9 +114,23 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 	return *this;
 }
 
-//decrement operator for an iterator
+//prefix decrement operator for an iterator
 template <typename T>
 btree_iterator<T>& btree_iterator<T>::operator--() {
+	//TODO
+}
+
+//postfix increment operator for an iterator
+template <typename T>
+btree_iterator<T> btree_iterator<T>::operator++(int) {
+	btree_iterator<T> temp = *this;
+	++*this;
+	return temp;
+}
+
+//postfix decrement operator for an iterator
+template <typename T>
+btree_iterator<T> btree_iterator<T>::operator--(int) {
 	//TODO
 }
 
