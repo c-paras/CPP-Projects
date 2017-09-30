@@ -262,7 +262,7 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "t4: " << t4 << std::endl;
 
-	//create an empty btree of characters with a node size of 1
+	//create an empty btree of characters with a node size of 1 (binary tree)
 	std::cout << "Create t5 of chars with node size 1" << std::endl;
 	btree<char> t5{1};
 	std::cout << "t5: " << t5 << std::endl;
@@ -288,6 +288,112 @@ int main(int argc, char *argv[]) {
 	std::cout << "Insert F: " << t5.insert('F').second << std::endl;
 
 	std::cout << "t5: " << t5 << std::endl;
+
+	//create an empty btree of characters with a node size of 1 (binary tree)
+	std::cout << "Create t6 of chars with node size 1" << std::endl;
+	btree<char> t6{1};
+	std::cout << "t6: " << t6 << std::endl;
+
+	//insert some unique keys
+	std::cout << "Insert J: " << t6.insert('J').second << std::endl;
+	std::cout << "Insert H: " << t6.insert('H').second << std::endl;
+	std::cout << "Insert L: " << t6.insert('L').second << std::endl;
+	std::cout << "Insert G: " << t6.insert('G').second << std::endl;
+	std::cout << "Insert N: " << t6.insert('N').second << std::endl;
+	std::cout << "Insert E: " << t6.insert('E').second << std::endl;
+	std::cout << "Insert P: " << t6.insert('P').second << std::endl;
+	std::cout << "Insert C: " << t6.insert('C').second << std::endl;
+	std::cout << "Insert R: " << t6.insert('R').second << std::endl;
+	std::cout << "Insert A: " << t6.insert('A').second << std::endl;
+	std::cout << "Insert T: " << t6.insert('T').second << std::endl;
+
+	std::cout << "t6: " << t6 << std::endl;
+
+	//try to re-insert the keys again
+	std::cout << "Insert J: " << t6.insert('J').second << std::endl;
+	std::cout << "Insert H: " << t6.insert('H').second << std::endl;
+	std::cout << "Insert L: " << t6.insert('L').second << std::endl;
+	std::cout << "Insert G: " << t6.insert('G').second << std::endl;
+	std::cout << "Insert N: " << t6.insert('N').second << std::endl;
+	std::cout << "Insert E: " << t6.insert('E').second << std::endl;
+	std::cout << "Insert P: " << t6.insert('P').second << std::endl;
+	std::cout << "Insert C: " << t6.insert('C').second << std::endl;
+	std::cout << "Insert R: " << t6.insert('R').second << std::endl;
+	std::cout << "Insert A: " << t6.insert('A').second << std::endl;
+	std::cout << "Insert T: " << t6.insert('T').second << std::endl;
+
+	std::cout << "t6: " << t6 << std::endl;
+
+	//create an empty btree of unsigned integers with a node size of 3
+	std::cout << "Create t7 of unsigned integers with node size 3" << std::endl;
+	btree<unsigned long> t7{3};
+	std::cout << "t7: " << t7 << std::endl;
+
+	//insert some unique keys
+	std::cout << "Insert 4: " << t7.insert(4).second << std::endl;
+	std::cout << "Insert 8: " << t7.insert(8).second << std::endl;
+	std::cout << "Insert 12: " << t7.insert(12).second << std::endl;
+	std::cout << "Insert 14: " << t7.insert(14).second << std::endl;
+	std::cout << "Insert 70: " << t7.insert(70).second << std::endl;
+	std::cout << "Insert 138: " << t7.insert(138).second << std::endl;
+	std::cout << "Insert 13: " << t7.insert(13).second << std::endl;
+	for (unsigned long i = 15; i < 70; ++i) {
+		std::cout << "Insert " << i << ": " << t7.insert(i).second << std::endl;
+	}
+
+	std::cout << "t7: " << t7 << std::endl;
+
+	//try to re-insert the keys again
+	std::cout << "Insert 4: " << t7.insert(4).second << std::endl;
+	std::cout << "Insert 8: " << t7.insert(8).second << std::endl;
+	std::cout << "Insert 12: " << t7.insert(12).second << std::endl;
+	std::cout << "Insert 14: " << t7.insert(14).second << std::endl;
+	std::cout << "Insert 70: " << t7.insert(70).second << std::endl;
+	std::cout << "Insert 138: " << t7.insert(138).second << std::endl;
+	std::cout << "Insert 13: " << t7.insert(13).second << std::endl;
+	for (unsigned long i = 15; i < 70; ++i) {
+		std::cout << "Insert " << i << ": " << t7.insert(i).second << std::endl;
+	}
+
+	std::cout << "t7: " << t7 << std::endl;
+
+	//create an empty btree of integers with a node size of 100
+	std::cout << "Create t8 of integers with node size 100" << std::endl;
+	btree<long long int> t8{100};
+	std::cout << "t8: " << t8 << std::endl;
+
+	//insert some unique keys
+	for (long long int i = 1; i <= 300; ++i) {
+		std::cout << "Insert " << i << ": " << t8.insert(i).second << std::endl;
+	}
+
+	std::cout << "t8: " << t8 << std::endl;
+
+	//try to re-insert the keys again
+	for (long int i = 1; i <= 300; ++i) {
+		std::cout << "Insert " << i << ": " << t8.insert(i).second << std::endl;
+	}
+
+	std::cout << "t8: " << t8 << std::endl;
+
+	//create an empty btree of integers with a node size of 100
+	std::cout << "Create t9 of integers with node size 100" << std::endl;
+	btree<long long int> t9{100};
+	std::cout << "t9: " << t9 << std::endl;
+
+	//insert some unique keys
+	for (long long int i = 300; i >= 1; --i) {
+		std::cout << "Insert " << i << ": " << t9.insert(i).second << std::endl;
+	}
+
+	std::cout << "t9: " << t9 << std::endl;
+
+	//try to re-insert the keys again
+	for (long int i = 300; i >= 1; --i) {
+		std::cout << "Insert " << i << ": " << t9.insert(i).second << std::endl;
+	}
+
+	std::cout << "t9: " << t9 << std::endl;
 
 	//do an in-order traversal of all the trees
 	std::cout << "t1 traversal:";
@@ -320,6 +426,30 @@ int main(int argc, char *argv[]) {
 	}
 	std::cout << std::endl;
 
+	std::cout << "t6 traversal:";
+	for (auto it = t6.begin(); it != t6.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 traversal:";
+	for (auto it = t7.begin(); it != t7.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t8 traversal:";
+	for (auto it = t8.begin(); it != t8.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t9 traversal:";
+	for (auto it = t9.begin(); it != t9.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
 	//validate the iterator code
 	std::cout << "Check that begin() and end() return the right thing" << std::endl;
 	btree<std::string>::iterator beg0 = t0.begin();
@@ -328,6 +458,10 @@ int main(int argc, char *argv[]) {
 	btree<std::string>::iterator beg3 = t3.begin();
 	btree<Car>::iterator beg4 = t4.begin();
 	btree<char>::iterator beg5 = t5.begin();
+	btree<char>::iterator beg6 = t6.begin();
+	btree<unsigned long>::iterator beg7 = t7.begin();
+	btree<long long int>::iterator beg8 = t8.begin();
+	btree<long long int>::iterator beg9 = t9.begin();
 
 	btree<std::string>::iterator end0 = t0.end();
 	btree<char>::iterator end1 = t1.end();
@@ -335,6 +469,10 @@ int main(int argc, char *argv[]) {
 	btree<std::string>::iterator end3 = t3.end();
 	btree<Car>::iterator end4 = t4.end();
 	btree<char>::iterator end5 = t5.end();
+	btree<char>::iterator end6 = t6.end();
+	btree<unsigned long>::iterator end7 = t7.end();
+	btree<long long int>::iterator end8 = t8.end();
+	btree<long long int>::iterator end9 = t9.end();
 
 	std::cout << "Check that the dereference operator works:" << std::endl;
 	std::cout << "First in char tree: " << *beg1 << std::endl;
@@ -342,6 +480,10 @@ int main(int argc, char *argv[]) {
 	std::cout << "First in string tree: " << *beg3 << std::endl;
 	std::cout << "First in Car tree: " << *beg4 << std::endl;
 	std::cout << "First in char tree: " << *beg5 << std::endl;
+	std::cout << "First in char tree: " << *beg6 << std::endl;
+	std::cout << "First in unsigned long tree: " << *beg7 << std::endl;
+	std::cout << "First in long long int tree: " << *beg8 << std::endl;
+	std::cout << "First in long long int tree: " << *beg9 << std::endl;
 
 	std::cout << "Check that the arrow operator works:" << std::endl;
 	std::cout << "First brand: " << beg4->get_brand() << std::endl;
@@ -354,6 +496,10 @@ int main(int argc, char *argv[]) {
 	std::cout << (beg3 == end3) << std::endl;
 	std::cout << (beg4 == end4) << std::endl;
 	std::cout << (beg5 == end5) << std::endl;
+	std::cout << (beg6 == end6) << std::endl;
+	std::cout << (beg7 == end7) << std::endl;
+	std::cout << (beg8 == end8) << std::endl;
+	std::cout << (beg9 == end9) << std::endl;
 
 	std::cout << (beg0 != end0) << std::endl; //false since tree is empty
 	std::cout << (beg1 != end1) << std::endl;
@@ -361,6 +507,10 @@ int main(int argc, char *argv[]) {
 	std::cout << (beg3 != end3) << std::endl;
 	std::cout << (beg4 != end4) << std::endl;
 	std::cout << (beg5 != end5) << std::endl;
+	std::cout << (beg6 != end6) << std::endl;
+	std::cout << (beg7 != end7) << std::endl;
+	std::cout << (beg8 != end8) << std::endl;
+	std::cout << (beg9 != end9) << std::endl;
 
 	return 0;
 }
