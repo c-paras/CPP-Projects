@@ -215,17 +215,13 @@ private:
 		friend class btree_iterator<T>;
 
 		//constructor for a node
-		node(const T& elem, node *parent, size_t node_size);
+		node(const T& elem, node *parent, size_t position, size_t node_size);
 
 		//inserts elem into the appropriate node of the btree
 		std::pair<iterator, bool> insert(const T& elem, node *parent);
 
 		//displays the keys in the node and its children in level order
 		void show();
-
-		//return the key at the given position
-		const T& getVal(size_t pos) const; //TODO
-
 	private:
 		//a node consists of a collection of keys
 		std::set<T> keys;
@@ -233,8 +229,11 @@ private:
 		//a vector of pointers to its children nodes
 		std::vector<node_ptr> children;
 
-		//and a (non-owning) pointer to its parent node
+		//a (non-owning) pointer to its parent node
 		node *parent;
+
+		//and an index indicating which child of the parent this node is
+		size_t position;
 
 		//the maximum number of keys this node can hold
 		size_t node_size;
@@ -243,8 +242,8 @@ private:
 };
 
 template <typename T>
-btree<T>::node::node(const T& elem, node *p, size_t node_size) :
-	parent{p}, node_size{node_size} {
+btree<T>::node::node(const T& elem, node *p, size_t pos, size_t node_size) :
+	parent{p}, position{pos}, node_size{node_size} {
 	keys.insert(elem);
 	children.resize(node_size + 1);
 	std::fill(children.begin(), children.begin() + node_size + 1, nullptr);
@@ -253,7 +252,7 @@ btree<T>::node::node(const T& elem, node *p, size_t node_size) :
 template <typename T>
 std::pair<typename btree<T>::iterator, bool> btree<T>::insert(const T& elem) {
 	if (root == nullptr) {
-		node n{elem, nullptr, node_size};
+		node n{elem, nullptr, 0, node_size};
 		root = std::make_unique<node>(std::move(n));
 		iterator it;
 		return std::make_pair(it, true);
@@ -279,19 +278,18 @@ btree<T>::node::insert(const T& elem, node *parent) {
 		size_t i = 0;
 		for (const auto& k: keys) {
 			if (elem < k) break; //find the relevant child branch
-			i++;
+			++i;
 		}
 		if (children[i] == nullptr) {
 			//insert new node at child branch if not there
-			node n{elem, parent, node_size};
+			node n{elem, parent, i, node_size};
 			auto child = std::make_unique<node>(std::move(n));
 			children[i] = std::move(child);
 			iterator it;
 			return std::make_pair(it, true);
 		} else {
 			//recursively find the right child branch
-			node *p = this;
-			return children[i]->insert(elem, p);
+			return children[i]->insert(elem, &*children[i]);
 		}
 	}
 	iterator it;
@@ -332,16 +330,6 @@ void btree<T>::node::show() {
 			}
 		}
 	}
-}
-
-template <typename T>
-const T& btree<T>::node::getVal(size_t pos) const {
-/*	size_t i = 0;
-	for (const auto& k: keys) {
-		if (i == pos) return k;
-	}
-	return T{};*/
-	return *keys.begin(); //TODO
 }
 
 template <typename T>

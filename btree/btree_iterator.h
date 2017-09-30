@@ -46,50 +46,69 @@ private:
 template <typename T>
 btree_iterator<T>::btree_iterator(typename btree<T>::node *cnode, size_t cpos,
 typename btree<T>::node *root) : cnode{cnode}, cpos{cpos}, root{root} {
-	cval = cnode->keys.begin();
+	if (cnode != nullptr) {
+		cval = cnode->keys.begin();
+	}
 }
 
 //dereference operator for an iterator
 template <typename T>
 typename btree_iterator<T>::reference btree_iterator<T>::operator*() const {
-	return const_cast<char&>(*cval);//node->getVal(cpos));
+	return const_cast<T&>(*cval);
 }
 
 //increment operator for an iterator
 template <typename T>
 btree_iterator<T>& btree_iterator<T>::operator++() {
-//if (cnode == nullptr) { return *this; }
-	if (&*cnode->children[cpos] != nullptr) {
-		//go to child node if present
-		cnode = &*cnode->children[cpos];
-		cval = cnode->keys.begin();
-		cpos = 0;
-		return *this;
-	} else {
-		//otherwise, go to next value in node
-		cval++;
-		cpos++;
+	++cpos; //go to next value position in current node
+
+	if (&*cnode->children[cpos] == nullptr) {
+		//move to next value in node if no child node in between
+		++cval;
 		if (cval == cnode->keys.end()) {
-			//go to parent node if out of values in this node
-			cnode = &*cnode->parent;
-//if (cnode == nullptr) {
-//std::cerr << "null cnode" << std::endl;
-//}
+
+			//go to "upper-most" parent node if no more values in this node
+			while (cnode->parent != nullptr) {
+				cpos = cnode->position;
+				cnode = &*cnode->parent;
+				//keep moving up parent nodes until a node is found such that
+				//this node is a non-far right child - i.e. any left child
+				if (cpos != cnode->node_size) {
+					break;
+				}
+			}
+
+			//if the last value in the node corresponds to the last position
+			//in the "upper-most" parent, then that value was the last in the
+			//in-order traversal of the btree
+			if (cpos == cnode->node_size) {
+				cnode = nullptr;
+				return *this;
+			}
+
+			//move to correct value in the node - i.e. whatever cpos is
 			size_t i = 0;
 			T val{};
-//cpos--;
 			for (const auto& k: cnode->keys) {
 				if (i == cpos) {
 					val = k;
 					break;
 				}
-				i++;
+				++i;
 			}
 			cval = cnode->keys.find(val);
-			cpos++;
+
 		}
-		return *this;
+	} else {
+		//move to the child node and then traverse to the left-most node
+		cnode = &*cnode->children[cpos];
+		while (&*cnode->children[0] != nullptr) {
+			cnode = &*cnode->children[0];
+		}
+		cval = cnode->keys.begin();
+		cpos = 0;
 	}
+	return *this;
 }
 
 //decrement operator for an iterator
@@ -101,7 +120,11 @@ btree_iterator<T>& btree_iterator<T>::operator--() {
 //test equality of iterators
 template <typename T>
 bool btree_iterator<T>::operator==(const btree_iterator<T>& other) const {
-	return cval == other.cval;
+	if (cnode == nullptr && other.cnode == nullptr) {
+		return true;
+	} else {
+		return cval == other.cval;
+	}
 }
 
 template <typename T>

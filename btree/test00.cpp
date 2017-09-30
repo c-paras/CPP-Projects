@@ -257,9 +257,63 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "t4: " << t4 << std::endl;
 
-	for (btree<char>::iterator it = t1.begin(); it != t1.end(); ++it) {
-		std::cout << *it << std::endl;
+	//create an empty btree of characters with a node size of 1
+	std::cout << "Create t5 of chars with node size 1" << std::endl;
+	btree<char> t5{1};
+	std::cout << "t5: " << t5 << std::endl;
+
+	//insert some unique keys
+	std::cout << "Insert C: " << t5.insert('C').second << std::endl;
+	std::cout << "Insert B: " << t5.insert('B').second << std::endl;
+	std::cout << "Insert A: " << t5.insert('A').second << std::endl;
+	std::cout << "Insert G: " << t5.insert('G').second << std::endl;
+	std::cout << "Insert E: " << t5.insert('E').second << std::endl;
+	std::cout << "Insert D: " << t5.insert('D').second << std::endl;
+	std::cout << "Insert F: " << t5.insert('F').second << std::endl;
+
+	std::cout << "t5: " << t5 << std::endl;
+
+	//try to re-insert the keys again
+	std::cout << "Insert C: " << t5.insert('C').second << std::endl;
+	std::cout << "Insert B: " << t5.insert('B').second << std::endl;
+	std::cout << "Insert A: " << t5.insert('A').second << std::endl;
+	std::cout << "Insert G: " << t5.insert('G').second << std::endl;
+	std::cout << "Insert E: " << t5.insert('E').second << std::endl;
+	std::cout << "Insert D: " << t5.insert('D').second << std::endl;
+	std::cout << "Insert F: " << t5.insert('F').second << std::endl;
+
+	std::cout << "t5: " << t5 << std::endl;
+
+	//do an in-order traversal of all the trees
+	std::cout << "t1 traversal:" << std::endl;
+	for (auto it = t1.begin(); it != t1.end(); ++it) {
+		std::cout << " " << *it;
 	}
+	std::cout << std::endl;
+
+	std::cout << "t2 traversal:" << std::endl;
+	for (auto it = t2.begin(); it != t2.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t3 traversal:" << std::endl;
+	for (auto it = t3.begin(); it != t3.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t4 traversal:" << std::endl;
+	for (auto it = t4.begin(); it != t4.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t5 traversal:" << std::endl;
+	for (auto it = t5.begin(); it != t5.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
 
 	return 0;
 }
