@@ -31,7 +31,6 @@ public:
 	bool operator!=(const btree_iterator<T>& other) const { return !operator==(other); }
 
 	//iterator constructor
-	btree_iterator() { } //TODO
 	btree_iterator(typename btree<T>::node *cnode, size_t cpos, typename btree<T>::node *root);
 private:
 	typename btree<T>::node *cnode; //current node in tree
@@ -47,6 +46,8 @@ template <typename T>
 btree_iterator<T>::btree_iterator(typename btree<T>::node *cnode, size_t cpos,
 typename btree<T>::node *root) : cnode{cnode}, cpos{cpos}, root{root} {
 	if (cnode != nullptr) {
+		//set cval to the first value in the node regardless of the cpos
+		//but only if not called from an empty tree or from end()
 		cval = cnode->keys.begin();
 	}
 }
