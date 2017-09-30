@@ -150,14 +150,12 @@ public:
 	 * the non-const end() returns if the element could
 	 * not be found.
 	 *
-	 * @param elem the client element we are trying to match. The elem,
-	 *        if an instance of a true class, relies on the operator< and
-	 *        and operator== methods to compare elem to elements already
-	 *        in the btree. You must ensure that your class implements
-	 *        these things, else code making use of btree<T>::find will
-	 *        not compile.
+	 * Requires T's operator< and operator== methods to be defined
+	 * so that elem can be compared to elements in the btree.
+	 *
+	 * @param elem the client element to search for
 	 * @return an iterator to the matching element, or whatever the
-	 *         non-const end() returns if no such match was ever found.
+	 *         non-const end() returns if no such match is found
 	 */
 	iterator find(const T& elem);
 
@@ -166,9 +164,9 @@ public:
 	 * save the fact that what's pointed to by the returned iterator
 	 * is deemed as const and immutable.
 	 *
-	 * @param elem the client element we are trying to match.
+	 * @param elem the client element to search for
 	 * @return an iterator to the matching element, or whatever the
-	 *         const end() returns if no such match was ever found.
+	 *         const end() returns if no such match is found
 	 */
 	const_iterator find(const T& elem) const;
 
@@ -176,7 +174,7 @@ public:
 	 * Inserts the specified element into the btree.
 	 *
 	 * If the element does not already exist, it is inserted, effectively
-	 * increasing the size of the btree by one and a pair containing and
+	 * increasing the size of the btree by one and a pair containing an
 	 * iterator to the inserted element and true is returned.
 	 *
 	 * If a matching element already exists in the btree, nothing
@@ -187,7 +185,7 @@ public:
 	 * Requires T's zero-arg constructor, operator= method, operator==
 	 * method and operator< method to be defined.
 	 *
-	 * @param elem the element to be inserted
+	 * @param elem the element to be inserted in the btree
 	 * @return a pair whose first field is an iterator positioned at
 	 *         the matching element in the btree, and whose second field
 	 *         stores true if and only if the element was actually added
@@ -205,7 +203,7 @@ public:
 private:
 	class node;
 	using node_ptr = std::unique_ptr<node>;
-	node_ptr root{nullptr}; //a b-tree has a pointer to the root node
+	node_ptr root{nullptr}; //a btree has a pointer to the root node
 	size_t node_size; //and a value representing the maximum size of nodes
 
 	class node {
@@ -349,6 +347,13 @@ typename btree<T>::iterator btree<T>::begin() const {
 template <typename T>
 typename btree<T>::iterator btree<T>::end() const {
 	return btree<T>::iterator(nullptr, 0, &*root);
+}
+
+template <typename T>
+typename btree<T>::iterator btree<T>::find(const T& elem) {
+	return std::find_if(this->begin(), this->end(), [&elem] (const T& curr) {
+		return curr == elem;
+	});
 }
 
 #endif

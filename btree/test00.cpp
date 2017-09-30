@@ -550,5 +550,157 @@ int main(int argc, char *argv[]) {
 	std::cout << (beg9 != end9) << std::endl;
 	std::cout << (beg10 != end10) << std::endl;
 
+	//check that find() works
+	std::cout << "Search for keys in the btrees" << std::endl;
+
+	std::cout << (*t1.find('M') == 'M') << std::endl;
+	std::cout << (*t1.find('X') == 'X') << std::endl;
+	std::cout << (*t1.find('P') == 'P') << std::endl;
+	std::cout << (*t1.find('G') == 'G') << std::endl;
+	std::cout << (*t1.find('T') == 'T') << std::endl;
+	std::cout << (*t1.find('B') == 'B') << std::endl;
+	std::cout << (*t1.find('Z') == 'Z') << std::endl;
+	std::cout << (*t1.find('N') == 'N') << std::endl;
+	std::cout << (*t1.find('R') == 'R') << std::endl;
+	std::cout << (*t1.find('S') == 'S') << std::endl;
+	std::cout << (*t1.find('W') == 'W') << std::endl;
+	std::cout << (*t1.find('Q') == 'Q') << std::endl;
+	std::cout << (*t1.find('V') == 'V') << std::endl;
+
+	std::cout << (*t2.find(16) == 16) << std::endl;
+	std::cout << (*t2.find(-248) == -248) << std::endl;
+	std::cout << (*t2.find(672) == 672) << std::endl;
+
+	std::cout << (*t3.find("A") == "A") << std::endl;
+	std::cout << (*t3.find("BB") == "BB") << std::endl;
+	std::cout << (*t3.find("CCC") == "CCC") << std::endl;
+
+	Car c1 = Car("Toyota", 15000);
+	std::cout << (*t4.find(c1) == c1) << std::endl;
+	Car c2 = Car("Nissan", 26999);
+	std::cout << (*t4.find(c2) == c2) << std::endl;
+	Car c3 = Car("Honda", 18999);
+	std::cout << (*t4.find(c3) == c3) << std::endl;
+
+	std::cout << (*t5.find('C') == 'C') << std::endl;
+	std::cout << (*t5.find('B') == 'B') << std::endl;
+	std::cout << (*t5.find('A') == 'A') << std::endl;
+	std::cout << (*t5.find('G') == 'G') << std::endl;
+	std::cout << (*t5.find('E') == 'E') << std::endl;
+	std::cout << (*t5.find('D') == 'D') << std::endl;
+	std::cout << (*t5.find('F') == 'F') << std::endl;
+
+	std::cout << (*t6.find('J') == 'J') << std::endl;
+	std::cout << (*t6.find('G') == 'G') << std::endl;
+	std::cout << (*t6.find('R') == 'R') << std::endl;
+
+	std::cout << (*t7.find(4) == 4) << std::endl;
+	std::cout << (*t7.find(8) == 8) << std::endl;
+	std::cout << (*t7.find(12) == 12) << std::endl;
+	std::cout << (*t7.find(14) == 14) << std::endl;
+	std::cout << (*t7.find(70) == 70) << std::endl;
+	std::cout << (*t7.find(138) == 138) << std::endl;
+	std::cout << (*t7.find(13) == 13) << std::endl;
+	for (unsigned long i = 15; i < 70; ++i) {
+		std::cout << (*t7.find(i) == i) << std::endl;
+	}
+
+	bool error = false;
+	for (long long int i = 1; i <= 300; ++i) {
+		if (t8.find(i) == t8.end() || *t8.find(i) != i) {
+			std::cout << "Error: key " << i << " not in t8" << std::endl;
+			error = true;
+		}
+	}
+	if (error == false) std::cout << "All keys in t8 found" << std::endl;
+
+	error = false;
+	for (long long int i = 1; i <= 300; ++i) {
+		if (t9.find(i) == t9.end() || *t9.find(i) != i) {
+			std::cout << "Error: key " << i << " not in t9" << std::endl;
+			error = true;
+		}
+	}
+	if (error == false) std::cout << "All keys in t9 found" << std::endl;
+
+	std::cout << (*t10.find(16) == 16) << std::endl;
+	std::cout << (*t10.find(42) == 42) << std::endl;
+	std::cout << (*t10.find(-18) == -18) << std::endl;
+	std::cout << (*t10.find(0) == 0) << std::endl;
+	std::cout << (*t10.find(934) == 934) << std::endl;
+	std::cout << (*t10.find(113) == 113) << std::endl;
+	std::cout << (*t10.find(-392) == -392) << std::endl;
+
+	std::cout << "Search for keys not in the btrees" << std::endl;
+
+	std::cout << (t1.find('A') == t1.end()) << std::endl;
+	std::cout << (t1.find('C') == t1.end()) << std::endl;
+	std::cout << (t1.find('D') == t1.end()) << std::endl;
+	std::cout << (t1.find('E') == t1.end()) << std::endl;
+	std::cout << (t1.find('F') == t1.end()) << std::endl;
+	std::cout << (t1.find('H') == t1.end()) << std::endl;
+	std::cout << (t1.find('I') == t1.end()) << std::endl;
+	std::cout << (t1.find('J') == t1.end()) << std::endl;
+	std::cout << (t1.find('K') == t1.end()) << std::endl;
+	std::cout << (t1.find('L') == t1.end()) << std::endl;
+	std::cout << (t1.find('O') == t1.end()) << std::endl;
+	std::cout << (t1.find('U') == t1.end()) << std::endl;
+	std::cout << (t1.find('Y') == t1.end()) << std::endl;
+
+	std::cout << (t2.find(31) == t2.end()) << std::endl;
+	std::cout << (t2.find(999) == t2.end()) << std::endl;
+	std::cout << (t2.find(-42) == t2.end()) << std::endl;
+
+	std::cout << (t3.find("AAAAA") == t3.end()) << std::endl;
+	std::cout << (t3.find("ABAB") == t3.end()) << std::endl;
+	std::cout << (t3.find("CCA") == t3.end()) << std::endl;
+
+	Car c4 = Car("Toyota", 23499);
+	std::cout << (t4.find(c4) == t4.end()) << std::endl;
+	Car c5 = Car("Honda", 45699);
+	std::cout << (t4.find(c5) == t4.end()) << std::endl;
+	Car c6 = Car("Suzuki", 12999);
+	std::cout << (t4.find(c6) == t4.end()) << std::endl;
+
+	std::cout << (t5.find('X') == t5.end()) << std::endl;
+	std::cout << (t5.find('Z') == t5.end()) << std::endl;
+	std::cout << (t5.find('Q') == t5.end()) << std::endl;
+	std::cout << (t5.find('Y') == t5.end()) << std::endl;
+	std::cout << (t5.find('W') == t5.end()) << std::endl;
+	std::cout << (t5.find('V') == t5.end()) << std::endl;
+	std::cout << (t5.find('M') == t5.end()) << std::endl;
+
+	std::cout << (t6.find('Z') == t6.end()) << std::endl;
+	std::cout << (t6.find('Q') == t6.end()) << std::endl;
+	std::cout << (t6.find('F') == t6.end()) << std::endl;
+
+	std::cout << (t7.find(1) == t7.end()) << std::endl;
+	std::cout << (t7.find(2) == t7.end()) << std::endl;
+	std::cout << (t7.find(3) == t7.end()) << std::endl;
+	std::cout << (t7.find(5) == t7.end()) << std::endl;
+	std::cout << (t7.find(6) == t7.end()) << std::endl;
+	std::cout << (t7.find(7) == t7.end()) << std::endl;
+	std::cout << (t7.find(9) == t7.end()) << std::endl;
+	std::cout << (t7.find(10) == t7.end()) << std::endl;
+	std::cout << (t7.find(11) == t7.end()) << std::endl;
+	for (unsigned long i = 71; i < 138; ++i) {
+		std::cout << (t7.find(i) == t7.end()) << std::endl;
+	}
+	for (unsigned long i = 139; i < 150; ++i) {
+		std::cout << (t7.find(i) == t7.end()) << std::endl;
+	}
+
+	std::cout << (t8.find(-1) == t8.end()) << std::endl;
+	std::cout << (t8.find(301) == t8.end()) << std::endl;
+	std::cout << (t8.find(994) == t8.end()) << std::endl;
+
+	std::cout << (t9.find(-1) == t9.end()) << std::endl;
+	std::cout << (t9.find(301) == t9.end()) << std::endl;
+	std::cout << (t9.find(994) == t9.end()) << std::endl;
+
+	std::cout << (t10.find(44) == t10.end()) << std::endl;
+	std::cout << (t10.find(68) == t10.end()) << std::endl;
+	std::cout << (t10.find(-4) == t10.end()) << std::endl;
+
 	return 0;
 }
