@@ -73,7 +73,7 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 				cnode = &*cnode->parent;
 				//keep moving up parent nodes until a node is found such that
 				//this node is a non-far right child - i.e. any left child
-				if (cpos != cnode->node_size) {
+				if (cpos != cnode->keys.size()) {
 					break;
 				}
 			}
@@ -81,7 +81,7 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 			//if the last value in the node corresponds to the last position
 			//in the "upper-most" parent, then that value was the last in the
 			//in-order traversal of the btree
-			if (cpos == cnode->node_size) {
+			if (cpos >= cnode->keys.size()) {
 				cnode = nullptr;
 				return *this;
 			}

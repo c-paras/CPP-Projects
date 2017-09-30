@@ -75,7 +75,7 @@ public:
 	 *
 	 * @param original an rvalue reference to a B-Tree object
 	 */
-	btree(btree<T>&& original);
+	btree(btree<T>&& original) noexcept;
 
 	/**
 	 * Copy assignment
@@ -92,7 +92,7 @@ public:
 	 *
 	 * @param rhs a const reference to a B-Tree object
 	 */
-	btree<T>& operator=(btree<T>&& rhs);
+	btree<T>& operator=(btree<T>&& rhs) noexcept;
 
 	/**
 	 * Puts a breadth-first traversal of the btree onto the output
@@ -108,42 +108,42 @@ public:
 	/**
 	 * Returns an iterator positioned at the first element.
 	 */
-	iterator begin();
+	iterator begin() const;
 
 	/**
 	 * Returns an iterator positioned at one past the last element.
 	 */
-	iterator end();
+	iterator end() const;
 
 	/**
 	 * Returns an iterator positioned at the last element.
 	 */
-	iterator rbegin();
+	iterator rbegin() const;
 
 	/**
 	 * Returns an iterator positioned at one before the first element.
 	 */
-	iterator rend();
+	iterator rend() const;
 
 	/**
 	 * Returns a const iterator positioned at the first element.
 	 */
-	const_iterator cbegin();
+	const_iterator cbegin() const;
 
 	/**
 	 * Returns a const iterator positioned at one past the last element.
 	 */
-	const_iterator cend();
+	const_iterator cend() const;
 
 	/**
 	 * Returns a const iterator positioned at the last element.
 	 */
-	const_iterator crbegin();
+	const_iterator crbegin() const;
 
 	/**
 	 * Returns a const iterator positioned at one before the first element.
 	 */
-	const_iterator crend();
+	const_iterator crend() const;
 
 	/**
 	 * Returns an iterator to the matching element, or whatever
@@ -333,7 +333,7 @@ void btree<T>::node::show() {
 }
 
 template <typename T>
-typename btree<T>::iterator btree<T>::begin() {
+typename btree<T>::iterator btree<T>::begin() const {
 	if (root == nullptr) {
 		return iterator(&*root, 0, &*root);
 	} else {
@@ -347,7 +347,7 @@ typename btree<T>::iterator btree<T>::begin() {
 }
 
 template <typename T>
-typename btree<T>::iterator btree<T>::end() {
+typename btree<T>::iterator btree<T>::end() const {
 	return btree<T>::iterator(nullptr, 0, &*root);
 }
 

@@ -395,6 +395,33 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "t9: " << t9 << std::endl;
 
+	//create an empty btree of integers with a node size of 40 (default)
+	std::cout << "Create t10 of integers with node size 40" << std::endl;
+	btree<int> t10;
+	std::cout << "t10: " << t10 << std::endl;
+
+	//insert some unique keys
+	std::cout << "Insert: " << t10.insert(16).second << std::endl;
+	std::cout << "Insert: " << t10.insert(42).second << std::endl;
+	std::cout << "Insert: " << t10.insert(-18).second << std::endl;
+	std::cout << "Insert: " << t10.insert(0).second << std::endl;
+	std::cout << "Insert: " << t10.insert(934).second << std::endl;
+	std::cout << "Insert: " << t10.insert(113).second << std::endl;
+	std::cout << "Insert: " << t10.insert(-392).second << std::endl;
+
+	std::cout << "t10: " << t10 << std::endl;
+
+	//try to re-insert the keys again
+	std::cout << "Insert: " << t10.insert(16).second << std::endl;
+	std::cout << "Insert: " << t10.insert(42).second << std::endl;
+	std::cout << "Insert: " << t10.insert(-18).second << std::endl;
+	std::cout << "Insert: " << t10.insert(0).second << std::endl;
+	std::cout << "Insert: " << t10.insert(934).second << std::endl;
+	std::cout << "Insert: " << t10.insert(113).second << std::endl;
+	std::cout << "Insert: " << t10.insert(-392).second << std::endl;
+
+	std::cout << "t10: " << t10 << std::endl;
+
 	//do an in-order traversal of all the trees
 	std::cout << "t1 traversal:";
 	for (auto it = t1.begin(); it != t1.end(); ++it) {
@@ -450,6 +477,12 @@ int main(int argc, char *argv[]) {
 	}
 	std::cout << std::endl;
 
+	std::cout << "t10 traversal:";
+	for (auto it = t10.begin(); it != t10.end(); ++it) {
+		std::cout << " " << *it;
+	}
+	std::cout << std::endl;
+
 	//validate the iterator code
 	std::cout << "Check that begin() and end() return the right thing" << std::endl;
 	btree<std::string>::iterator beg0 = t0.begin();
@@ -462,6 +495,7 @@ int main(int argc, char *argv[]) {
 	btree<unsigned long>::iterator beg7 = t7.begin();
 	btree<long long int>::iterator beg8 = t8.begin();
 	btree<long long int>::iterator beg9 = t9.begin();
+	btree<int>::iterator beg10 = t10.begin();
 
 	btree<std::string>::iterator end0 = t0.end();
 	btree<char>::iterator end1 = t1.end();
@@ -473,6 +507,7 @@ int main(int argc, char *argv[]) {
 	btree<unsigned long>::iterator end7 = t7.end();
 	btree<long long int>::iterator end8 = t8.end();
 	btree<long long int>::iterator end9 = t9.end();
+	btree<int>::iterator end10 = t10.end();
 
 	std::cout << "Check that the dereference operator works:" << std::endl;
 	std::cout << "First in char tree: " << *beg1 << std::endl;
@@ -484,6 +519,7 @@ int main(int argc, char *argv[]) {
 	std::cout << "First in unsigned long tree: " << *beg7 << std::endl;
 	std::cout << "First in long long int tree: " << *beg8 << std::endl;
 	std::cout << "First in long long int tree: " << *beg9 << std::endl;
+	std::cout << "First in int tree: " << *beg10 << std::endl;
 
 	std::cout << "Check that the arrow operator works:" << std::endl;
 	std::cout << "First brand: " << beg4->get_brand() << std::endl;
@@ -500,6 +536,7 @@ int main(int argc, char *argv[]) {
 	std::cout << (beg7 == end7) << std::endl;
 	std::cout << (beg8 == end8) << std::endl;
 	std::cout << (beg9 == end9) << std::endl;
+	std::cout << (beg10 == end10) << std::endl;
 
 	std::cout << (beg0 != end0) << std::endl; //false since tree is empty
 	std::cout << (beg1 != end1) << std::endl;
@@ -511,6 +548,7 @@ int main(int argc, char *argv[]) {
 	std::cout << (beg7 != end7) << std::endl;
 	std::cout << (beg8 != end8) << std::endl;
 	std::cout << (beg9 != end9) << std::endl;
+	std::cout << (beg10 != end10) << std::endl;
 
 	return 0;
 }
