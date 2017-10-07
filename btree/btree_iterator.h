@@ -117,7 +117,73 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 //prefix decrement operator for an iterator
 template <typename T>
 btree_iterator<T>& btree_iterator<T>::operator--() {
-	//TODO
+	//go to last node & value in tree if at end()
+	if (*this == cnode->tree->end()) {
+		cnode = root;
+		while (&*cnode->children[cnode->keys.size()] != nullptr) {
+			cnode = &*cnode->children[cnode->keys.size()];
+		}
+		cval = cnode->keys.end();
+		--cval;
+		cpos = cnode->keys.size();
+		return *this;
+	}
+
+	--cpos; //go to previous value position in current node
+
+	if (cpos < 0 || &*cnode->children[cpos] == nullptr) {
+		//move to previous value in node if no child node in between
+		if (cval != cnode->keys.begin()) {
+			//only move to the left if possible
+			--cval;
+		}
+		if (cpos <= 0) {
+			//go to "upper-most" parent node if no more values in this node
+			while (cnode->parent != nullptr) {
+				cpos = cnode->position;
+				cnode = &*cnode->parent;
+				//keep moving up parent nodes until a node is found such that
+				//this node is a far left child
+				if (cpos != 0) {
+					break;
+				}
+			}
+
+			//if the last value in the node corresponds to the first position
+			//in the "upper-most" parent, then that value was the last in the
+			//reverse in-order traversal of the btree
+			if (cpos <= 0) {
+				*this = cnode->tree->begin();
+				return *this;
+			}
+
+			//move to correct value in the node - i.e. whatever cpos is
+			cpos--;
+			size_t i = 0;
+			T val{};
+			for (const auto& k: cnode->keys) {
+				if (i == cpos) {
+					val = k;
+					break;
+				}
+				++i;
+			}
+			cval = cnode->keys.find(val);
+			cpos++;
+		}
+	} else {
+		//move to the child node and then traverse to the right-most node
+		cnode = &*cnode->children[cpos];
+		while (&*cnode->children[cnode->keys.size()] != nullptr) {
+			cnode = &*cnode->children[cnode->keys.size()];
+		}
+
+		//then go to the last value in that node
+		cval = cnode->keys.end();
+		--cval;
+		cpos = cnode->keys.size();
+	}
+	return *this;
 }
 
 //postfix increment operator for an iterator
@@ -131,7 +197,9 @@ btree_iterator<T> btree_iterator<T>::operator++(int) {
 //postfix decrement operator for an iterator
 template <typename T>
 btree_iterator<T> btree_iterator<T>::operator--(int) {
-	//TODO
+	btree_iterator<T> temp = *this;
+	--*this;
+	return temp;
 }
 
 //test equality of iterators

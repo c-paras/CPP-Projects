@@ -911,5 +911,97 @@ int main() {
 	std::cout << (t12.find(find5) == t12.end()) << std::endl;
 	std::cout << (t12.find(find6) == t12.end()) << std::endl;
 
+	//do a reverse traversal of each tree using operator--
+
+	std::cout << "t1 reverse traversal:";
+	auto it1 = t1.end();
+	it1--; //post-decrement for testing
+	for (; it1 != t1.begin(); --it1) {
+		std::cout << " " << *it1;
+	}
+	std::cout << " " << *it1;
+	std::cout << std::endl;
+
+	std::cout << "t2 reverse traversal:";
+	auto it2 = t2.end();
+	it2--; //post-decrement for testing
+	for (; it2 != t2.begin(); --it2) {
+		std::cout << " " << *it2;
+	}
+	std::cout << " " << *it2;
+	std::cout << std::endl;
+
+	std::cout << "t3 reverse traversal:";
+	auto it3 = t3.end();
+	it3--; //post-decrement for testing
+	for (; it3 != t3.begin(); --it3) {
+		std::cout << " " << *it3;
+	}
+	std::cout << " " << *it3;
+	std::cout << std::endl;
+
+	std::cout << "t4 reverse traversal:";
+	auto it4 = t4.end();
+	it4--; //post-decrement for testing
+	for (; it4 != t4.begin(); --it4) {
+		std::cout << " " << *it4;
+	}
+	std::cout << " " << *it4;
+	std::cout << std::endl;
+
+	std::cout << "t5 reverse traversal:";
+	auto it5 = t5.end();
+	it5--; //post-decrement for testing
+	for (; it5 != t5.begin(); --it5) {
+		std::cout << " " << *it5;
+	}
+	std::cout << " " << *it5;
+	std::cout << std::endl;
+
+	std::cout << "t6 reverse traversal:";
+	auto it6 = t6.end();
+	it6--; //post-decrement for testing
+	for (; it6 != t6.begin(); --it6) {
+		std::cout << " " << *it6;
+	}
+	std::cout << " " << *it6;
+	std::cout << std::endl;
+
+	std::cout << "t7 reverse traversal:";
+	auto it7 = t7.end();
+	it7--; //post-decrement for testing
+	for (; it7 != t7.begin(); --it7) {
+		std::cout << " " << *it7;
+	}
+	std::cout << " " << *it7;
+	std::cout << std::endl;
+
+	std::cout << "t8 reverse traversal:";
+	auto it8 = t8.end();
+	it8--; //post-decrement for testing
+	for (; it8 != t8.begin(); --it8) {
+		std::cout << " " << *it8;
+	}
+	std::cout << " " << *it8;
+	std::cout << std::endl;
+
+	std::cout << "t9 reverse traversal:";
+	auto it9 = t9.end();
+	it9--; //post-decrement for testing
+	for (; it9 != t9.begin(); --it9) {
+		std::cout << " " << *it9;
+	}
+	std::cout << " " << *it9;
+	std::cout << std::endl;
+
+	std::cout << "t10 reverse traversal:";
+	auto it10 = t10.end();
+	it10--; //post-decrement for testing
+	for (; it10 != t10.begin(); --it10) {
+		std::cout << " " << *it10;
+	}
+	std::cout << " " << *it10;
+	std::cout << std::endl;
+
 	return 0;
 }
