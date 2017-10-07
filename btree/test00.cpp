@@ -1021,5 +1021,174 @@ int main() {
 	std::cout << " " << *it12;
 	std::cout << std::endl;
 
+	//test out all the different iterators
+	std::cout << "t1 iterator and begin()/end():";
+	for (btree<char>::iterator it = t1.begin(); it != t1.end(); ++it) {
+		char a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t1 const_iterator and cbegin()/cend():";
+	for (btree<char>::const_iterator it = t1.cbegin(); it != t1.cend(); ++it) {
+		char a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t1 const_iterator and begin()/end():";
+	for (btree<char>::const_iterator it = t1.begin(); it != t1.end(); ++it) {
+		char a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 iterator and begin()/end():";
+	for (btree<unsigned long>::iterator it = t7.begin(); it != t7.end(); ++it) {
+		unsigned long a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 const_iterator and cbegin()/cend():";
+	for (btree<unsigned long>::const_iterator it = t7.cbegin(); it != t7.cend(); ++it) {
+		unsigned long a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 const_iterator and begin()/end():";
+	for (btree<unsigned long>::const_iterator it = t7.begin(); it != t7.end(); ++it) {
+		unsigned long a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	//ensure that iterators can be default constructed
+	std::cout << "t1 default constructed iterator:" << std::endl;
+	btree<char>::iterator t1default;
+	t1default = t1.begin();
+	std::cout << *t1default << std::endl;
+	t1default++;
+	std::cout << *t1default << std::endl;
+
+	std::cout << "t3 default constructed iterator:" << std::endl;
+	btree<std::string>::iterator t3default;
+	t3default = t3.begin();
+	std::cout << *t3default << std::endl;
+	t3default++;
+	std::cout << *t3default << std::endl;
+
+	std::cout << "t7 default constructed iterator:" << std::endl;
+	btree<unsigned long>::iterator t7default;
+	t7default = t7.begin();
+	std::cout << *t7default << std::endl;
+	t7default++;
+	std::cout << *t7default << std::endl;
+
+	std::cout << "t10 default constructed iterator:" << std::endl;
+	btree<int>::iterator t10default;
+	t10default = t10.begin();
+	std::cout << *t10default << std::endl;
+	t10default++;
+	std::cout << *t10default << std::endl;
+
+	std::cout << "t1 default constructed const_iterator:" << std::endl;
+	btree<char>::const_iterator t1_default;
+	t1_default = t1.cbegin();
+	std::cout << *t1_default << std::endl;
+	t1_default++;
+	std::cout << *t1_default << std::endl;
+
+	std::cout << "t3 default constructed const_iterator:" << std::endl;
+	btree<std::string>::const_iterator t3_default;
+	t3_default = t3.cbegin();
+	std::cout << *t3_default << std::endl;
+	t3_default++;
+	std::cout << *t3_default << std::endl;
+
+	std::cout << "t7 default constructed const_iterator:" << std::endl;
+	btree<unsigned long>::const_iterator t7_default;
+	t7_default = t7.cbegin();
+	std::cout << *t7_default << std::endl;
+	t7_default++;
+	std::cout << *t7_default << std::endl;
+
+	std::cout << "t10 default constructed const_iterator:" << std::endl;
+	btree<int>::const_iterator t10_default;
+	t10_default = t10.cbegin();
+	std::cout << *t10_default << std::endl;
+	t10_default++;
+	std::cout << *t10_default << std::endl;
+
+	//check both versions of find and their return values
+	std::cout << "Non-const search for keys in the trees:" << std::endl;
+	btree<std::string>::iterator tofind;
+	tofind = t3.find("A");
+	std::cout << (*tofind == "A") << std::endl;
+	tofind = t3.find("BB");
+	std::cout << (*tofind == "BB") << std::endl;
+	tofind = t3.find("CCC");
+	std::cout << (*tofind == "CCC") << std::endl;
+
+	btree<int>::iterator to_find;
+	to_find = t10.find(0);
+	std::cout << (*to_find == 0) << std::endl;
+	to_find = t10.find(934);
+	std::cout << (*to_find == 934) << std::endl;
+	to_find = t10.find(113);
+	std::cout << (*to_find == 113) << std::endl;
+
+	std::cout << "Non-const search for keys not in trees:" << std::endl;
+	to_find = t2.find(31);
+	std::cout << (to_find == t2.end()) << std::endl;
+	to_find = t2.find(999);
+	std::cout << (to_find == t2.end()) << std::endl;
+	to_find = t2.find(-42);
+	std::cout << (to_find == t2.end()) << std::endl;
+
+	to_find = t10.find(4);
+	std::cout << (to_find == t10.end()) << std::endl;
+	to_find = t10.find(68);
+	std::cout << (to_find == t10.end()) << std::endl;
+	to_find = t10.find(-4);
+	std::cout << (to_find == t10.end()) << std::endl;
+
+	std::cout << "Const search for keys in the trees:" << std::endl;
+	btree<std::string>::const_iterator tofind_const;
+	tofind_const = t3.find("A");
+	std::cout << (*tofind_const == "A") << std::endl;
+	/*
+	tofind_const = t3.find("BB");
+	std::cout << (*tofind_const == "BB") << std::endl;
+	*/
+	tofind_const = t3.find("CCC");
+	std::cout << (*tofind_const == "CCC") << std::endl;
+
+	btree<int>::const_iterator to_find_const;
+	/*
+	to_find_const = t10.find(0);
+	std::cout << (*to_find_const == 0) << std::endl;
+	to_find_const = t10.find(934);
+	std::cout << (*to_find_const == 934) << std::endl;
+	to_find_const = t10.find(113);
+	std::cout << (*to_find_const == 113) << std::endl;
+	*/
+
+	std::cout << "Const search for keys not in trees:" << std::endl;
+	to_find_const = t2.find(31);
+	std::cout << (to_find_const == t2.end()) << std::endl;
+	to_find_const = t2.find(999);
+	std::cout << (to_find_const == t2.end()) << std::endl;
+	to_find_const = t2.find(-42);
+	std::cout << (to_find_const == t2.end()) << std::endl;
+
+	to_find_const = t10.find(4);
+	std::cout << (to_find_const == t10.end()) << std::endl;
+	to_find_const = t10.find(68);
+	std::cout << (to_find_const == t10.end()) << std::endl;
+	to_find_const = t10.find(-4);
+	std::cout << (to_find_const == t10.end()) << std::endl;
+
 	return 0;
 }

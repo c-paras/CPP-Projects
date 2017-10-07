@@ -12,7 +12,7 @@
 //forward declaration to the btree
 template <typename T> class btree;
 
-template <typename T>
+template <class T, bool isconst = false>
 class btree_iterator {
 public:
 	//iterator aliases
@@ -25,30 +25,34 @@ public:
 	//iterator operations
 	reference operator*() const;
 	pointer operator->() const { return &(operator*()); }
-	btree_iterator<T>& operator++(); //prefix
-	btree_iterator<T>& operator--();
-	btree_iterator<T> operator++(int); //postfix
-	btree_iterator<T> operator--(int);
-	bool operator==(const btree_iterator<T>& other) const;
-	bool operator!=(const btree_iterator<T>& other) const { return !operator==(other); }
+	btree_iterator<T, isconst>& operator++(); //prefix
+	btree_iterator<T, isconst>& operator--();
+	btree_iterator<T, isconst> operator++(int); //postfix
+	btree_iterator<T, isconst> operator--(int);
+	bool operator==(const btree_iterator<T, isconst>& other) const;
+	bool operator!=(const btree_iterator<T, isconst>& other) const { return !operator==(other); }
 
-	//iterator constructor
-	btree_iterator(typename btree<T>::node *cnode, size_t cpos, typename btree<T>::node *root);
+	//iterator constructors
+	btree_iterator<T, isconst>() { }
+	btree_iterator<T, isconst>(typename btree<T>::node *cnode, size_t cpos, typename btree<T>::node *root);
+
+	//casting operator
+	using const_btree_iterator = btree_iterator<T, true>;
+	operator const_btree_iterator() { return btree_iterator<T, true>(this->cnode, this->cpos, this->root); }
 private:
 	typename btree<T>::node *cnode; //current node in tree
 	typename std::set<T>::iterator cval; //current value in node
 	size_t cpos; //current position in node
 
-	typename btree<T>::node *root; //root of btree
-	//needed since the root has no parent
+	typename btree<T>::node *root; //root of btree - needed since the root has no parent
 
 	void moveToCpos();
 	void traverseToRightMostChild();
 };
 
 //constructor for an iterator
-template <typename T>
-btree_iterator<T>::btree_iterator(typename btree<T>::node *cnode, size_t cpos,
+template <typename T, bool isconst>
+btree_iterator<T, isconst>::btree_iterator(typename btree<T>::node *cnode, size_t cpos,
 typename btree<T>::node *root) : cnode{cnode}, cpos{cpos}, root{root} {
 	if (cnode != nullptr) {
 		//set cval to the first value in the node regardless of the cpos
@@ -58,14 +62,14 @@ typename btree<T>::node *root) : cnode{cnode}, cpos{cpos}, root{root} {
 }
 
 //dereference operator for an iterator
-template <typename T>
-typename btree_iterator<T>::reference btree_iterator<T>::operator*() const {
+template <typename T, bool isconst>
+typename btree_iterator<T, isconst>::reference btree_iterator<T, isconst>::operator*() const {
 	return const_cast<T&>(*cval);
 }
 
 //move to current position specified by cpos in the current node (cnode)
-template <typename T>
-void btree_iterator<T>::moveToCpos() {
+template <typename T, bool isconst>
+void btree_iterator<T, isconst>::moveToCpos() {
 	size_t i = 0;
 	T val{};
 	for (const auto& k: cnode->keys) {
@@ -79,8 +83,8 @@ void btree_iterator<T>::moveToCpos() {
 }
 
 //prefix increment operator for an iterator
-template <typename T>
-btree_iterator<T>& btree_iterator<T>::operator++() {
+template <typename T, bool isconst>
+btree_iterator<T, isconst>& btree_iterator<T, isconst>::operator++() {
 	++cpos; //go to next value position in current node
 
 	if (&*cnode->children[cpos] == nullptr) {
@@ -123,8 +127,8 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 }
 
 //traverse to the right-most child node from cnode
-template <typename T>
-void btree_iterator<T>::traverseToRightMostChild() {
+template <typename T, bool isconst>
+void btree_iterator<T, isconst>::traverseToRightMostChild() {
 	//traverse to the right-most child node from cnode
 	while (&*cnode->children[cnode->keys.size()] != nullptr) {
 		cnode = &*cnode->children[cnode->keys.size()];
@@ -137,8 +141,8 @@ void btree_iterator<T>::traverseToRightMostChild() {
 }
 
 //prefix decrement operator for an iterator
-template <typename T>
-btree_iterator<T>& btree_iterator<T>::operator--() {
+template <typename T, bool isconst>
+btree_iterator<T, isconst>& btree_iterator<T, isconst>::operator--() {
 	//go to last node & value in tree if at end()
 	if (*this == cnode->tree->end()) {
 		cnode = root;
@@ -187,37 +191,29 @@ btree_iterator<T>& btree_iterator<T>::operator--() {
 }
 
 //postfix increment operator for an iterator
-template <typename T>
-btree_iterator<T> btree_iterator<T>::operator++(int) {
-	btree_iterator<T> temp = *this;
+template <typename T, bool isconst>
+btree_iterator<T, isconst> btree_iterator<T, isconst>::operator++(int) {
+	btree_iterator<T, isconst> temp = *this;
 	++*this;
 	return temp;
 }
 
 //postfix decrement operator for an iterator
-template <typename T>
-btree_iterator<T> btree_iterator<T>::operator--(int) {
-	btree_iterator<T> temp = *this;
+template <typename T, bool isconst>
+btree_iterator<T, isconst> btree_iterator<T, isconst>::operator--(int) {
+	btree_iterator<T, isconst> temp = *this;
 	--*this;
 	return temp;
 }
 
 //test equality of iterators
-template <typename T>
-bool btree_iterator<T>::operator==(const btree_iterator<T>& other) const {
+template <typename T ,bool isconst>
+bool btree_iterator<T, isconst>::operator==(const btree_iterator<T, isconst>& other) const {
 	if (cnode == nullptr && other.cnode == nullptr) {
 		return true;
 	} else {
 		return cval == other.cval;
 	}
 }
-
-template <typename T>
-class const_btree_iterator {
-public:
-	//TODO
-private:
-	//TODO
-};
 
 #endif
