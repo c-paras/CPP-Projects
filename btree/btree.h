@@ -37,8 +37,8 @@ public:
 	//define some useful aliases for the iterators
 	using iterator = btree_iterator<T>;
 	using const_iterator = btree_iterator<T, true>;
-	//using reverse_iterator = btree_iterator<T, false>;
-	//using const_reverse_iterator = btree_iterator<T, true>;
+	using reverse_iterator = std::reverse_iterator<iterator>;
+	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 	/**
 	 * Constructs an empty btree.
@@ -53,15 +53,6 @@ public:
 	 *        that can be stored in each btree node
 	 */
 	btree(size_t max_elems = 40) : node_size{max_elems} { }
-
-	/**
-	 * The copy constructor and assignment operator.
-	 * They allow us to pass around B-Trees by value.
-	 * Although these operations are likely to be expensive
-	 * they make for an interesting programming exercise.
-	 * Implement these operations using value semantics and
-	 * make sure they do not leak memory.
-	 */
 
 	/**
 	 * Copy constructor.
@@ -115,7 +106,7 @@ public:
 	/**
 	 * Returns an iterator positioned at one past the last element.
 	 */
-	iterator end();
+	iterator end() { return iterator(nullptr, 0, &*root); }
 
 	/**
 	 * Returns a const iterator positioned at the first element.
@@ -125,7 +116,7 @@ public:
 	/**
 	 * Returns a const iterator positioned at one past the last element.
 	 */
-	const_iterator end() const;
+	const_iterator end() const { return const_iterator(nullptr, 0, &*root); }
 
 	/**
 	 * Returns a const iterator positioned at the first element.
@@ -135,37 +126,27 @@ public:
 	/**
 	 * Returns a const iterator positioned at one past the last element.
 	 */
-	const_iterator cend() const;
+	const_iterator cend() const { return const_iterator(nullptr, 0, &*root); }
 
 	/**
 	 * Returns an iterator positioned at the last element.
 	 */
-	reverse_iterator rbegin();
+	auto rbegin() { return std::reverse_iterator<iterator>(end()); }
 
 	/**
 	 * Returns an iterator positioned at one before the first element.
 	 */
-	reverse_iterator rend();
+	auto rend() { return std::reverse_iterator<iterator>(begin()); }
 
 	/**
 	 * Returns a const iterator positioned at the last element.
 	 */
-	const_reverse_iterator rbegin() const;
+	auto crbegin() { return std::reverse_iterator<const_iterator>(cend()); }
 
 	/**
 	 * Returns a const iterator positioned at the last element.
 	 */
-	const_reverse_iterator crbegin() const;
-
-	/**
-	 * Returns a const iterator positioned at one before the first element.
-	 */
-	const_reverse_iterator rend() const;
-
-	/**
-	 * Returns a const iterator positioned at one before the first element.
-	 */
-	const_reverse_iterator crend() const;
+	auto crend() { return std::reverse_iterator<const_iterator>(cbegin()); }
 
 	/**
 	 * Returns an iterator to the matching element, or whatever
@@ -218,7 +199,6 @@ public:
 	 * Disposes of all internal resources, which includes
 	 * the disposal of any client objects previously
 	 * inserted using the insert operation.
-	 * Check that your implementation does not leak memory! TODO
 	 */
 	~btree() = default;
 
@@ -228,6 +208,7 @@ private:
 	node_ptr root{nullptr}; //a btree has a pointer to the root node
 	size_t node_size; //and a value representing the maximum size of nodes
 
+	//traverse from the root to the start of the left-most child node
 	auto traverseToLeftMostChild() const;
 
 	class node {
@@ -374,19 +355,9 @@ typename btree<T>::iterator btree<T>::begin() {
 }
 
 template <typename T>
-typename btree<T>::iterator btree<T>::end() {
-	return btree<T>::iterator(nullptr, 0, &*root);
-}
-
-template <typename T>
 typename btree<T>::const_iterator btree<T>::begin() const {
 	auto ret = traverseToLeftMostChild();
 	return const_iterator(ret.first, 0, ret.second);
-}
-
-template <typename T>
-typename btree<T>::const_iterator btree<T>::end() const {
-	return btree<T>::const_iterator(nullptr, 0, &*root);
 }
 
 template <typename T>
@@ -394,44 +365,6 @@ typename btree<T>::const_iterator btree<T>::cbegin() const {
 	auto ret = traverseToLeftMostChild();
 	return const_iterator(ret.first, 0, ret.second);
 }
-
-template <typename T>
-typename btree<T>::const_iterator btree<T>::cend() const {
-	return btree<T>::const_iterator(nullptr, 0, &*root);
-}
-
-/*
-template <typename T>
-auto btree<T>::rbegin() {
-	return std::reverse_iterator<iterator>(end());
-}
-*/
-/*
-template <typename T>
-typename btree<T>::const_reverse_iterator btree<T>::rbegin() const {
-	return std::reverse_iterator<iterator>(end());
-}
-template <typename T>
-typename btree<T>::const_reverse_iterator btree<T>::crbegin() const {
-	return std::reverse_iterator<iterator>(end());
-}
-*/
-/*
-template <typename T>
-auto btree<T>::rend() {
-	return std::reverse_iterator<iterator>(begin());
-}
-*/
-/*
-template <typename T>
-typename btree<T>::const_reverse_iterator btree<T>::rend() const {
-	return std::reverse_iterator<iterator>(begin());
-}
-template <typename T>
-typename btree<T>::const_reverse_iterator btree<T>::crend() const {
-	return std::reverse_iterator<iterator>(begin());
-}
-*/
 
 template <typename T>
 typename btree<T>::iterator btree<T>::find(const T& elem) {

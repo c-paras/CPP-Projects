@@ -1190,5 +1190,48 @@ int main() {
 	to_find_const = t10.find(-4);
 	std::cout << (to_find_const == t10.end()) << std::endl;
 
+	//test reverse iterator functions
+	std::cout << "t1 reverse_iterator and rbegin()/rend():";
+	for (btree<char>::reverse_iterator it = t1.rbegin(); it != t1.rend(); ++it) {
+		char a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t1 const_reverse_iterator and rbegin()/rend():";
+	for (btree<char>::const_reverse_iterator it = t1.rbegin(); it != t1.rend(); ++it) {
+		char a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t1 const_reverse_iterator and crbegin()/crend():";
+	for (btree<char>::const_reverse_iterator it = t1.crbegin(); it != t1.crend(); ++it) {
+		char a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 reverse_iterator and rbegin()/rend():";
+	for (btree<unsigned long>::reverse_iterator it = t7.rbegin(); it != t7.rend(); ++it) {
+		unsigned long a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 const_reverse_iterator and rbegin()/rend():";
+	for (btree<unsigned long>::const_reverse_iterator it = t7.rbegin(); it != t7.rend(); ++it) {
+		unsigned long a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
+	std::cout << "t7 const_reverse_iterator and crbegin()/crend():";
+	for (btree<unsigned long>::const_reverse_iterator it = t7.crbegin(); it != t7.crend(); ++it) {
+		unsigned long a = *it;
+		std::cout << " " << a;
+	}
+	std::cout << std::endl;
+
 	return 0;
 }
