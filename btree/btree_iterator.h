@@ -41,6 +41,9 @@ private:
 
 	typename btree<T>::node *root; //root of btree
 	//needed since the root has no parent
+
+	void moveToCpos();
+	void traverseToRightMostChild();
 };
 
 //constructor for an iterator
@@ -58,6 +61,21 @@ typename btree<T>::node *root) : cnode{cnode}, cpos{cpos}, root{root} {
 template <typename T>
 typename btree_iterator<T>::reference btree_iterator<T>::operator*() const {
 	return const_cast<T&>(*cval);
+}
+
+//move to current position specified by cpos in the current node (cnode)
+template <typename T>
+void btree_iterator<T>::moveToCpos() {
+	size_t i = 0;
+	T val{};
+	for (const auto& k: cnode->keys) {
+		if (i == cpos) {
+			val = k;
+			break;
+		}
+		++i;
+	}
+	cval = cnode->keys.find(val);
 }
 
 //prefix increment operator for an iterator
@@ -90,17 +108,7 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 			}
 
 			//move to correct value in the node - i.e. whatever cpos is
-			size_t i = 0;
-			T val{};
-			for (const auto& k: cnode->keys) {
-				if (i == cpos) {
-					val = k;
-					break;
-				}
-				++i;
-			}
-			cval = cnode->keys.find(val);
-
+			moveToCpos();
 		}
 	} else {
 		//move to the child node and then traverse to the left-most node
@@ -114,18 +122,27 @@ btree_iterator<T>& btree_iterator<T>::operator++() {
 	return *this;
 }
 
+//traverse to the right-most child node from cnode
+template <typename T>
+void btree_iterator<T>::traverseToRightMostChild() {
+	//traverse to the right-most child node from cnode
+	while (&*cnode->children[cnode->keys.size()] != nullptr) {
+		cnode = &*cnode->children[cnode->keys.size()];
+	}
+
+	//then go to the last value in that node
+	cval = cnode->keys.end();
+	--cval;
+	cpos = cnode->keys.size();
+}
+
 //prefix decrement operator for an iterator
 template <typename T>
 btree_iterator<T>& btree_iterator<T>::operator--() {
 	//go to last node & value in tree if at end()
 	if (*this == cnode->tree->end()) {
 		cnode = root;
-		while (&*cnode->children[cnode->keys.size()] != nullptr) {
-			cnode = &*cnode->children[cnode->keys.size()];
-		}
-		cval = cnode->keys.end();
-		--cval;
-		cpos = cnode->keys.size();
+		traverseToRightMostChild();
 		return *this;
 	}
 
@@ -144,9 +161,7 @@ btree_iterator<T>& btree_iterator<T>::operator--() {
 				cnode = &*cnode->parent;
 				//keep moving up parent nodes until a node is found such that
 				//this node is a far left child
-				if (cpos != 0) {
-					break;
-				}
+				if (cpos != 0) break;
 			}
 
 			//if the last value in the node corresponds to the first position
@@ -158,30 +173,15 @@ btree_iterator<T>& btree_iterator<T>::operator--() {
 			}
 
 			//move to correct value in the node - i.e. whatever cpos is
+			//need to offset cpos by 1 since the traversal goes back to the previous node
 			cpos--;
-			size_t i = 0;
-			T val{};
-			for (const auto& k: cnode->keys) {
-				if (i == cpos) {
-					val = k;
-					break;
-				}
-				++i;
-			}
-			cval = cnode->keys.find(val);
+			moveToCpos();
 			cpos++;
 		}
 	} else {
-		//move to the child node and then traverse to the right-most node
+		//move to the child node and then traverse to the right-most node & value
 		cnode = &*cnode->children[cpos];
-		while (&*cnode->children[cnode->keys.size()] != nullptr) {
-			cnode = &*cnode->children[cnode->keys.size()];
-		}
-
-		//then go to the last value in that node
-		cval = cnode->keys.end();
-		--cval;
-		cpos = cnode->keys.size();
+		traverseToRightMostChild();
 	}
 	return *this;
 }

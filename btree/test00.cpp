@@ -1003,5 +1003,23 @@ int main() {
 	std::cout << " " << *it10;
 	std::cout << std::endl;
 
+	std::cout << "t11 reverse traversal:";
+	auto it11 = t11.end();
+	it11--; //post-decrement for testing
+	for (; it11 != t11.begin(); --it11) {
+		std::cout << " " << *it11;
+	}
+	std::cout << " " << *it11;
+	std::cout << std::endl;
+
+	std::cout << "t12 reverse traversal:";
+	auto it12 = t12.end();
+	it12--; //post-decrement for testing
+	for (; it12 != t12.begin(); --it12) {
+		std::cout << " " << *it12;
+	}
+	std::cout << " " << *it12;
+	std::cout << std::endl;
+
 	return 0;
 }
