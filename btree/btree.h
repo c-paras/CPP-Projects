@@ -30,15 +30,17 @@ std::ostream& operator<<(std::ostream& os, const btree<T>& tree);
 
 template <typename T> class btree {
 public:
-	//make the iterator classes friends
-	friend class btree_iterator<T>;
-	friend class btree_iterator<T, true>;
-
 	//define some useful aliases for the iterators
 	using iterator = btree_iterator<T>;
 	using const_iterator = btree_iterator<T, true>;
 	using reverse_iterator = std::reverse_iterator<iterator>;
 	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+	//make the iterator classes friends
+	friend iterator;
+	friend const_iterator;
+	friend reverse_iterator;
+	friend const_reverse_iterator;
 
 	/**
 	 * Constructs an empty btree.
@@ -215,8 +217,10 @@ private:
 	public:
 		//make btree and the iterators friends
 		friend class btree;
-		friend class btree_iterator<T>;
-		friend class btree_iterator<T, true>;
+		friend btree::iterator;
+		friend btree::const_iterator;
+		friend btree::reverse_iterator;
+		friend btree::const_reverse_iterator;
 
 		//constructor for a node
 		node(const T& elem, node *parent, size_t position, btree *tree);

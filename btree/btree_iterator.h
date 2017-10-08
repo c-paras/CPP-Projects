@@ -12,15 +12,31 @@
 //forward declaration to the btree
 template <typename T> class btree;
 
-template <class T, bool isconst = false>
+//const and non-const decider
+template <bool tag, typename True, typename False>
+struct Constness;
+
+//specialization on true, i.e. const type
+template <typename True, typename False>
+struct Constness<true, True, False> {
+	using type = True;
+};
+
+//specialization on false, i.e. non-const type
+template <typename True, typename False>
+struct Constness<false, True, False> {
+	using type = False;
+};
+
+template <typename T, bool isconst = false>
 class btree_iterator {
 public:
 	//iterator aliases
 	using difference_type = std::ptrdiff_t;
 	using iterator_category = std::bidirectional_iterator_tag;
-	using value_type = T;
-	using pointer = T*;
-	using reference = T&;
+	using value_type = typename Constness<isconst, const T, T>::type;
+	using reference = typename Constness<isconst, const T&, T&>::type;
+	using pointer = typename Constness<isconst, const T*, T*>::type;
 
 	//iterator operations
 	reference operator*() const;
@@ -43,7 +59,6 @@ private:
 	typename btree<T>::node *cnode; //current node in tree
 	typename std::set<T>::iterator cval; //current value in node
 	size_t cpos; //current position in node
-
 	typename btree<T>::node *root; //root of btree - needed since the root has no parent
 
 	void moveToCpos();
@@ -98,9 +113,7 @@ btree_iterator<T, isconst>& btree_iterator<T, isconst>::operator++() {
 				cnode = &*cnode->parent;
 				//keep moving up parent nodes until a node is found such that
 				//this node is a non-far right child - i.e. any left child
-				if (cpos != cnode->keys.size()) {
-					break;
-				}
+				if (cpos != cnode->keys.size()) break;
 			}
 
 			//if the last value in the node corresponds to the last position
@@ -207,7 +220,7 @@ btree_iterator<T, isconst> btree_iterator<T, isconst>::operator--(int) {
 }
 
 //test equality of iterators
-template <typename T ,bool isconst>
+template <typename T, bool isconst>
 bool btree_iterator<T, isconst>::operator==(const btree_iterator<T, isconst>& other) const {
 	if (cnode == nullptr && other.cnode == nullptr) {
 		return true;
