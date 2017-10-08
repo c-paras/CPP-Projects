@@ -38,6 +38,10 @@ public:
 	using reference = typename Constness<isconst, const T&, T&>::type;
 	using pointer = typename Constness<isconst, const T*, T*>::type;
 
+	//iterator constructors
+	btree_iterator<T, isconst>() { }
+	btree_iterator<T, isconst>(typename btree<T>::node *cnode, size_t cpos, typename btree<T>::node *root);
+
 	//iterator operations
 	reference operator*() const;
 	pointer operator->() const { return &(operator*()); }
@@ -47,10 +51,6 @@ public:
 	btree_iterator<T, isconst> operator--(int);
 	bool operator==(const btree_iterator<T, isconst>& other) const;
 	bool operator!=(const btree_iterator<T, isconst>& other) const { return !operator==(other); }
-
-	//iterator constructors
-	btree_iterator<T, isconst>() { }
-	btree_iterator<T, isconst>(typename btree<T>::node *cnode, size_t cpos, typename btree<T>::node *root);
 
 	//casting operator
 	using const_btree_iterator = btree_iterator<T, true>;
