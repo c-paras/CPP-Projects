@@ -191,9 +191,9 @@ btree_iterator<T, isconst>& btree_iterator<T, isconst>::operator--() {
 
 			//move to correct value in the node - i.e. whatever cpos is
 			//need to offset cpos by 1 since the traversal goes back to the previous node
-			cpos--;
+			--cpos;
 			moveToCpos();
-			cpos++;
+			++cpos;
 		}
 	} else {
 		//move to the child node and then traverse to the right-most node & value

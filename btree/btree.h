@@ -14,13 +14,11 @@
 #define BTREE_H
 
 #include <iostream>
-#include <cstddef>
-#include <utility>
-#include <vector>
-#include <memory>
 #include <set>
 #include <queue>
+#include <vector>
 #include <algorithm>
+#include <memory>
 #include "btree_iterator.h"
 
 //forward declaration for the non-template friend function operator<<
