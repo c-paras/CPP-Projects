@@ -39,7 +39,7 @@ public:
 	using pointer = typename Constness<isconst, const T*, T*>::type;
 
 	//iterator constructors
-	btree_iterator<T, isconst>() { }
+	btree_iterator<T, isconst>() : cnode{nullptr}, root{nullptr} { }
 	btree_iterator<T, isconst>(typename btree<T>::node *cnode, size_t cpos, typename btree<T>::node *root);
 
 	//iterator operations

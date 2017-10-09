@@ -58,17 +58,17 @@ public:
 
 	/**
 	 * Copy constructor.
-	 * Creates a new B-Tree as a copy of original.
+	 * Creates a new btree as a copy of original.
 	 *
-	 * @param original a const lvalue reference to a B-Tree object
+	 * @param original a const lvalue reference to a btree object
 	 */
 	btree(const btree<T>& original);
 
 	/**
 	 * Move constructor.
-	 * Creates a new B-Tree by "stealing" from original.
+	 * Creates a new btree by "stealing" from original.
 	 *
-	 * @param original an rvalue reference to a B-Tree object
+	 * @param original an rvalue reference to a btree object
 	 */
 	btree(btree<T>&& original) noexcept = default;
 
@@ -76,16 +76,16 @@ public:
 	 * Copy assignment operator.
 	 * Replaces the contents of this object with a copy of rhs.
 	 *
-	 * @param rhs a const lvalue reference to a B-Tree object
+	 * @param rhs a const lvalue reference to a btree object
 	 */
 	btree<T>& operator=(const btree<T>& rhs);
 
 	/**
 	 * Move assignment operator.
 	 * Replaces the contents of this object with the "stolen"
-	 * contents of original.
+	 * contents of rhs.
 	 *
-	 * @param rhs a const reference to a B-Tree object
+	 * @param rhs a const reference to a btree object
 	 */
 	btree<T>& operator=(btree<T>&& rhs) noexcept = default;
 
@@ -146,7 +146,7 @@ public:
 	auto crbegin() { return std::reverse_iterator<const_iterator>(cend()); }
 
 	/**
-	 * Returns a const iterator positioned at the last element.
+	 * Returns a const iterator positioned at one before the first element.
 	 */
 	auto crend() { return std::reverse_iterator<const_iterator>(cbegin()); }
 
@@ -244,7 +244,7 @@ private:
 		//an index indicating which child of the parent this node is
 		size_t position;
 
-		//and (non-owning) pointer to the btree
+		//and a (non-owning) pointer to the btree
 		btree *tree;
 	};
 
