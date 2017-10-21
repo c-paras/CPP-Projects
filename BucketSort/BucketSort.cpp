@@ -42,7 +42,16 @@ bool aLessB(const unsigned int& x, const unsigned int& y, unsigned int pow) {
 	}
 }
 
-//sort the vector
+//sort the vector using a single-threaded sorting algorithm
+//TODO: comment out
+void BucketSort::simpleSort() {
+	std::sort(numbersToSort.begin(), numbersToSort.end(),
+	[] (const unsigned int& x, const unsigned int& y) {
+		return aLessB(x, y, 0);
+	});
+}
+
+//sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
 	std::sort(numbersToSort.begin(), numbersToSort.end(),
 	[] (const unsigned int& x, const unsigned int& y) {
