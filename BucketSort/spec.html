@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
+</head>
+<body>
+
+<p class="p4"><span class="s1">Your task is to take a slow single threaded sort algorithm and redesign it into a parallel radix sort algorithm that sorts a vector of numbers as quickly as possible.</span></p>
+<p class="p3"><span class="s1">The sorting algorithm takes a vector of unsigned ints and sorts them by using a MSD (Most Significant Digit) radix sort, which uses lexicographic order.<span class="Apple-converted-space">&nbsp;</span></span></p>
+<p class="p3"><span class="s1">For example, given a vector [ 32, 53, 3, 134, 643, 3, 5, 12, 52, 501, 98 ], the sorted output would be [ 12, 134, 3, 3, 32, 5, 501, 52, 53, 643, 98 ] (as if a shorter number were conceptually left-justified and padded on the right with "-1" to make it as long as the longest number for the purposes of determining sorted order).<span class="Apple-converted-space">&nbsp;</span></span></p>
+<p class="p3"><span class="s1">A MSD radix sort can be done easily through a parallel bucket sort. A bucket sort takes the most significant digit of each number and groups the list of numbers with the same digit into one bucket. For example, the vector given above may be split into the following buckets according their most significant digits:</span></p>
+<p class="p6"><span class="s1">Bucket 1: [ 134, 12 ]</span></p>
+<p class="p6"><span class="s1">Bucket 3: [ 32, 3, 3 ]</span></p>
+<p class="p6"><span class="s1">Bucket 5: [ 53, 5, 52, 501]</span></p>
+<p class="p6"><span class="s1">Bucket 6: [ 643 ]</span></p>
+<p class="p6"><span class="s1">Bucket 9: [ 98 ]</span></p>
+<p class="p4"><span class="s1">Afterwards, each bucket is sorted recursively, starting with the next most significant digit:</span></p>
+<p class="p6"><span class="s1">Bucket 1: [ 12, 134 ]</span></p>
+<p class="p6"><span class="s1">Bucket 3: [ 3, 3, 32 ]</span></p>
+<p class="p6"><span class="s1">Bucket 5: [ 5, 501, 52, 53]</span></p>
+<p class="p6"><span class="s1">Bucket 6: [ 643 ]</span></p>
+<p class="p6"><span class="s1">Bucket 9: [ 98 ]</span></p>
+<p class="p4"><span class="s1">Finally, all the buckets are concatenated together in order: [ 12, 134, 3, 3, 32, 5, 501, 52, 53, 643, 98 ]</span></p>
+
+<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; line-height: 17.0px; font: 14.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>Tips:</b></span></h3>
+<ul class="ul1">
+  <li class="li4"><span class="s2"></span><span class="s1">Consider carefully when you need shared and local memory.<span class="Apple-converted-space">&nbsp;</span></span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">Consider carefully when you need to use mutexes around shared memory.<span class="Apple-converted-space">&nbsp;</span></span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">Consider carefully when you need to use multithreaded code and when you need to use single threaded code.</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">You may need to split the sort into multiple sections where threads are created, destroyed and later additional threads are created.</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">You shouldn't need to use condition variables, futures or thread pools in this assignment, but you can use these if they help you.</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">You shouldn't need any pointers or dynamic memory to complete this assignment.</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">The lecture slides and tutorials have many code snippets that you may find helpful.</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">You shouldn't need to create any additional classes or structs (but you may if you like).</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">The reference solution is 220 lines including comments.</span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">Do not use other libraries (e.g., boost).<span class="Apple-converted-space">&nbsp;</span></span></li>
+  <li class="li4"><span class="s2"></span><span class="s1">The textbook: Wilkinson, B. and Allen, M., <i>Parallel Programming</i>, 2nd Edition (2005), Pearson Prentice Hall., provides further details and ideas on how to implement the parallel bucket sort. <br>
+A six page pdf photocopied extract covering the relevant section is available <a href="https://www.cse.unsw.edu.au/~cs6771/17s2/assignments/DOC280915-28092015144125.pdf"><span class="s4">here</span></a>. Figure 4.10 is the best diagram of what you should be working your code towards.</span></li>
+</ul>
+
+</body>
+</html>

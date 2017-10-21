@@ -7,6 +7,7 @@ These programs were built and tested on Ubuntu 64-bit 16.04 LTS using G++ versio
 * EuclideanVector - A Euclidean Vector class library
 * GDWG - A Generic Directed Weighted Graph
 * btree - A Generic B-Tree and its const and non-const iterators
+* BucketSort - A parallel MSD radix sorting implementation for large vectors
 
 Copyright (C) 2017 Costa Paraskevopoulos
 
