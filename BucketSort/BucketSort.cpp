@@ -7,6 +7,8 @@
  */
 
 #include <cmath>
+#include <vector>
+#include <string>
 #include <iostream>
 #include <algorithm>
 #include "BucketSort.h"
@@ -43,7 +45,6 @@ bool aLessB(const unsigned int& x, const unsigned int& y, unsigned int pow) {
 }
 
 //sort the vector using a single-threaded sorting algorithm
-//TODO: comment out
 void BucketSort::simpleSort() {
 	std::sort(numbersToSort.begin(), numbersToSort.end(),
 	[] (const auto& x, const auto& y) {
@@ -53,33 +54,45 @@ void BucketSort::simpleSort() {
 
 //sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
-	if (numbersToSort.size() < 2) return;
+	doSort(0); //sort recursively, starting with the most significant digit
+}
 
-	//create vector of 10 empty buckets, first bucket is unused
-	//the remaining 9 buckets correspond to each possible leading digit
-	unsigned int numBuckets = 10;
+//sort a bucket based on the k-th most significant digit
+void BucketSort::doSort(unsigned int k) {
+	//if less than 2 items or already sorted, return straight away
+	if (numbersToSort.size() < 2 ||
+	std::is_sorted(numbersToSort.begin(), numbersToSort.end(),
+	[] (const auto& x, const auto& y) {
+		return aLessB(x, y, 0);
+	})) {
+		return;
+	}
+
+	//create vector of 11 empty buckets
+	//each bucket corresponds to a possible msd
+	//the first bucket stores numbers with k-th msd equal to -1 (padding)
+	unsigned int numBuckets = 11;
 	std::vector<BucketSort> buckets;
 	buckets.reserve(numBuckets);
 	buckets.insert(buckets.begin(), numBuckets, BucketSort{});
 
-	unsigned int i{0};
+	//place each number in the appropriate bucket
 	for (const auto& n: numbersToSort) {
+		//find the k-th most-significant digit
+		//set to -1 for padding if less than k digits in number
+		std::string s = std::to_string(n);
+		unsigned int msd = (k >= s.length()) ? -1 : s[k] - '0';
 
-		//find most-significant digit
-		i = n;
-		while (i / 10 > 0) i /= 10;
-
-		//place number in correct bucket
-		buckets[i].numbersToSort.emplace_back(n);
+		//place number in the bucket for the k-th msd
+		buckets[++msd].numbersToSort.emplace_back(n);
 	}
 
-	//sort each bucket using std::sort
-	for (i = 0; i < numBuckets; ++i) {
+	//sort each bucket recursively
+	unsigned int nextDigit = k + 1; //i.e. shift to next msd
+	unsigned int i{0};
+	for (; i < numBuckets; ++i) {
 		if (buckets[i].numbersToSort.size() > 1) {
-			std::sort(buckets[i].numbersToSort.begin(),
-			buckets[i].numbersToSort.end(), [] (const auto& x, const auto& y) {
-				return aLessB(x, y, 0);
-			});
+			buckets[i].doSort(nextDigit);
 		}
 	}
 
@@ -91,5 +104,4 @@ void BucketSort::sort(unsigned int numCores) {
 			buckets[i].numbersToSort.begin(), buckets[i].numbersToSort.end());
 		}
 	}
-
 }

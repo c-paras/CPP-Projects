@@ -13,10 +13,13 @@ struct BucketSort {
 	std::vector<unsigned int> numbersToSort;
 
 	//single-threaded sorting function
-	void simpleSort(); //TODO: comment out
+	void simpleSort();
+
+	//wrapper for the multi-threaded sorting function
+	void sort(unsigned int numCores);
 
 	//multi-threaded sorting function
-	void sort(unsigned int numCores);
+	void doSort(unsigned int k);
 };
 
 #endif
