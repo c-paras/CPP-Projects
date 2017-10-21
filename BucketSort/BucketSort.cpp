@@ -46,15 +46,50 @@ bool aLessB(const unsigned int& x, const unsigned int& y, unsigned int pow) {
 //TODO: comment out
 void BucketSort::simpleSort() {
 	std::sort(numbersToSort.begin(), numbersToSort.end(),
-	[] (const unsigned int& x, const unsigned int& y) {
+	[] (const auto& x, const auto& y) {
 		return aLessB(x, y, 0);
 	});
 }
 
 //sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
-	std::sort(numbersToSort.begin(), numbersToSort.end(),
-	[] (const unsigned int& x, const unsigned int& y) {
-		return aLessB(x, y, 0);
-	});
+	if (numbersToSort.size() < 2) return;
+
+	//create vector of 10 empty buckets, first bucket is unused
+	//the remaining 9 buckets correspond to each possible leading digit
+	unsigned int numBuckets = 10;
+	std::vector<BucketSort> buckets;
+	buckets.reserve(numBuckets);
+	buckets.insert(buckets.begin(), numBuckets, BucketSort{});
+
+	unsigned int i{0};
+	for (const auto& n: numbersToSort) {
+
+		//find most-significant digit
+		i = n;
+		while (i / 10 > 0) i /= 10;
+
+		//place number in correct bucket
+		buckets[i].numbersToSort.emplace_back(n);
+	}
+
+	//sort each bucket using std::sort
+	for (i = 0; i < numBuckets; ++i) {
+		if (buckets[i].numbersToSort.size() > 1) {
+			std::sort(buckets[i].numbersToSort.begin(),
+			buckets[i].numbersToSort.end(), [] (const auto& x, const auto& y) {
+				return aLessB(x, y, 0);
+			});
+		}
+	}
+
+	//combine all sorted buckets into original bucket
+	numbersToSort.clear();
+	for (i = 0; i < numBuckets; ++i) {
+		if (buckets[i].numbersToSort.size() > 0) {
+			numbersToSort.insert(numbersToSort.end(),
+			buckets[i].numbersToSort.begin(), buckets[i].numbersToSort.end());
+		}
+	}
+
 }

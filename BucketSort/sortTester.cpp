@@ -13,7 +13,9 @@
 int main() {
 	unsigned int nums[] = {32, 53, 3, 134, 643, 3, 5, 12, 52, 501, 98};
 	unsigned int totalNumbers = sizeof(nums)/sizeof(unsigned int);
-	//unsigned int totalNumbers = 100;
+	bool showOutput = true;
+	//unsigned int totalNumbers = 9999;
+	//bool showOutput = false;
 
 	//use current time as seed for the uniform distribution
 	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -72,6 +74,8 @@ int main() {
 	} else {
 		std::cout << "Output is incorrect" << std::endl;
 	}
+
+	if (!showOutput) return 0;
 
 	//print output from single-threaded sort
 	std::cout << std::endl;
@@ -133,4 +137,6 @@ int main() {
 	pbs.numbersToSort[pbs.numbersToSort.size() - 1] <<
 	std::endl;
 	*/
+
+	return 0;
 }
