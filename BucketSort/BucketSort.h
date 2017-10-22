@@ -15,10 +15,10 @@ struct BucketSort {
 	//single-threaded sorting function
 	void simpleSort();
 
-	//wrapper for the multi-threaded sorting function
+	//multi-threaded sorting function
 	void sort(unsigned int numCores);
 
-	//multi-threaded sorting function
+	//parallel bucket sort helper
 	void doSort(unsigned int k);
 };
 
