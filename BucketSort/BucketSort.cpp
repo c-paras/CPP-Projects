@@ -13,6 +13,7 @@
 #include <algorithm>
 #include "BucketSort.h"
 
+//compares two unsigned integers lexicographically
 bool aLessB(const unsigned int& x, const unsigned int& y, unsigned int pow) {
 	//if x and y are the same, then one is not less than the other
 	if (x == y) return false;
@@ -60,18 +61,17 @@ void BucketSort::sort(unsigned int numCores) {
 //sort a bucket based on the k-th most significant digit
 void BucketSort::doSort(unsigned int k) {
 	//if less than 2 items or already sorted, return straight away
-	if (numbersToSort.size() < 2 ||
-	std::is_sorted(numbersToSort.begin(), numbersToSort.end(),
-	[] (const auto& x, const auto& y) {
+	if (numbersToSort.size() < 2 || std::is_sorted(numbersToSort.begin(),
+	numbersToSort.end(), [] (const auto& x, const auto& y) {
 		return aLessB(x, y, 0);
 	})) {
 		return;
 	}
 
 	//create vector of 11 empty buckets
-	//each bucket corresponds to a possible msd
+	//each bucket corresponds to a possible k-th msd
 	//the first bucket stores numbers with k-th msd equal to -1 (padding)
-	unsigned int numBuckets = 11;
+	const unsigned int numBuckets = 11;
 	std::vector<BucketSort> buckets;
 	buckets.reserve(numBuckets);
 	buckets.insert(buckets.begin(), numBuckets, BucketSort{});

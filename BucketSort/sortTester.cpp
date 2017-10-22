@@ -86,10 +86,10 @@ int main() {
 	{
 		//sort a random number of numbers
 		std::srand(std::time(0));
-		unsigned int totalNumbers = 100 + (std::rand() % 9999);
+		const unsigned int totalNumbers = 500 + (std::rand() % 99999);
 
 		//use current time as seed for the uniform distribution
-		unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+		const unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
 		std::mt19937 mt(seed);
 		std::uniform_int_distribution<unsigned int>
 			dist(1, std::numeric_limits<unsigned int>::max());
@@ -149,8 +149,8 @@ int main() {
 	//test 3 (speed test): with 8 cores (on wagner), single-threaded version
 	//takes 23 seconds and multi-threaded version takes 6 seconds
 	{
-		unsigned int totalNumbers = 500000;
-		unsigned int printIndex = 259000;
+		const unsigned int totalNumbers = 500000;
+		const unsigned int printIndex = 259000;
 
 		//use totalNumbers required as the seed for the random number generator
 		std::mt19937 mt(totalNumbers);
