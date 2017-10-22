@@ -7,6 +7,7 @@
  */
 
 #include <cmath>
+#include <mutex>
 #include <thread>
 #include <vector>
 #include <string>
@@ -91,20 +92,30 @@ void BucketSort::sort(unsigned int numCores) {
 	buckets.reserve(numCores - 1);
 	buckets.insert(buckets.begin(), numCores - 1, BucketSort{});
 
+	std::vector<std::thread> threads;
+	std::mutex m;
+
 	//relocate numbers to correct bucket
 	for (const auto& part: work) {
-		std::for_each (part.first, part.second, [&bucketRange, &buckets] (const auto& n) {
-			std::string s = std::to_string(n);
-			const unsigned int msd = s[0] - '0';
-			auto found = std::find_if(bucketRange.begin(),
-			bucketRange.end(), [&msd] (const auto& val) {
-				return std::find(val.first, val.second, msd) != val.second;
-			}) - bucketRange.begin();
-			buckets[found].numbersToSort.emplace_back(n);
+		threads.emplace_back([&part, &bucketRange, &buckets, &m] () {
+			std::for_each(part.first, part.second, [&bucketRange, &buckets, &m] (const auto& n) {
+				std::string s = std::to_string(n);
+				const unsigned int msd = s[0] - '0';
+				const auto found = std::find_if(bucketRange.begin(),
+				bucketRange.end(), [&msd] (const auto& val) {
+					return std::find(val.first, val.second, msd) != val.second;
+				}) - bucketRange.begin();
+				std::lock_guard<std::mutex> lg{m};
+				buckets[found].numbersToSort.emplace_back(n);
+			});
 		});
 	}
 
-	std::vector<std::thread> threads;
+	//wait for the threads to finish
+	for (auto& thread: threads) {
+		thread.join();
+	}
+	threads.clear();
 
 	//create a thread for each bucket & sort the bucket
 	for (auto& bucket: buckets) {
@@ -158,7 +169,7 @@ void BucketSort::doSort(unsigned int k) {
 	}
 
 	//sort each bucket recursively
-	unsigned int nextDigit = k + 1; //i.e. shift to next msd
+	const unsigned int nextDigit = k + 1; //i.e. shift to next msd
 	unsigned int i{0};
 	for (; i < numBuckets; ++i) {
 		if (buckets[i].numbersToSort.size() > 1) {

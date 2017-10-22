@@ -11,6 +11,8 @@
 #include "BucketSort.h"
 
 int main() {
+	unsigned int numWrong = 0;
+
 	//test 1: ensure multi-threaded version matches single-threaded version
 	{
 		std::cout << "Testing output correctness on pre-defined vectors:" << std::endl;
@@ -50,6 +52,7 @@ int main() {
 				std::cout << "Output is correct" << std::endl;
 			} else {
 				std::cout << "Output is incorrect" << std::endl;
+				numWrong++;
 
 				//print output from single-threaded sort
 				std::cout << std::endl;
@@ -142,6 +145,7 @@ int main() {
 				std::cout << "Output is correct" << std::endl;
 			} else {
 				std::cout << "Output is incorrect" << std::endl;
+				numWrong++;
 			}
 		}
 	}
@@ -191,5 +195,10 @@ int main() {
 		std::endl;
 	}
 
+	if (numWrong == 0) {
+		std::cout << "Data was sorted correctly" << std::endl;
+	} else {
+		std::cout << "WARNING: data was not sorted correctly\n" << std::endl;
+	}
 	return 0;
 }

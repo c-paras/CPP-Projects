@@ -19,4 +19,4 @@ BucketSort.o: BucketSort.h BucketSort.cpp
 	$(CC) $(CFLAGS) -c BucketSort.cpp
 
 clean:
-	rm -f *.o sortTester benchmark core
+	rm -f *.o sortTester benchmark core *.out
