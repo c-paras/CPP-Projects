@@ -53,9 +53,62 @@ void BucketSort::simpleSort() {
 	});
 }
 
+//divide a vector into components of work based on the number of cores
+//credit to Matthew Stark (COMP6771 Lecturer, 2017)
+/* BEGIN VERBATIM FROM MATTHEW STARK */
+template <typename It>
+std::vector<std::pair<It, It>> divideWork(It begin, It end, unsigned n) {
+	auto dis = std::distance(begin, end);
+	auto npercore = (dis / n) + 1;
+	auto extras = dis % n;
+	std::vector<std::pair<It, It>> result;
+	for (auto i = 0U; i < n; ++i) {
+		if (i == extras)
+			--npercore;
+		result.emplace_back(begin, begin + npercore);
+		begin += npercore;
+	}
+	return result;
+}
+/* END VERBATIM FROM MATTHEW STARK */
+
 //sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
-	doSort(0); //sort recursively, starting with the most significant digit
+	auto work = divideWork(numbersToSort.begin(), numbersToSort.end(), numCores - 1);
+	std::vector<unsigned int> msd = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	auto bucketRange = divideWork(msd.begin(), msd.end(), numCores - 1);
+
+	//create as many buckets as there are cores available (-1 for main thread)
+	std::vector<BucketSort> buckets;
+	buckets.reserve(numCores - 1);
+	buckets.insert(buckets.begin(), numCores - 1, BucketSort{});
+
+	//std::vector<std::thread> threads;
+
+	for (const auto& part: work) {
+		std::for_each (part.first, part.second, [&bucketRange, &buckets] (const auto& n) {
+			std::string s = std::to_string(n);
+			const unsigned int msd = s[0] - '0';
+			auto found = std::find_if(bucketRange.begin(),
+			bucketRange.end(), [&msd] (const auto& val) {
+				return std::find(val.first, val.second, msd) != val.second;
+			}) - bucketRange.begin();
+			buckets[found].numbersToSort.emplace_back(n);
+		});
+	}
+
+	for (auto& bucket: buckets) {
+		bucket.doSort(0); //sort recursively, starting with the most significant digit
+	}
+
+	//concatenate sorted buckets
+	numbersToSort.clear();
+	for (unsigned int i = 0; i < numCores - 1; ++i) {
+		if (buckets[i].numbersToSort.size() > 0) {
+			numbersToSort.insert(numbersToSort.end(),
+			buckets[i].numbersToSort.begin(), buckets[i].numbersToSort.end());
+		}
+	}
 }
 
 //sort a bucket based on the k-th most significant digit
