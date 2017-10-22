@@ -111,39 +111,39 @@ int main() {
 		//get the total number of cores available
 		const unsigned int numCores = std::thread::hardware_concurrency();
 
-		//get current time
-		auto start1 = std::chrono::high_resolution_clock::now();
+		for (unsigned int ncores = 1; ncores <= numCores; ++ncores) {
+			//get current time
+			auto start1 = std::chrono::high_resolution_clock::now();
 
-		//call single-threaded sort
-		pbs1.simpleSort();
+			//call single-threaded sort
+			pbs1.simpleSort();
 
-		//get current time and print difference
-		auto end1 = std::chrono::high_resolution_clock::now();
-		auto millis1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1);
-		std::cout << "Execution time for single-threaded: " << millis1.count() << " milliseconds\n";
+			//get current time and print difference
+			auto end1 = std::chrono::high_resolution_clock::now();
+			auto millis1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1);
+			std::cout << "Execution time for single-threaded: " << millis1.count() << " milliseconds\n";
 
-		//get current time
-		auto start2 = std::chrono::high_resolution_clock::now();
+			//get current time
+			auto start2 = std::chrono::high_resolution_clock::now();
 
-		//call multi-threaded sort
-		pbs2.sort(numCores);
+			//call multi-threaded sort
+			pbs2.sort(ncores);
 
-		//get current time and print difference
-		auto end2 = std::chrono::high_resolution_clock::now();
-		auto millis2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2);
-		std::cout << "Execution time for multi-threaded: " << millis2.count() << " milliseconds\n";
+			//get current time and print difference
+			auto end2 = std::chrono::high_resolution_clock::now();
+			auto millis2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2);
+			std::cout << "Execution time for multi-threaded: " << millis2.count() << " milliseconds\n";
 
-		//print the number of cores used
-		std::cout << "Number of cores: " << numCores << std::endl;
+			//print the number of cores used
+			std::cout << "Number of cores: " << ncores << std::endl;
 
-		//check if output matches
-		std::cout << std::endl;
-		if (pbs1.numbersToSort == pbs2.numbersToSort) {
-			std::cout << "Output is correct" << std::endl;
-		} else {
-			std::cout << "Output is incorrect" << std::endl;
+			//check if output matches
+			if (pbs1.numbersToSort == pbs2.numbersToSort) {
+				std::cout << "Output is correct" << std::endl;
+			} else {
+				std::cout << "Output is incorrect" << std::endl;
+			}
 		}
-
 	}
 
 	//test 3 (speed test): with 8 cores (on wagner), single-threaded version

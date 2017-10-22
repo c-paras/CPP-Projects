@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from collections import defaultdict

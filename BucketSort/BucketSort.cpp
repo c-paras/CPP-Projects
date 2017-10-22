@@ -76,6 +76,7 @@ std::vector<std::pair<It, It>> divideWork(It begin, It end, unsigned n) {
 //sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
 	//divide vector to sort & buckets into work for each thread
+	if (numCores == 1) numCores = 2; //offset so numCores - 1 > 0, always
 	auto work = divideWork(numbersToSort.begin(), numbersToSort.end(), numCores - 1);
 	std::vector<unsigned int> msd = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	auto bucketRange = divideWork(msd.begin(), msd.end(), numCores - 1);
