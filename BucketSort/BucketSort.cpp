@@ -55,7 +55,7 @@ void BucketSort::simpleSort() {
 	});
 }
 
-//divide a vector into components of work based on the number of cores
+//divide a vector into components of work based on the number of cores n
 //credit to Matthew Stark (COMP6771 Lecturer, 2017)
 /* BEGIN VERBATIM FROM MATTHEW STARK */
 template <typename It>
@@ -76,7 +76,7 @@ std::vector<std::pair<It, It>> divideWork(It begin, It end, unsigned n) {
 
 //sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
-	//sort in current thread if no extra threads available
+	//sort in the current thread if no extra threads are available
 	if (numCores == 1) {
 		doSort(0);
 		return;
@@ -96,14 +96,18 @@ void BucketSort::sort(unsigned int numCores) {
 	//relocate numbers to correct bucket
 	for (const auto& part: work) {
 		threads.emplace_back([&part, &bucketRange, &buckets, &m] () {
+			//each thread moves numbers to the right bucket, based on msd
 			std::for_each(part.first, part.second,
 			[&bucketRange, &buckets, &m] (const auto& n) {
-				std::string s = std::to_string(n);
+				std::string s = std::to_string(n); //get the msd
 				const unsigned int msd = s[0] - '0';
+
+				//find the bucket that contains the current msd
 				const auto found = std::find_if(bucketRange.begin(),
 				bucketRange.end(), [&msd] (const auto& val) {
 					return std::find(val.first, val.second, msd) != val.second;
 				}) - bucketRange.begin();
+
 				std::lock_guard<std::mutex> lg{m};
 				buckets[found].numbersToSort.emplace_back(n);
 			});
@@ -129,7 +133,7 @@ void BucketSort::sort(unsigned int numCores) {
 		thread.join();
 	}
 
-	//concatenate sorted buckets
+	//concatenate the sorted buckets
 	numbersToSort.clear();
 	for (unsigned int i = 0; i < numCores - 1; ++i) {
 		if (buckets[i].numbersToSort.size() > 0) {
@@ -152,6 +156,8 @@ void BucketSort::doSort(unsigned int k) {
 	//create vector of 11 empty buckets
 	//each bucket corresponds to a possible k-th msd
 	//the first bucket stores numbers with k-th msd equal to -1 (padding)
+	//always create 11, rather than the max needed to reduce computations
+	//and to allow doSort to be called by a user if desired
 	const unsigned int numBuckets = 11;
 	auto buckets = std::vector<BucketSort>(numBuckets);
 
