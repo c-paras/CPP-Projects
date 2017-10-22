@@ -7,6 +7,7 @@
  */
 
 #include <cmath>
+#include <thread>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -74,6 +75,7 @@ std::vector<std::pair<It, It>> divideWork(It begin, It end, unsigned n) {
 
 //sort the vector by creating numCores - 1 threads
 void BucketSort::sort(unsigned int numCores) {
+	//divide vector to sort & buckets into work for each thread
 	auto work = divideWork(numbersToSort.begin(), numbersToSort.end(), numCores - 1);
 	std::vector<unsigned int> msd = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	auto bucketRange = divideWork(msd.begin(), msd.end(), numCores - 1);
@@ -83,8 +85,7 @@ void BucketSort::sort(unsigned int numCores) {
 	buckets.reserve(numCores - 1);
 	buckets.insert(buckets.begin(), numCores - 1, BucketSort{});
 
-	//std::vector<std::thread> threads;
-
+	//relocate numbers to correct bucket
 	for (const auto& part: work) {
 		std::for_each (part.first, part.second, [&bucketRange, &buckets] (const auto& n) {
 			std::string s = std::to_string(n);
@@ -97,8 +98,18 @@ void BucketSort::sort(unsigned int numCores) {
 		});
 	}
 
+	std::vector<std::thread> threads;
+
+	//create a thread for each bucket & sort the bucket
 	for (auto& bucket: buckets) {
-		bucket.doSort(0); //sort recursively, starting with the most significant digit
+		threads.emplace_back([&bucket] () {
+			bucket.doSort(0); //sort recursively, starting with the most significant digit
+		});
+	}
+
+	//wait for the threads to finish
+	for (auto& thread: threads) {
+		thread.join();
 	}
 
 	//concatenate sorted buckets
