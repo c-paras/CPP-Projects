@@ -32,10 +32,10 @@ bool aLessB(const unsigned int& x, const unsigned int& y, unsigned int pow) {
 			b = b / 10;
 		}
 	} else {
-		while (a / 10 >= (unsigned int) std::round(std::pow(10, pow))) {
+		while (a / 10 >= static_cast<unsigned int>(std::round(std::pow(10, pow)))) {
 			a = a / 10;
 		}
-		while (b / 10 >= (unsigned int) std::round(std::pow(10, pow))) {
+		while (b / 10 >= static_cast<unsigned int>(std::round(std::pow(10, pow)))) {
 			b = b / 10;
 		}
 	}
@@ -88,9 +88,7 @@ void BucketSort::sort(unsigned int numCores) {
 	auto bucketRange = divideWork(msd.begin(), msd.end(), numCores - 1);
 
 	//create as many buckets as there are cores available (-1 for main thread)
-	std::vector<BucketSort> buckets;
-	buckets.reserve(numCores - 1);
-	buckets.insert(buckets.begin(), numCores - 1, BucketSort{});
+	auto buckets = std::vector<BucketSort>(numCores - 1);
 
 	std::vector<std::thread> threads;
 	std::mutex m;
@@ -98,7 +96,8 @@ void BucketSort::sort(unsigned int numCores) {
 	//relocate numbers to correct bucket
 	for (const auto& part: work) {
 		threads.emplace_back([&part, &bucketRange, &buckets, &m] () {
-			std::for_each(part.first, part.second, [&bucketRange, &buckets, &m] (const auto& n) {
+			std::for_each(part.first, part.second,
+			[&bucketRange, &buckets, &m] (const auto& n) {
 				std::string s = std::to_string(n);
 				const unsigned int msd = s[0] - '0';
 				const auto found = std::find_if(bucketRange.begin(),
@@ -120,7 +119,8 @@ void BucketSort::sort(unsigned int numCores) {
 	//create a thread for each bucket & sort the bucket
 	for (auto& bucket: buckets) {
 		threads.emplace_back([&bucket] () {
-			bucket.doSort(0); //sort recursively, starting with the most significant digit
+			//sort recursively, starting with the most significant digit
+			bucket.doSort(0);
 		});
 	}
 
@@ -153,9 +153,7 @@ void BucketSort::doSort(unsigned int k) {
 	//each bucket corresponds to a possible k-th msd
 	//the first bucket stores numbers with k-th msd equal to -1 (padding)
 	const unsigned int numBuckets = 11;
-	std::vector<BucketSort> buckets;
-	buckets.reserve(numBuckets);
-	buckets.insert(buckets.begin(), numBuckets, BucketSort{});
+	auto buckets = std::vector<BucketSort>(numBuckets);
 
 	//place each number in the appropriate bucket
 	for (const auto& n: numbersToSort) {
